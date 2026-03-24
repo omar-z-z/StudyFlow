@@ -1,0 +1,4 @@
+@import 'tailwindcss/tailwind.css';
+@config '../tailwind.config.js';
+
+@import 'tw-animate-css';
