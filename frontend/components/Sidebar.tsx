@@ -13,7 +13,6 @@ import navItems from "@/lib/sidebarNavItems";
 
 export default function Sidebar() {
   // "Dashboard" is the default active page
-  // const [active, setActive] = useState("Dashboard");
   const pathname = usePathname();
 
   // Read system preference on first load so the icon matches reality
@@ -41,7 +40,7 @@ export default function Sidebar() {
       <div className="px-5 py-10 border-b border-border">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shrink-0">
-            <GraduationCap className="w-10 h-10 text-primary-foreground" />
+            <GraduationCap className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
             <p className="text-lg font-semibold text-foreground leading-none">
@@ -64,8 +63,8 @@ export default function Sidebar() {
             <Link key={label} href={href}>
               <Button
                 size="default"
-                variant={isActive ? "opposite" : "default"}
-                className={`w-full justify-start gap-3 text-base rounded-lg my-2 ${
+                variant={isActive ? "default" : "secondary"}
+                className={`w-full justify-start gap-3 text-base rounded-lg my-1 ${
                   isActive ? "shadow-sm" : "text-muted-foreground"
                 }`}
               >
@@ -81,8 +80,8 @@ export default function Sidebar() {
       <div className="px-3 py-4 border-t border-border">
         <Button
           onClick={toggleDark}
-          variant="ghost"
-          className="w-full justify-start gap-3 text-base text-muted-foreground"
+          variant="outline"
+          className="w-full justify-start gap-3"
         >
           {darkMode ? (
             <Sun className="w-5 h-5 shrink-0" />
