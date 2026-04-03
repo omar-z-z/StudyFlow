@@ -43,12 +43,12 @@ export default function Sidebar() {
             <GraduationCap className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <p className="text-lg font-semibold text-foreground leading-none">
+            <h1 className="text-lg font-semibold text-foreground leading-none">
               StudyFlow
-            </p>
-            <p className="text-base text-muted-foreground mt-0.5">
+            </h1>
+            <h3 className="text-base text-muted-foreground mt-0.5">
               Study Planner
-            </p>
+            </h3>
           </div>
         </div>
       </div>
