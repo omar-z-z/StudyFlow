@@ -1,49 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  LayoutDashboard,
-  BookOpen,
-  Upload,
-  Calendar,
-  CheckSquare,
-  BarChart2,
   Moon,
   Sun,
   GraduationCap,
 } from "lucide-react";
-
-const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "#" },
-  { label: "Courses", icon: BookOpen, href: "#" },
-  { label: "Upload", icon: Upload, href: "#" },
-  { label: "Planner", icon: Calendar, href: "#" },
-  { label: "Tasks", icon: CheckSquare, href: "#" },
-  { label: "Progress", icon: BarChart2, href: "#" },
-];
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "./basicComponents/button";
+import navItems from "@/lib/sidebarNavItems";
 
 export default function Sidebar() {
-  const [active, setActive] = useState("Dashboard");
+  // "Dashboard" is the default active page
+  // const [active, setActive] = useState("Dashboard");
+  const pathname = usePathname();
+
+  // Read system preference on first load so the icon matches reality
   const [darkMode, setDarkMode] = useState(false);
 
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains("dark");
+    setDarkMode(isDark);
+  }, []);
+
   const toggleDark = () => {
-    setDarkMode((prev) => !prev);
-    document.documentElement.classList.toggle("dark");
+    const html = document.documentElement;
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
+      setDarkMode(false);
+    } else {
+      html.classList.add("dark");
+      setDarkMode(true);
+    }
   };
 
   return (
-    <aside className="flex flex-col w-[230px] min-h-screen bg-background border-r border-border shrink-0">
+    <aside className="flex flex-col w-[250px] min-h-screen bg-background border-r border-border shrink-0">
       {/* Logo */}
-      <div className="px-5 py-6 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-            <GraduationCap className="w-4 h-4 text-primary-foreground" />
+      <div className="px-5 py-10 border-b border-border">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shrink-0">
+            <GraduationCap className="w-10 h-10 text-primary-foreground" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-foreground leading-none">
-              Syllabus AI
+            <p className="text-lg font-semibold text-foreground leading-none">
+              StudyFlow
             </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-base text-muted-foreground mt-0.5">
               Study Planner
             </p>
           </div>
@@ -51,43 +55,42 @@ export default function Sidebar() {
       </div>
 
       {/* Nav Items */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {navItems.map(({ label, icon: Icon, href }) => {
-          const isActive = active === label;
+          const isActive =
+            href === "/" ? pathname === href : pathname.startsWith(href);
+
           return (
-            <a
-              key={label}
-              href={href}
-              onClick={(e) => {
-                e.preventDefault();
-                setActive(label);
-              }}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 ${
-                isActive
-                  ? "bg-primary text-primary-foreground font-medium"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-              }`}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              {label}
-            </a>
+            <Link key={label} href={href}>
+              <Button
+                size="default"
+                variant={isActive ? "opposite" : "default"}
+                className={`w-full justify-start gap-3 text-base rounded-lg my-2 ${
+                  isActive ? "shadow-sm" : "text-muted-foreground"
+                }`}
+              >
+                <Icon className="w-10 h-10 shrink-0" />
+                {label}
+              </Button>
+            </Link>
           );
         })}
       </nav>
 
       {/* Dark Mode Toggle */}
       <div className="px-3 py-4 border-t border-border">
-        <button
+        <Button
           onClick={toggleDark}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-150 w-full"
+          variant="ghost"
+          className="w-full justify-start gap-3 text-base text-muted-foreground"
         >
           {darkMode ? (
-            <Sun className="w-4 h-4 shrink-0" />
+            <Sun className="w-5 h-5 shrink-0" />
           ) : (
-            <Moon className="w-4 h-4 shrink-0" />
+            <Moon className="w-5 h-5 shrink-0" />
           )}
           {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
+        </Button>
       </div>
     </aside>
   );

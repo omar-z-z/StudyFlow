@@ -1,26 +1,4 @@
-interface Course {
-  name: string;
-  color: string;
-  progress: number;
-}
-
-const courses: Course[] = [
-  {
-    name: "Data Structures & Algorithms",
-    color: "bg-blue-500",
-    progress: 65,
-  },
-  {
-    name: "Machine Learning",
-    color: "bg-green-500",
-    progress: 40,
-  },
-  {
-    name: "Web Development",
-    color: "bg-yellow-500",
-    progress: 75,
-  },
-];
+import { courses } from "@/lib/dummy-data";
 
 export default function CourseProgress() {
   return (
