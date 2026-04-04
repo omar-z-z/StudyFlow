@@ -1,11 +1,14 @@
 "use client";
 
-import { useTasks } from "@/hooks/useTasks";
+import { Task } from "@/types/task";
+
+interface TasksListProps {
+  tasks: Task[];
+  onToggle: (id: number) => void;
+}
 import TaskItem from "./TaskItem";
 
-export default function TasksList() {
-  const { tasks, toggleTask } = useTasks();
-
+export default function TasksList({ tasks, onToggle }: TasksListProps) {
   return (
     <div className="bg-card border border-border rounded-xl p-4 md:p-6">
       <h2 className="text-base font-semibold text-foreground mb-4">
@@ -13,7 +16,7 @@ export default function TasksList() {
       </h2>
       <div className="flex flex-col gap-2">
         {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} onToggle={toggleTask} />
+          <TaskItem key={task.id} task={task} onToggle={onToggle} />
         ))}
       </div>
     </div>

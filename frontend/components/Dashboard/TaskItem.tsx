@@ -13,7 +13,7 @@ export default function TaskItem({ task, onToggle }: TaskItemProps) {
           ? "border-border bg-muted/40"
           : "border-border bg-background hover:bg-accent/50"
       }`}
-      onClick={() => onToggle(task.id)}
+      onClick={() =>console.log("Task clicked:", task.id)} // For now, when the tasks page is done it would navigate there
     >
       {/* Checkbox */}
       <div
@@ -22,6 +22,7 @@ export default function TaskItem({ task, onToggle }: TaskItemProps) {
             ? "bg-primary border-primary"
             : "border-muted-foreground/40"
         }`}
+        onClick={() => onToggle(task.id)}
       >
         {task.completed && (
           <svg
