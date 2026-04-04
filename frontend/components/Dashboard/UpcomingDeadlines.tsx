@@ -35,7 +35,7 @@ const urgencyStyles = {
 
 export default function UpcomingDeadlines() {
   return (
-    <div className="bg-card border border-border rounded-xl p-6">
+    <div className="bg-card border border-border rounded-xl p-4 md:p-6">
       <h2 className="text-base font-semibold text-foreground mb-4">
         Upcoming Deadlines
       </h2>
@@ -48,13 +48,14 @@ export default function UpcomingDeadlines() {
             <AlertCircle
               className={`w-4 h-4 mt-0.5 shrink-0 ${urgencyStyles[deadline.urgency]}`}
             />
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-0.5 min-w-0">
+              {/* Title wraps naturally; min-w-0 prevents overflow */}
               <p className="text-sm text-foreground leading-snug">
                 {deadline.title}
               </p>
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <svg
-                  className="w-3 h-3"
+                  className="w-3 h-3 shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

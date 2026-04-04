@@ -10,8 +10,8 @@ export default function DashboardPage() {
       {/* Header */}
       <DashboardHeader name="Omar" />
 
-      {/* Top Stats Row */}
-      <div className="flex gap-4 mb-6">
+      {/* Stats Row — single column on mobile, 3 columns on sm+ */}
+      <div className="grid grid-cols-1 gap-3 mb-6 sm:grid-cols-3 sm:gap-4">
         <StatsCard
           title="Tasks Today"
           type="tasks"
@@ -27,15 +27,15 @@ export default function DashboardPage() {
         <StatsCard title="Active Courses" type="courses" coursesCount={3} />
       </div>
 
-      {/* Bottom Two-Column Layout */}
-      <div className="flex gap-4 items-start">
-        {/* Left: Tasks List (wider) */}
-        <div className="flex-[1.6] min-w-0">
+      {/* Bottom Layout — stacked on mobile, two columns on lg+ */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+        {/* Tasks List */}
+        <div className="w-full lg:flex-[1.6] lg:min-w-0">
           <TasksList />
         </div>
 
-        {/* Right: Progress + Deadlines */}
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
+        {/* Progress + Deadlines */}
+        <div className="w-full lg:flex-1 lg:min-w-0 flex flex-col gap-4">
           <CourseProgress />
           <UpcomingDeadlines />
         </div>

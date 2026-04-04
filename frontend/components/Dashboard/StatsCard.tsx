@@ -22,13 +22,13 @@ export default function StatsCard({
   const progress = tasksTotal > 0 ? (tasksCompleted / tasksTotal) * 100 : 0;
 
   return (
-    <div className="bg-card border border-border rounded-xl p-6 flex flex-col gap-4 flex-1">
+    <div className="bg-card border border-border rounded-xl p-4 flex flex-col gap-3 md:p-6 md:gap-4">
       <p className="text-sm text-muted-foreground font-medium">{title}</p>
 
       {type === "tasks" && (
         <div className="flex flex-col gap-3">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-4xl font-semibold text-foreground">
+            <span className="text-3xl font-semibold text-foreground md:text-4xl">
               {tasksCompleted}
             </span>
             <span className="text-muted-foreground text-base">
@@ -45,24 +45,24 @@ export default function StatsCard({
       )}
 
       {type === "time" && (
-        <div className="flex items-center gap-3">
-          <Clock className="w-5 h-5 text-muted-foreground shrink-0" />
-          <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-semibold text-foreground">
+        <div className="flex items-center gap-2 md:gap-3">
+          <Clock className="w-4 h-4 text-muted-foreground shrink-0 md:w-5 md:h-5" />
+          <div className="flex items-baseline gap-1 flex-wrap">
+            <span className="text-3xl font-semibold text-foreground md:text-4xl">
               {hours}
             </span>
-            <span className="text-muted-foreground text-sm">hours</span>
-            <span className="text-4xl font-semibold text-foreground ml-1">
+            <span className="text-muted-foreground text-xs md:text-sm">hours</span>
+            <span className="text-3xl font-semibold text-foreground ml-1 md:text-4xl">
               {minutes}
             </span>
-            <span className="text-muted-foreground text-sm">min</span>
+            <span className="text-muted-foreground text-xs md:text-sm">min</span>
           </div>
         </div>
       )}
 
       {type === "courses" && (
         <div className="flex items-baseline gap-1.5">
-          <span className="text-4xl font-semibold text-foreground">
+          <span className="text-3xl font-semibold text-foreground md:text-4xl">
             {coursesCount}
           </span>
           <span className="text-muted-foreground text-base">courses</span>

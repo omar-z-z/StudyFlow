@@ -79,7 +79,7 @@ export default function TasksList() {
   };
 
   return (
-    <div className="bg-card border border-border rounded-xl p-6">
+    <div className="bg-card border border-border rounded-xl p-4 md:p-6">
       <h2 className="text-base font-semibold text-foreground mb-4">
         Today&apos;s Study Tasks
       </h2>
@@ -87,7 +87,7 @@ export default function TasksList() {
         {tasks.map((task) => (
           <div
             key={task.id}
-            className={`flex items-start gap-3 p-4 rounded-lg border transition-all duration-200 cursor-pointer select-none ${
+            className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-200 cursor-pointer select-none md:p-4 ${
               task.completed
                 ? "border-border bg-muted/40"
                 : "border-border bg-background hover:bg-accent/50"
@@ -134,7 +134,8 @@ export default function TasksList() {
                 <span
                   className={`w-2 h-2 rounded-full shrink-0 ${task.courseColor}`}
                 />
-                <span className="text-xs text-muted-foreground">
+                {/* Course name truncated on small screens */}
+                <span className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-none">
                   {task.course}
                 </span>
                 <span className="text-xs text-muted-foreground">·</span>
