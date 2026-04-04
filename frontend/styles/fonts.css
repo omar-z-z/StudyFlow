@@ -2,6 +2,7 @@
 
 :root {
   --font-heading: 'Inter', sans-serif;
-  --font-body: 'Source Serif 4', serif;
+  /* --font-body: 'Source Serif 4', serif; */
+  --font-body: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
