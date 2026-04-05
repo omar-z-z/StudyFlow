@@ -13,7 +13,7 @@ export default function CourseProgressItem({
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${color}`} />
+          <span className={`w-2.5 h-2.5 rounded-full shrink-0`} style={{ backgroundColor: color }} />
           <span className="text-sm text-foreground truncate">{name}</span>
         </div>
         <span className="text-sm font-medium text-foreground shrink-0">
