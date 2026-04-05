@@ -1,56 +1,58 @@
+"use client";
+import { useTasks } from "@/hooks/useTasks";
+import { courses } from "@/lib/dummy-data";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
 import DashboardHeader from "@/components/Dashboard/DashboardHeader";
 import StatsCard from "@/components/Dashboard/StatsCard";
 import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
-import Sidebar from "@/components/Sidebar";
 
 export default function DashboardPage() {
+  const { tasks, toggleTask } = useTasks();
+
+  const tasksCompleted = tasks.filter((t) => t.completed).length;
+  const tasksTotal = tasks.length;
+  const studyTimeMinutes = tasks
+    .filter((t) => t.completed)
+    .reduce((sum, t) => sum + t.duration, 0);
+  const studyHours = Math.floor(studyTimeMinutes / 60);
+  const studyMinutes = studyTimeMinutes % 60;
+  const coursesCount = courses.length;
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <Sidebar />
+    <main className="flex-1 overflow-auto px-8 py-8">
+      {/* Header */}
+      <DashboardHeader name="Omar" />
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto px-8 py-8">
-        {/* Header */}
-        <DashboardHeader name="Omar" />
+      {/* Stats Row — single column on mobile, 3 columns on sm+ */}
+      <div className="grid grid-cols-1 gap-3 mb-6 sm:grid-cols-3 sm:gap-4">
+        <StatsCard
+          title="Tasks Today"
+          type="tasks"
+          tasksCompleted={tasksCompleted}
+          tasksTotal={tasksTotal}
+        />
+        <StatsCard
+          title="Study Time Today"
+          type="time"
+          hours={studyHours}
+          minutes={studyMinutes}
+        />
+        <StatsCard title="Active Courses" type="courses" coursesCount={coursesCount} />
+      </div>
 
-        {/* Top Stats Row */}
-        <div className="flex gap-4 mb-6">
-          <StatsCard
-            title="Tasks Today"
-            type="tasks"
-            tasksCompleted={2}
-            tasksTotal={5}
-          />
-          <StatsCard
-            title="Study Time Today"
-            type="time"
-            hours={4}
-            minutes={35}
-          />
-          <StatsCard
-            title="Active Courses"
-            type="courses"
-            coursesCount={3}
-          />
+      {/* Bottom Layout — stacked on mobile, two columns on lg+ */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+        {/* Tasks List */}
+        <div className="w-full lg:flex-[1.6] lg:min-w-0">
+          <TasksList tasks={tasks} onToggle={toggleTask} />
         </div>
 
-        {/* Bottom Two-Column Layout */}
-        <div className="flex gap-4 items-start">
-          {/* Left: Tasks List (wider) */}
-          <div className="flex-[1.6] min-w-0">
-            <TasksList />
-          </div>
-
-          {/* Right: Progress + Deadlines */}
-          <div className="flex-1 min-w-0 flex flex-col gap-4">
-            <CourseProgress />
-            <UpcomingDeadlines />
-          </div>
+        {/* Progress + Deadlines */}
+        <div className="w-full lg:flex-1 lg:min-w-0 flex flex-col gap-4">
+          <CourseProgress />
+          <UpcomingDeadlines />
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

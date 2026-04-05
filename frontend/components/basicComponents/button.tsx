@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type ButtonVariant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+type ButtonVariant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" ;
 type ButtonSize = "default" | "sm" | "lg" | "icon";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,10 +18,10 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
-  default: "h-9 px-4 py-2 has-[>svg]:px-3",
-  sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-  lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-  icon: "size-9 rounded-md",
+  default: "h-11 px-4 py-2 has-[>svg]:px-3",
+  sm: "h-9 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+  lg: "h-11 rounded-md px-6 has-[>svg]:px-4",
+  icon: "size-10 rounded-md",
 };
 
 export function Button({ className = "", variant = "default", size = "default", ...props }: ButtonProps) {
