@@ -1,39 +1,5 @@
-export interface Task {
-  id: string;
-  title: string;
-  courseId: string;
-  courseName: string;
-  courseColor: string;
-  completed: boolean;
-  estimatedTime: number;
-  priority: 'high' | 'medium' | 'low';
-  type: 'reading' | 'lecture' | 'exercise' | 'review';
-  date: string;
-}
-
-export interface Course {
-  id: string;
-  name: string;
-  color: string;
-  progress: number;
-  topics: Topic[];
-  assignments: Assignment[];
-  examDate?: string;
-}
-
-export interface Topic {
-  id: string;
-  week: number;
-  title: string;
-  completed: boolean;
-}
-
-export interface Assignment {
-  id: string;
-  title: string;
-  dueDate: string;
-  completed: boolean;
-}
+import { Course } from "@/types/course";
+import { Task } from "@/types/task";
 
 export const courses: Course[] = [
   {

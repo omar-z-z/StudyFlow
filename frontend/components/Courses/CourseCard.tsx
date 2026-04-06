@@ -1,7 +1,7 @@
 import ProgressBar from "./ProgressBar";
 import TopicItem from "./TopicItem";
 import AssignmentItem from "./AssignmentItem";
-import { Course } from "@/lib/dummy-data";
+import { Course } from "@/types/course";
 import { CalendarIcon } from "../basicComponents/icons";
 
 type CourseCardProps = {

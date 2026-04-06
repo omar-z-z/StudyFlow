@@ -2,7 +2,7 @@ import { Task, priorityStyles } from "@/types/task";
 
 interface TaskItemProps {
   task: Task;
-  onToggle: (id: number) => void;
+  onToggle: (id: string) => void;
 }
 
 export default function TaskItem({ task, onToggle }: TaskItemProps) {
@@ -55,10 +55,10 @@ export default function TaskItem({ task, onToggle }: TaskItemProps) {
         <div className="flex items-center gap-2 mt-1.5 flex-wrap">
           <span className={`w-2 h-2 rounded-full shrink-0`} style={{ backgroundColor: task.courseColor }} />
           <span className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-none">
-            {task.course}
+            {task.courseName}
           </span>
           <span className="text-xs text-muted-foreground">·</span>
-          <span className="text-xs text-muted-foreground">{task.duration} min</span>
+          <span className="text-xs text-muted-foreground">{task.estimatedTime} min</span>
           <span className="text-xs text-muted-foreground">·</span>
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityStyles[task.priority]}`}>
             {task.priority}

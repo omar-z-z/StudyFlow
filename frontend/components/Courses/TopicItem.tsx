@@ -1,4 +1,4 @@
-import { Topic } from "@/lib/dummy-data";
+import { Topic } from "@/types/topic";
 import { StatusIcon } from "../basicComponents/icons";
 
 type TopicItemProps = {
