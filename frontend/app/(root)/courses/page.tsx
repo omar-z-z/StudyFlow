@@ -4,14 +4,54 @@ import { useState } from "react";
 import CourseCard from "../../../components/Courses/CourseCard";
 import { courses as coursesData } from "@/lib/dummy-data";
 
-
 const CoursesPage = () => {
   const [courses, setCourses] = useState(coursesData);
   const [showModal, setShowModal] = useState(false);
 
+  const handleToggleTopic = (courseId: string, topicId: string) => {
+    setCourses((prev) =>
+      prev.map((course) => {
+        if (course.id !== courseId) return course;
+
+        const updatedTopics = course.topics.map((t) =>
+          t.id === topicId ? { ...t, completed: !t.completed } : t,
+        );
+
+        const completed =
+          updatedTopics.filter((t) => t.completed).length +
+          course.assignments.filter((a) => a.completed).length;
+        const total = updatedTopics.length + course.assignments.length;
+        const progress =
+          total === 0 ? 0 : Math.round((completed / total) * 100);
+
+        return { ...course, topics: updatedTopics, progress };
+      }),
+    );
+  };
+
+  const handleToggleAssignment = (courseId: string, assignmentId: string) => {
+    setCourses((prev) =>
+      prev.map((course) => {
+        if (course.id !== courseId) return course;
+
+        const updatedAssignments = course.assignments.map((a) =>
+          a.id === assignmentId ? { ...a, completed: !a.completed } : a,
+        );
+
+        const completed =
+          course.topics.filter((t) => t.completed).length +
+          updatedAssignments.filter((a) => a.completed).length;
+        const total = course.topics.length + updatedAssignments.length;
+        const progress =
+          total === 0 ? 0 : Math.round((completed / total) * 100);
+
+        return { ...course, assignments: updatedAssignments, progress };
+      }),
+    );
+  };
+
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
-
       {/* ── Page Header ── */}
       <div className="flex items-start justify-between mb-7 gap-4 flex-wrap max-sm:flex-col max-sm:items-stretch">
         <div className="flex flex-col gap-0.5">
@@ -27,7 +67,13 @@ const CoursesPage = () => {
           onClick={() => setShowModal(true)}
           className="flex items-center gap-2 px-4 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-(--radius) border-none cursor-pointer transition-all duration-150 hover:opacity-90 hover:-translate-y-px active:translate-y-0 max-sm:w-full max-sm:justify-center"
         >
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            aria-hidden="true"
+          >
             <path
               d="M7.5 2v11M2 7.5h11"
               stroke="currentColor"
@@ -47,7 +93,14 @@ const CoursesPage = () => {
           </div>
         ) : (
           courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard
+              key={course.id}
+              course={course}
+              onToggleTopic={(topicId) => handleToggleTopic(course.id, topicId)}
+              onToggleAssignment={(assignmentId) =>
+                handleToggleAssignment(course.id, assignmentId)
+              }
+            />
           ))
         )}
       </div>
@@ -72,7 +125,8 @@ const CoursesPage = () => {
               Add New Course
             </h2>
             <p className="text-sm text-muted-foreground m-0 mb-6 leading-relaxed">
-              Connect this modal to your form or routing logic to create courses.
+              Connect this modal to your form or routing logic to create
+              courses.
             </p>
             <div className="flex justify-end gap-3">
               <button

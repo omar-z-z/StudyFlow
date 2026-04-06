@@ -2,33 +2,28 @@ import ProgressBar from "./ProgressBar";
 import TopicItem from "./TopicItem";
 import AssignmentItem from "./AssignmentItem";
 import { Course } from "@/lib/dummy-data";
+import { CalendarIcon } from "../basicComponents/icons";
 
-/**
- * CourseCard
- * Props:
- *  - course: { id, title, examDate, progress, color, iconColor, topics[], assignments[] }
- */
+type CourseCardProps = {
+  course: Course;
+  onToggleTopic: (topicId: string) => void;
+  onToggleAssignment: (assignmentId: string) => void;
+};
 
-const CalendarIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-    <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.1" />
-    <path d="M4 1V3M9 1V3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-    <path d="M1 5H12" stroke="currentColor" strokeWidth="1.1" />
-  </svg>
-);
-
-
-const CourseCard = ({ course } : { course: Course }) => {
+const CourseCard = ({
+  course,
+  onToggleTopic,
+  onToggleAssignment,
+}: CourseCardProps) => {
   return (
     <div className="bg-card border border-border rounded-(--radius-xl) p-6 mb-5 transition-shadow duration-200 hover:shadow-md">
-
       {/* ── Card Header ── */}
       <div className="flex items-start justify-between gap-4">
         {/* Left: icon + info */}
         <div className="flex items-center gap-3.5">
           {/* Icon */}
           <div
-            className="w-11 h-11 rounded-[var(--radius)] flex items-center justify-center flex-shrink-0"
+            className="w-11 h-11 rounded-(--radius) flex items-center justify-center shrink-0"
             style={{ backgroundColor: course.color }}
             aria-hidden="true"
           >
@@ -60,7 +55,7 @@ const CourseCard = ({ course } : { course: Course }) => {
         </div>
 
         {/* Right: completion badge */}
-        <div className="flex flex-col items-end flex-shrink-0">
+        <div className="flex flex-col items-end shrink-0">
           <span className="text-[1.3rem] font-bold leading-none">
             {course.progress}%
           </span>
@@ -75,7 +70,6 @@ const CourseCard = ({ course } : { course: Course }) => {
 
       {/* ── Body Grid: Topics + Assignments ── */}
       <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1 max-md:gap-5">
-
         {/* Topics */}
         <div>
           <h4 className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground m-0 mb-2.5">
@@ -83,7 +77,11 @@ const CourseCard = ({ course } : { course: Course }) => {
           </h4>
           <div className="flex flex-col">
             {course.topics.map((topic) => (
-              <TopicItem key={topic.id} topic={topic} />
+              <TopicItem
+                key={topic.id}
+                topic={topic}
+                onToggle={() => onToggleTopic(topic.id)}
+              />
             ))}
           </div>
         </div>
@@ -95,11 +93,10 @@ const CourseCard = ({ course } : { course: Course }) => {
           </h4>
           <div className="flex flex-col">
             {course.assignments.map((assignment) => (
-              <AssignmentItem key={assignment.id} assignment={assignment} />
+              <AssignmentItem key={assignment.id} assignment={assignment} onToggle={() => onToggleAssignment(assignment.id)} />
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

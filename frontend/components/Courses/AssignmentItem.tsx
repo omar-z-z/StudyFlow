@@ -1,51 +1,26 @@
-// components/AssignmentItem.jsx
 import { Assignment } from "@/lib/dummy-data";
-import React from "react";
+import { StatusIcon, CalendarIcon } from "../basicComponents/icons";
 
-/**
- * AssignmentItem
- * Props:
- *  - assignment: { id, name, dueDate, completed }
- */
+type AssignmentItemProps = {
+  assignment: Assignment;
+  onToggle: () => void;
+};
 
-const CalendarIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-    <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.1" />
-    <path d="M4 1V3M9 1V3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-    <path d="M1 5H12" stroke="currentColor" strokeWidth="1.1" />
-  </svg>
-);
-
-const AssignmentItem = ({ assignment } : { assignment: Assignment }) => {
+const AssignmentItem = ({ assignment, onToggle }: AssignmentItemProps) => {
   return (
     <div
-      className={`flex items-start gap-3 px-4 py-3 border border-border rounded-[var(--radius)] mb-2.5 last:mb-0 transition-shadow duration-200 hover:shadow-sm ${
+      className={`flex items-start gap-3 px-4 py-3 border border-border rounded-(--radius) mb-2.5 last:mb-0 transition-shadow duration-200 hover:shadow-sm ${
         assignment.completed ? "bg-muted/30" : "bg-card"
       }`}
     >
       {/* Checkbox icon */}
-      <div className="mt-0.5 flex-shrink-0">
-        {assignment.completed ? (
-          <span aria-label="Completed">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="8.5" stroke="#10B981" />
-              <path
-                d="M5.5 9L7.8 11.5L12.5 6.5"
-                stroke="#10B981"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        ) : (
-          <span aria-label="Not completed">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="8.5" stroke="var(--border)" strokeWidth="1.5" />
-            </svg>
-          </span>
-        )}
-      </div>
+      <button
+        onClick={onToggle}
+        aria-label={assignment.completed ? "Mark as incomplete" : "Mark as complete"}
+        className="shrink-0 bg-transparent border-none p-0 cursor-pointer rounded-full transition-opacity hover:opacity-70"
+      >
+        <StatusIcon completed={assignment.completed} />
+      </button>
 
       {/* Body */}
       <div className="flex flex-col gap-1">

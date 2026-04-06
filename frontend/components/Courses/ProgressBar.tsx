@@ -1,11 +1,4 @@
-// components/ProgressBar.jsx
-import React from "react";
 
-/**
- * ProgressBar
- * Props:
- *  - value: number (0–100)
- */
 const ProgressBar = ({ value }: { value: number }) => {
   return (
     <div className="my-3 mb-5">
