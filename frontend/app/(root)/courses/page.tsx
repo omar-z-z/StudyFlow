@@ -2,53 +2,12 @@
 
 import { useState } from "react";
 import CourseCard from "../../../components/Courses/CourseCard";
-import { courses as coursesData } from "@/lib/dummy-data";
+import { useCourses } from "@/hooks/useCourses";
+import AddCourseModal from "@/components/Courses/AddCourseModal";
 
 const CoursesPage = () => {
-  const [courses, setCourses] = useState(coursesData);
+  const { courses, toggleTopic, toggleAssignment, addCourse } = useCourses();
   const [showModal, setShowModal] = useState(false);
-
-  const handleToggleTopic = (courseId: string, topicId: string) => {
-    setCourses((prev) =>
-      prev.map((course) => {
-        if (course.id !== courseId) return course;
-
-        const updatedTopics = course.topics.map((t) =>
-          t.id === topicId ? { ...t, completed: !t.completed } : t,
-        );
-
-        const completed =
-          updatedTopics.filter((t) => t.completed).length +
-          course.assignments.filter((a) => a.completed).length;
-        const total = updatedTopics.length + course.assignments.length;
-        const progress =
-          total === 0 ? 0 : Math.round((completed / total) * 100);
-
-        return { ...course, topics: updatedTopics, progress };
-      }),
-    );
-  };
-
-  const handleToggleAssignment = (courseId: string, assignmentId: string) => {
-    setCourses((prev) =>
-      prev.map((course) => {
-        if (course.id !== courseId) return course;
-
-        const updatedAssignments = course.assignments.map((a) =>
-          a.id === assignmentId ? { ...a, completed: !a.completed } : a,
-        );
-
-        const completed =
-          course.topics.filter((t) => t.completed).length +
-          updatedAssignments.filter((a) => a.completed).length;
-        const total = course.topics.length + updatedAssignments.length;
-        const progress =
-          total === 0 ? 0 : Math.round((completed / total) * 100);
-
-        return { ...course, assignments: updatedAssignments, progress };
-      }),
-    );
-  };
 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
@@ -96,54 +55,18 @@ const CoursesPage = () => {
             <CourseCard
               key={course.id}
               course={course}
-              onToggleTopic={(topicId) => handleToggleTopic(course.id, topicId)}
+              onToggleTopic={(topicId) => toggleTopic(course.id, topicId)}
               onToggleAssignment={(assignmentId) =>
-                handleToggleAssignment(course.id, assignmentId)
+                toggleAssignment(course.id, assignmentId)
               }
             />
           ))
         )}
       </div>
 
-      {/* ── Add Course Modal (placeholder) ── */}
+      {/* ── Add Course Modal ── */}
       {showModal && (
-        <div
-          className="fixed inset-0 bg-black/35 flex items-center justify-center z-50 animate-[fadeIn_0.2s_ease]"
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            className="bg-card rounded-xl p-8 w-full max-w-[420px] shadow-2xl mx-4 animate-[slideUp_0.25s_cubic-bezier(0.34,1.56,0.64,1)]"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="modal-title"
-          >
-            <h2
-              id="modal-title"
-              className="text-lg font-semibold text-foreground m-0 mb-2"
-            >
-              Add New Course
-            </h2>
-            <p className="text-sm text-muted-foreground m-0 mb-6 leading-relaxed">
-              Connect this modal to your form or routing logic to create
-              courses.
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-transparent border border-border rounded-[var(--radius)] text-sm font-medium text-foreground cursor-pointer transition-colors duration-150 hover:bg-accent"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-primary text-primary-foreground border-none rounded-[var(--radius)] text-sm font-medium cursor-pointer transition-opacity duration-150 hover:opacity-90"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddCourseModal onClose={() => setShowModal(false)} onAdd={addCourse} />
       )}
     </div>
   );
