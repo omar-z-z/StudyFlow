@@ -1,13 +1,16 @@
 export type Priority = "high" | "medium" | "low";
 
 export interface Task {
-  id: number;
+  id: string;
   title: string;
-  course: string;
+  courseId: string;
+  courseName: string;
   courseColor: string;
-  duration: number;
-  priority: Priority;
   completed: boolean;
+  estimatedTime: number;
+  priority: 'high' | 'medium' | 'low';
+  type: 'reading' | 'lecture' | 'exercise' | 'review';
+  date: string;
 }
 
 export const priorityStyles: Record<Priority, string> = {

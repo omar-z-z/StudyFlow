@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const tasksTotal = tasks.length;
   const studyTimeMinutes = tasks
     .filter((t) => t.completed)
-    .reduce((sum, t) => sum + t.duration, 0);
+    .reduce((sum, t) => sum + t.estimatedTime, 0);
   const studyHours = Math.floor(studyTimeMinutes / 60);
   const studyMinutes = studyTimeMinutes % 60;
   const coursesCount = courses.length;

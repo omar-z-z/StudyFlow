@@ -4,7 +4,7 @@ import { Task } from "@/types/task";
 
 interface TasksListProps {
   tasks: Task[];
-  onToggle: (id: number) => void;
+  onToggle: (id: string) => void;
 }
 import TaskItem from "./TaskItem";
 
