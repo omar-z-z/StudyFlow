@@ -1,4 +1,4 @@
-import { BasicForm } from "@/types/modaltypes";
+import { BasicForm, Step } from "@/types/modal";
 
 export const COLOR_OPTIONS = [
   { label: "Blue",   value: "#3b82f6" },
@@ -15,6 +15,12 @@ export const INITIAL_BASIC: BasicForm = {
   name: "",
   examDate: "",
   color: COLOR_OPTIONS[0].value,
+};
+
+export const STEP_SUBTITLES: Record<Step, string> = {
+  0: "Start with the basic course details.",
+  1: "Add the topics you need to study. You can skip this.",
+  2: "Add your assignments and due dates. You can skip this.",
 };
 
 /** Shared Tailwind class builder for text inputs */

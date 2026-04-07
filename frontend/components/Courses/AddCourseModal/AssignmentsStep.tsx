@@ -1,6 +1,6 @@
 import RemoveButton from "@/components/basicComponents/RemoveButton";
 import AddRowButton from "@/components/basicComponents/AddRowButton";
-import { AssignmentDraft } from "@/types/modaltypes";
+import { AssignmentDraft } from "@/types/modal";
 
 type AssignmentsStepProps = {
   assignments: AssignmentDraft[];
@@ -24,7 +24,7 @@ const AssignmentsStep = ({ assignments, onAdd, onUpdate, onRemove }: Assignments
             onChange={(e) => onUpdate(assignment.id, "title", e.target.value)}
             placeholder="e.g. Array Problems"
             aria-label={`Title for assignment ${index + 1}`}
-            className="w-full px-3 py-2 bg-background text-sm text-foreground rounded-[var(--radius)] border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
+            className="w-full px-3 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
 
@@ -38,7 +38,7 @@ const AssignmentsStep = ({ assignments, onAdd, onUpdate, onRemove }: Assignments
             value={assignment.dueDate}
             onChange={(e) => onUpdate(assignment.id, "dueDate", e.target.value)}
             aria-label={`Due date for assignment ${index + 1}`}
-            className="px-2 py-2 bg-background text-sm text-foreground rounded-[var(--radius)] border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
+            className="px-2 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
 

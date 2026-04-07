@@ -1,6 +1,6 @@
 import RemoveButton from "@/components/basicComponents/RemoveButton";
 import AddRowButton from "@/components/basicComponents/AddRowButton";
-import { TopicDraft } from "@/types/modaltypes";
+import { TopicDraft } from "@/types/modal";
 
 type TopicsStepProps = {
   topics: TopicDraft[];
@@ -24,7 +24,7 @@ const TopicsStep = ({ topics, onAdd, onUpdate, onRemove }: TopicsStepProps) => (
             value={topic.week}
             onChange={(e) => onUpdate(topic.id, "week", e.target.value)}
             aria-label={`Week for topic ${index + 1}`}
-            className="w-14 px-2 py-2 bg-background text-sm text-foreground rounded-[var(--radius)] border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 text-center"
+            className="w-14 px-2 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 text-center"
           />
         </div>
 
@@ -39,7 +39,7 @@ const TopicsStep = ({ topics, onAdd, onUpdate, onRemove }: TopicsStepProps) => (
             onChange={(e) => onUpdate(topic.id, "title", e.target.value)}
             placeholder="e.g. Big O Notation"
             aria-label={`Title for topic ${index + 1}`}
-            className="w-full px-3 py-2 bg-background text-sm text-foreground rounded-[var(--radius)] border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
+            className="w-full px-3 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
 

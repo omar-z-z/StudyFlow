@@ -1,5 +1,5 @@
 import { STEPS } from "@/lib/courseModalConstants";
-import { Step } from "@/types/modaltypes";
+import { Step } from "@/types/modal";
 
 const StepIndicator = ({ current }: { current: Step }) => (
   <div className="flex items-center gap-0 mb-7">

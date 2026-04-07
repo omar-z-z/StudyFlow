@@ -1,6 +1,6 @@
 import Field from "@/components/basicComponents/Field";
 import { COLOR_OPTIONS, inputClass } from "@/lib/courseModalConstants";
-import { BasicForm, BasicErrors } from "@/types/modaltypes";
+import { BasicForm, BasicErrors } from "@/types/modal";
 
 type CourseDetailsStepProps = {
   basic: BasicForm;
@@ -35,7 +35,7 @@ const CourseDetailsStep = ({ basic, errors, onChange }: CourseDetailsStepProps) 
       <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
         Card Color
       </span>
-      <div className="flex items-center gap-2.5 flex-wrap">
+      <div className="flex items-center p-2 gap-2.5 flex-wrap">
         {COLOR_OPTIONS.map((option) => (
           <button
             key={option.value}

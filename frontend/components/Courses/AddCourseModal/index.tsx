@@ -4,22 +4,22 @@ import { useState } from "react";
 import { Course } from "@/types/course";
 import { Assignment } from "@/types/assignment";
 import { Topic } from "@/types/topic";
-import { Step, BasicForm, BasicErrors, TopicDraft, AssignmentDraft } from "@/types/modaltypes";
-import { INITIAL_BASIC } from "@/lib/courseModalConstants";
+import { Step, BasicForm, BasicErrors, TopicDraft, AssignmentDraft } from "@/types/modal";
+import { INITIAL_BASIC, STEP_SUBTITLES } from "@/lib/courseModalConstants";
 import StepIndicator from "./StepIndicator";
 import CourseDetailsStep from "./CourseDetailsStep";
 import TopicsStep from "./TopicsStep";
 import AssignmentsStep from "./AssignmentsStep";
 import ModalFooter from "./ModalFooter";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// Types 
 
 type AddCourseModalProps = {
   onClose: () => void;
   onAdd: (course: Course) => void;
 };
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// Helpers 
 
 const newTopicDraft = (): TopicDraft => ({ id: crypto.randomUUID(), title: "", week: "1" });
 const newAssignmentDraft = (): AssignmentDraft => ({ id: crypto.randomUUID(), title: "", dueDate: "" });
@@ -31,13 +31,7 @@ const validateBasic = (form: BasicForm): BasicErrors => {
   return errors;
 };
 
-const STEP_SUBTITLES: Record<Step, string> = {
-  0: "Start with the basic course details.",
-  1: "Add the topics you need to study. You can skip this.",
-  2: "Add your assignments and due dates. You can skip this.",
-};
-
-// ── Component ─────────────────────────────────────────────────────────────────
+// Component 
 
 const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
   const [step, setStep]               = useState<Step>(0);
@@ -46,28 +40,28 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
   const [topics, setTopics]           = useState<TopicDraft[]>([newTopicDraft()]);
   const [assignments, setAssignments] = useState<AssignmentDraft[]>([newAssignmentDraft()]);
 
-  // ── Basic handlers ─────────────────────────────────────────────────────────
+  // Basic handlers 
 
   const handleBasicChange = (field: keyof BasicForm, value: string) => {
     setBasic((prev) => ({ ...prev, [field]: value }));
     if (basicErrors[field]) setBasicErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  // ── Topic handlers ─────────────────────────────────────────────────────────
+  // Topic handlers 
 
   const addTopic    = () => setTopics((prev) => [...prev, newTopicDraft()]);
   const removeTopic = (id: string) => setTopics((prev) => prev.filter((t) => t.id !== id));
   const updateTopic = (id: string, field: keyof Omit<TopicDraft, "id">, value: string) =>
     setTopics((prev) => prev.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
 
-  // ── Assignment handlers ────────────────────────────────────────────────────
+  // Assignment handlers 
 
   const addAssignment    = () => setAssignments((prev) => [...prev, newAssignmentDraft()]);
   const removeAssignment = (id: string) => setAssignments((prev) => prev.filter((a) => a.id !== id));
   const updateAssignment = (id: string, field: keyof Omit<AssignmentDraft, "id">, value: string) =>
     setAssignments((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: value } : a)));
 
-  // ── Navigation ─────────────────────────────────────────────────────────────
+  // Navigation 
 
   const handleNext = () => {
     if (step === 0) {
@@ -79,7 +73,7 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
 
   const handleBack = () => setStep((prev) => (prev - 1) as Step);
 
-  // ── Submit ─────────────────────────────────────────────────────────────────
+  // Submit 
 
   const handleSubmit = () => {
     const finalTopics: Topic[] = topics
@@ -102,7 +96,7 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
     onClose();
   };
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // Render 
 
   return (
     <div
@@ -117,7 +111,7 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
         aria-labelledby="modal-title"
       >
         {/* Header */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <h2 id="modal-title" className="text-lg font-semibold text-foreground m-0 mb-1">
             Add New Course
           </h2>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { courses as initialData } from "@/lib/dummy-data";
 import { Course } from "@/types/course";
 
-// ── helpers ──
+// helpers
 
 
 const recalculateProgress = (course: Course): number => {
@@ -16,7 +16,7 @@ const recalculateProgress = (course: Course): number => {
   return Math.round((completed / total) * 100);
 };
 
-// ── hook ──
+//  hook 
 
 export const useCourses = () => {
   const [courses, setCourses] = useState<Course[]>(initialData);
@@ -51,7 +51,7 @@ export const useCourses = () => {
     );
   };
 
-  // ── Add a new course ───
+  //  Add a new course 
   const addCourse = (newCourse: Course) => {
     setCourses((prev) => [...prev, newCourse]);
   };
