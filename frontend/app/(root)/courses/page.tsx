@@ -3,7 +3,6 @@
 import { useState } from "react";
 import CourseCard from "../../../components/Courses/CourseCard";
 import { useCourses } from "@/hooks/useCourses";
-// import AddCourseModal from "@/components/Courses/AddCourseModal";
 import AddCourseModal from "@/components/Courses/AddCourseModal/index";
 
 const CoursesPage = () => {
