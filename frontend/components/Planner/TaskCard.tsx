@@ -11,7 +11,7 @@ const TaskCard = ({ task, onToggle }: TaskCardProps) => {
   return (
     <div
       className="flex items-start gap-2 rounded-lg border border-border bg-card p-2 cursor-pointer group transition-colors hover:bg-accent/60"
-      onClick={() => onToggle(id)}
+      onClick={() => console.log("Later Implementation")}
     >
       {/* Checkbox */}
       <button
