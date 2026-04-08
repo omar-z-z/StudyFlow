@@ -1,20 +1,12 @@
-"use client";
-
-import type { Task, TaskColor } from "@/types/planner";
-
-const DOT_COLOR: Record<TaskColor, string> = {
-  blue: "bg-blue-500",
-  green: "bg-green-500",
-  yellow: "bg-yellow-400",
-};
+import type { Task } from "@/types/task";
 
 interface TaskCardProps {
   task: Task;
-  onToggle: (id: number) => void;
+  onToggle: (id: string) => void;
 }
 
 const TaskCard = ({ task, onToggle }: TaskCardProps) => {
-  const { id, title, color, duration, completed } = task;
+  const { id, title, courseColor, estimatedTime, completed } = task;
 
   return (
     <div
@@ -30,7 +22,7 @@ const TaskCard = ({ task, onToggle }: TaskCardProps) => {
           onToggle(id);
         }}
         className={`
-          mt-0.5 flex-shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-colors
+          mt-0.5 shrink-0 w-4 h-4 rounded border flex items-center justify-center transition-colors
           ${
             completed
               ? "bg-primary border-primary"
@@ -48,7 +40,7 @@ const TaskCard = ({ task, onToggle }: TaskCardProps) => {
           >
             <path
               d="M2 5l2.5 2.5L8 3"
-              stroke="currentColor"
+              stroke="var(--secondary)"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -70,11 +62,10 @@ const TaskCard = ({ task, onToggle }: TaskCardProps) => {
         </p>
         <div className="flex items-center gap-1 mt-1">
           <span
-            className={`w-2 h-2 rounded-full flex-shrink-0 ${
-              DOT_COLOR[color] ?? "bg-muted"
-            }`}
+            className={`w-2 h-2 rounded-full shrink-0`}
+            style={{ backgroundColor: courseColor }}
           />
-          <span className="text-xs text-muted-foreground">{duration} min</span>
+          <span className="text-xs text-muted-foreground">{estimatedTime} min</span>
         </div>
       </div>
     </div>

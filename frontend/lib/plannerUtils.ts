@@ -1,4 +1,5 @@
-import type { DayDescriptor, Task } from "@/types/planner";
+import type { DayDescriptor } from "@/types/daydescriptor";
+import { Task } from "@/types/task";
 
 export const getWeekStart = (date: Date, weekOffset: number = 0): Date => {
   const d = new Date(date);
@@ -33,7 +34,7 @@ export const generateWeekDays = (
       dayName: date.toLocaleDateString("en-US", { weekday: "short" }),
       dayNumber: date.getDate(),
       isToday: dateKey === todayKey,
-      tasks: tasks.filter((t) => t.dateKey === dateKey),
+      tasks: tasks.filter((t) => t.date === dateKey),
     };
   });
 };

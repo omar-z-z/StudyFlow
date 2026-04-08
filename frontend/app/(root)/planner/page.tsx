@@ -10,10 +10,12 @@ const PlannerPage = () => {
     days,
     monthLabel,
     isCurrentWeek,
+    selectedDayIndex,
     totalTasks,
     completedTasks,
     studyMinutes,
     toggleTask,
+    selectDay,
     goToPrevWeek,
     goToNextWeek,
     goToToday,
@@ -21,7 +23,7 @@ const PlannerPage = () => {
 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
-      {/* ── Page Header ── */}
+      {/* Page Header */}
       <PlannerHeader
         monthLabel={monthLabel}
         isCurrentWeek={isCurrentWeek}
@@ -30,10 +32,15 @@ const PlannerPage = () => {
         onToday={goToToday}
       />
 
-      {/* ── Weekly Calendar ── */}
-      <WeeklyCalendar days={days} onToggleTask={toggleTask} />
+      {/* Weekly Calendar */}
+      <WeeklyCalendar
+        days={days}
+        selectedDayIndex={selectedDayIndex}
+        onToggleTask={toggleTask}
+        onSelectDay={selectDay}
+      />
 
-      {/* ── Weekly Summary ── */}
+      {/* Weekly Summary */}
       <WeeklySummary
         totalTasks={totalTasks}
         completedTasks={completedTasks}

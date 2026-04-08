@@ -1,24 +1,24 @@
-"use client";
-
 import { formatMinutes } from "@/lib/plannerUtils";
-import type { DayDescriptor } from "@/types/planner";
+import type { DayDescriptor } from "@/types/daydescriptor";
 import TaskCard from "./TaskCard";
 
 interface DayColumnProps {
   day: DayDescriptor;
-  onToggleTask: (id: number) => void;
+  onToggleTask: (id: string) => void;
+  /** When true (mobile single-day view), removes the fixed min-height constraint */
+  fullWidth?: boolean;
 }
 
-const DayColumn = ({ day, onToggleTask }: DayColumnProps) => {
+const DayColumn = ({ day, onToggleTask, fullWidth = false }: DayColumnProps) => {
   const { dayName, dayNumber, isToday, tasks } = day;
-  const totalMinutes = tasks.reduce((acc, t) => acc + t.duration, 0);
+  const totalMinutes = tasks.reduce((acc, t) => acc + t.estimatedTime, 0);
   const timeLabel = formatMinutes(totalMinutes);
 
   return (
     <div
-      className={`flex flex-col rounded-xl border min-h-[420px] transition-colors ${
+      className={`flex flex-col rounded-xl border transition-colors ${
         isToday ? "border-foreground shadow-sm" : "border-border"
-      }`}
+      } ${fullWidth ? "min-h-[280px]" : "min-h-[420px]"}`}
     >
       {/* Day header */}
       <div className="flex flex-col items-center py-3 px-2 gap-0.5">

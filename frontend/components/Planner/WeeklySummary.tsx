@@ -1,5 +1,3 @@
-"use client";
-
 interface StatCardProps {
   label: string;
   value: string | number;
@@ -33,12 +31,13 @@ const WeeklySummary = ({
   const studyHours = Math.round(studyMinutes / 60);
 
   return (
-    <div className="mt-6 rounded-xl border border-border bg-card p-6">
+    <div className="mt-6 rounded-xl border border-border bg-card p-6 max-sm:p-4">
       <h2 className="text-base font-semibold text-foreground mb-5">
         Weekly Summary
       </h2>
 
-      <div className="grid grid-cols-3 divide-x divide-border">
+      {/* Desktop: horizontal with dividers | Mobile: vertical stack */}
+      <div className="hidden sm:grid sm:grid-cols-3 sm:divide-x sm:divide-border">
         <div className="pr-8">
           <StatCard label="Total Tasks" value={totalTasks} />
         </div>
@@ -47,6 +46,27 @@ const WeeklySummary = ({
         </div>
         <div className="pl-8">
           <StatCard label="Study Hours" value={`${studyHours}h`} />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5 sm:hidden">
+        <div className="flex justify-between items-center border-b border-border pb-4">
+          <span className="text-sm text-muted-foreground">Total Tasks</span>
+          <span className="text-2xl font-semibold text-foreground">
+            {totalTasks}
+          </span>
+        </div>
+        <div className="flex justify-between items-center border-b border-border pb-4">
+          <span className="text-sm text-muted-foreground">Completed</span>
+          <span className="text-2xl font-semibold text-green-500">
+            {completedTasks}
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-muted-foreground">Study Hours</span>
+          <span className="text-2xl font-semibold text-foreground">
+            {studyHours}h
+          </span>
         </div>
       </div>
     </div>

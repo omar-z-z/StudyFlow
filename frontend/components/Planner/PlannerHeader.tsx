@@ -1,5 +1,3 @@
-"use client";
-
 interface PlannerHeaderProps {
   monthLabel: string;
   isCurrentWeek: boolean;
@@ -16,7 +14,7 @@ const PlannerHeader = ({
   onToday,
 }: PlannerHeaderProps) => {
   return (
-    <div className="flex items-start justify-between gap-4 flex-wrap">
+    <div className="flex items-start justify-between gap-4 flex-wrap max-sm:flex-col max-sm:items-stretch">
       {/* Left: title + month */}
       <div className="flex flex-col gap-0.5">
         <h1 className="text-2xl font-semibold text-foreground m-0 tracking-tight leading-snug">
@@ -26,7 +24,7 @@ const PlannerHeader = ({
       </div>
 
       {/* Right: navigation */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-sm:justify-between">
         <button
           type="button"
           onClick={onToday}
@@ -40,51 +38,53 @@ const PlannerHeader = ({
           Today
         </button>
 
-        <button
-          type="button"
-          onClick={onPrev}
-          aria-label="Previous week"
-          className="w-8 h-8 flex items-center justify-center rounded-(--radius) border border-border text-foreground hover:bg-accent transition-colors cursor-pointer"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
+        <div className="flex items-center gap-2 ml-auto">
+          <button
+            type="button"
+            onClick={onPrev}
+            aria-label="Previous week"
+            className="w-8 h-8 flex items-center justify-center rounded-(--radius) border border-border text-foreground hover:bg-accent transition-colors cursor-pointer"
           >
-            <path
-              d="M10 12L6 8l4-4"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M10 12L6 8l4-4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
-        <button
-          type="button"
-          onClick={onNext}
-          aria-label="Next week"
-          className="w-8 h-8 flex items-center justify-center rounded-(--radius) border border-border text-foreground hover:bg-accent transition-colors cursor-pointer"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
+          <button
+            type="button"
+            onClick={onNext}
+            aria-label="Next week"
+            className="w-8 h-8 flex items-center justify-center rounded-(--radius) border border-border text-foreground hover:bg-accent transition-colors cursor-pointer"
           >
-            <path
-              d="M6 4l4 4-4 4"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 4l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
