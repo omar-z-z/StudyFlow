@@ -8,7 +8,7 @@ import {
 } from "@/lib/plannerUtils";
 import type { DayDescriptor } from "@/types/daydescriptor";
 import { Task } from "@/types/task";
-import { tasks as dummyTasks } from "@/lib/dummy-data";
+import { useTasks } from "./useTasks";
 
 interface UsePlannerReturn {
   days: DayDescriptor[];
@@ -26,10 +26,11 @@ interface UsePlannerReturn {
 }
 
 export const usePlanner = (): UsePlannerReturn => {
+  const { todayTasks } = useTasks();
   const today = new Date();
 
   const [weekOffset, setWeekOffset] = useState<number>(0);
-  const [tasks, setTasks] = useState<Task[]>(dummyTasks);
+  const [tasks, setTasks] = useState<Task[]>(todayTasks);
   // Default to today's weekday index (0=Sun…6=Sat) so mobile opens on today
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(
     today.getDay()

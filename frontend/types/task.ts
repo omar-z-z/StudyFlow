@@ -7,6 +7,7 @@ export type TaskType =
   | "review"
   | "project"
   | "quiz"
+  | "assignment"
   | "other";
 
 export interface Task {
@@ -82,6 +83,11 @@ export const typeConfig: Record<TaskType, BadgeConfig> = {
     label: "QUIZ",
     className:
       "bg-pink-50 text-pink-600 border border-pink-200 dark:bg-pink-950/40 dark:text-pink-400 dark:border-pink-800",
+  },
+  assignment: {
+    label: "ASSIGNMENT",
+    className:
+      "bg-green-50 text-pink-600 border border-pink-200 dark:bg-pink-950/40 dark:text-pink-400 dark:border-pink-800",
   },
   other: {
     label: "OTHER",

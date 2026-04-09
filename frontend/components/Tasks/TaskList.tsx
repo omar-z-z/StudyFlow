@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Task } from "@/types/task";
-import TasksTaskCard from "./TasksTaskCard";
+import TasksTaskCard from "./TaskCard";
 import AddTaskModal from "./AddTaskModal";
 import { PlusIcon } from "../basicComponents/icons";
 

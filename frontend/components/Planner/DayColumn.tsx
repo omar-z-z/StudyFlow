@@ -1,6 +1,6 @@
 import { formatMinutes } from "@/lib/plannerUtils";
 import type { DayDescriptor } from "@/types/daydescriptor";
-import TaskCard from "./TaskCard";
+import TaskCard from "./PlannerTaskCard";
 
 interface DayColumnProps {
   day: DayDescriptor;
