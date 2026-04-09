@@ -16,6 +16,7 @@ export function usePomodoro({
   const [phase, setPhase] = useState<Phase>("work");
   const [secondsLeft, setSecondsLeft] = useState(workMinutes * 60);
   const [running, setRunning] = useState(false);
+  const [sessions, setSessions] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const totalSeconds = phase === "work" ? workMinutes * 60 : breakMinutes * 60;
@@ -39,6 +40,7 @@ export function usePomodoro({
           clearTimer();
           setRunning(false);
           const nextPhase = phase === "work" ? "break" : "work";
+          if (phase === "work") setSessions((s) => s + 1);
           setPhase(nextPhase);
           return nextPhase === "work" ? workMinutes * 60 : breakMinutes * 60;
         }
@@ -48,15 +50,43 @@ export function usePomodoro({
     return clearTimer;
   }, [running, phase, workMinutes, breakMinutes, clearTimer]);
 
-  const start = () => setRunning(true);
-  const pause = () => setRunning(false);
-
-  const reset = () => {
+  // Reset timer when durations change externally
+  useEffect(() => {
     clearTimer();
     setRunning(false);
     setPhase("work");
     setSecondsLeft(workMinutes * 60);
-  };
+  }, [workMinutes, breakMinutes, clearTimer]);
 
-  return { minutes, seconds, running, phase, progress, start, pause, reset };
+  const start = () => setRunning(true);
+  const pause = () => setRunning(false);
+
+  const reset = useCallback(() => {
+    clearTimer();
+    setRunning(false);
+    setPhase("work");
+    setSecondsLeft(workMinutes * 60);
+  }, [clearTimer, workMinutes]);
+
+  const skipPhase = useCallback(() => {
+    clearTimer();
+    setRunning(false);
+    const nextPhase = phase === "work" ? "break" : "work";
+    if (phase === "work") setSessions((s) => s + 1);
+    setPhase(nextPhase);
+    setSecondsLeft(nextPhase === "work" ? workMinutes * 60 : breakMinutes * 60);
+  }, [clearTimer, phase, workMinutes, breakMinutes]);
+
+  return {
+    minutes,
+    seconds,
+    running,
+    phase,
+    progress,
+    sessions,
+    start,
+    pause,
+    reset,
+    skipPhase,
+  };
 }

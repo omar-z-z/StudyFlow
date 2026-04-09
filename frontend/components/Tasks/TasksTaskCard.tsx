@@ -1,4 +1,5 @@
 import { Task, priorityConfig, typeConfig } from "@/types/task";
+import { ClockIcon } from "../basicComponents/icons";
 
 interface TaskCardProps {
   task: Task;
@@ -19,7 +20,7 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
       <button
         onClick={() => onToggle(task.id)}
         aria-label={task.completed ? "Mark incomplete" : "Mark complete"}
-        className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-150 cursor-pointer ${
+        className={`mt-0.5 shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-150 cursor-pointer ${
           task.completed
             ? "bg-foreground border-foreground"
             : "bg-transparent border-border hover:border-muted-foreground"
@@ -56,7 +57,7 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
         {/* Course row */}
         <div className="flex items-center gap-1.5 mt-1">
           <span
-            className="w-2 h-2 rounded-full flex-shrink-0"
+            className="w-2 h-2 rounded-full shrink-0"
             style={{ backgroundColor: task.courseColor }}
           />
           <span className="text-xs text-muted-foreground truncate">
@@ -97,21 +98,5 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
     </div>
   );
 };
-
-const ClockIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    aria-hidden="true"
-  >
-    <circle cx="6" cy="6" r="4.5" />
-    <polyline points="6,3.5 6,6 7.5,7.5" />
-  </svg>
-);
 
 export default TasksTaskCard;

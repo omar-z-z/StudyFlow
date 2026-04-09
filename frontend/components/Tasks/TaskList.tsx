@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Task } from "@/types/task";
 import TasksTaskCard from "./TasksTaskCard";
 import AddTaskModal from "./AddTaskModal";
+import { PlusIcon } from "../basicComponents/icons";
 
 interface TaskListProps {
   pendingTasks: Task[];
@@ -85,22 +86,5 @@ const TaskList = ({
     </div>
   );
 };
-
-const PlusIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path
-      d="M6 1v10M1 6h10"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-  </svg>
-);
 
 export default TaskList;
