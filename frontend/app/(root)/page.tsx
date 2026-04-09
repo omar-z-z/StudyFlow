@@ -8,11 +8,11 @@ import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
 
 export default function DashboardPage() {
-  const { tasks, toggleTask } = useTasks();
+  const { pendingTasks, todayTasks, completedTasks, toggleTask } = useTasks();
 
-  const tasksCompleted = tasks.filter((t) => t.completed).length;
-  const tasksTotal = tasks.length;
-  const studyTimeMinutes = tasks
+  const tasksCompleted = completedTasks.length;
+  const tasksTotal = todayTasks.length;
+  const studyTimeMinutes = todayTasks
     .filter((t) => t.completed)
     .reduce((sum, t) => sum + t.estimatedTime, 0);
   const studyHours = Math.floor(studyTimeMinutes / 60);
@@ -44,7 +44,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {/* Tasks List */}
         <div className="w-full lg:flex-[1.6] lg:min-w-0">
-          <TasksList tasks={tasks} onToggle={toggleTask} />
+          <TasksList tasks={todayTasks} onToggle={toggleTask} />
         </div>
 
         {/* Progress + Deadlines */}

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Task } from "@/types/task";
-import { tasks as initialTasks } from "@/lib/dummy-data";
+import { tasks as initialTasks } from "@/lib/expanded_dummy_data";
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -11,5 +11,22 @@ export function useTasks() {
     );
   };
 
-  return { tasks, toggleTask };
+  const addTask = (task: Omit<Task, "id" | "completed">) => {
+    setTasks((prev) => [
+      ...prev,
+      { ...task, id: crypto.randomUUID(), completed: false },
+    ]);
+  };
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const todayTasks = useMemo(
+    () => tasks.filter((t) => t.date === today),
+    [tasks, today]
+  );
+
+  const pendingTasks = todayTasks.filter((t) => !t.completed);
+  const completedTasks = todayTasks.filter((t) => t.completed);
+
+  return { tasks, toggleTask, addTask, todayTasks, pendingTasks, completedTasks };
 }
