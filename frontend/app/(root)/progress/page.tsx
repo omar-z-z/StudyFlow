@@ -4,7 +4,6 @@ import { useProgress } from "@/hooks/useProgress";
 import StatsCards from "@/components/Progress/StatsCards";
 import DailyCompletionChart from "@/components/Progress/DailyCompletionChart";
 import TasksByTypeChart from "@/components/Progress/TaskByTypeChart";
-import CourseProgressList from "@/components/Progress/CourseProgressList";
 import MotivationBanner from "@/components/Progress/MotivationBanner";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
 
@@ -34,8 +33,7 @@ const ProgressPage = () => {
 
       {/* ── Course Progress ── */}
       <div className="mt-5">
-        <CourseProgress />
-        <CourseProgressList courses={data.courseProgress} />
+        <CourseProgress variant="detailed"/>
       </div>
 
       {/* ── Motivation Banner ── */}
