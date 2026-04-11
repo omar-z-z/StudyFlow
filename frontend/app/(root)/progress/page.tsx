@@ -8,8 +8,8 @@ import MotivationBanner from "@/components/Progress/MotivationBanner";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
 
 const ProgressPage = () => {
-  const data = useProgress();
-
+  const { data, loading, error } = useProgress();
+ 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
       {/* ── Page Header ── */}
@@ -21,27 +21,42 @@ const ProgressPage = () => {
           Track your study progress and achievements
         </p>
       </div>
-
-      {/* ── Stat Cards ── */}
-      <StatsCards stats={data.stats} />
-
-      {/* ── Charts Row ── */}
-      <div className="flex gap-4 mt-5 flex-wrap">
-        <DailyCompletionChart data={data.dailyCompletion} />
-        <TasksByTypeChart data={data.tasksByType} />
-      </div>
-
-      {/* ── Course Progress ── */}
-      <div className="mt-5">
-        <CourseProgress variant="detailed"/>
-      </div>
-
-      {/* ── Motivation Banner ── */}
-      <div className="mt-5">
-        <MotivationBanner summary={data.summary} />
-      </div>
+ 
+      {/* ── Loading ── */}
+      {loading && (
+        <div className="text-sm text-muted-foreground py-16 text-center">
+          Loading your progress...
+        </div>
+      )}
+ 
+      {/* ── Error ── */}
+      {error && (
+        <div className="text-sm text-destructive py-16 text-center">
+          {error}
+        </div>
+      )}
+ 
+      {/* ── Content ── */}
+      {data && (
+        <>
+          <StatsCards stats={data.stats} />
+ 
+          <div className="flex gap-4 mt-5 flex-wrap">
+            <DailyCompletionChart data={data.dailyCompletion} />
+            <TasksByTypeChart data={data.tasksByType} />
+          </div>
+ 
+          <div className="mt-5">
+            <CourseProgress variant="detailed" />
+          </div>
+ 
+          <div className="mt-5">
+            <MotivationBanner summary={data.summary} />
+          </div>
+        </>
+      )}
     </div>
   );
 };
-
+ 
 export default ProgressPage;
