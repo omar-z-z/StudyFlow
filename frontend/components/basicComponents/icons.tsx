@@ -92,3 +92,49 @@ export const ResetIcon = () => (
     <polyline points="1.5,3.5 1.5,6.5 4.5,6.5" />
   </svg>
 );
+
+/* Stat Card Icons */
+
+export const TasksStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M4.5 8l2.5 2.5 4.5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const TimeStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M8 4.5V8l2.5 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const CoursesStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M3 13a2 2 0 0 1 2-2h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M5 1v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+export const GoalStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="8" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="8" cy="8" r="1" fill="currentColor" />
+  </svg>
+);
+
+export const RateStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M2 11l4-4 3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M11 4h3v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const StreakStatIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M8 1.5C8 1.5 4.5 6 4.5 9.5a3.5 3.5 0 0 0 7 0C11.5 6 8 1.5 8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M6 10.5c.5 1 2 1.5 2.5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+  </svg>
+);

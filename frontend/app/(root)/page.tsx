@@ -3,7 +3,7 @@ import { useTasks } from "@/hooks/useTasks";
 import { courses } from "@/lib/dummy-data";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
 import DashboardHeader from "@/components/Dashboard/DashboardHeader";
-import StatsCard from "@/components/Dashboard/StatsCard";
+import StatsCard from "@/components/statsComponents/StatsCard";
 import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
 
