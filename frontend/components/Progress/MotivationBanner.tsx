@@ -35,7 +35,7 @@ const MotivationBanner = ({ summary }: MotivationBannerProps) => {
       <div className="flex items-center gap-10 mt-2">
         {stats.map((s, i) => (
           <div key={i} className="flex flex-col items-center gap-0.5">
-            <span className="text-2xl font-semibold text-foreground">{s.value}</span>
+            <span className="text-xl md:text-2xl font-semibold text-foreground">{s.value}</span>
             <span className="text-xs text-muted-foreground">{s.label}</span>
           </div>
         ))}

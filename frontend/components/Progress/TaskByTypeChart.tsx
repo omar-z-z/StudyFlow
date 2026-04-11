@@ -59,12 +59,11 @@ const TasksByTypeChart = ({ data }: TasksByTypeChartProps) => {
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Legend */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 w-full">
           {data.map((item) => (
             <div key={item.name} className="flex items-center gap-2">
               <span
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: item.color }}
               />
               <span className="text-xs text-muted-foreground">
