@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GraduationCap, Moon, Sun } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { GraduationCap, LogOut, Moon, Sun } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/basicComponents/button";
 import { useDarkMode } from "@/hooks/useDarkMode";
 import MobileTopBar from "./MobileTopBar";
 import SidebarNav from "./SidebarNav";
+import { useAuth } from "@/lib/auth-context";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { darkMode, toggleDark } = useDarkMode();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { logout } = useAuth();
+  const router = useRouter();
 
   // Close drawer on route change
   useEffect(() => {
@@ -26,6 +29,11 @@ export default function Sidebar() {
     };
   }, [menuOpen]);
 
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
+
   return (
     <>
       {/* Top bar — mobile only */}
@@ -34,6 +42,7 @@ export default function Sidebar() {
         darkMode={darkMode}
         onMenuToggle={() => setMenuOpen((prev) => !prev)}
         onDarkToggle={toggleDark}
+        onLogout={handleLogout}
       />
 
       {/* Backdrop — closes drawer on outside tap */}
@@ -78,7 +87,7 @@ export default function Sidebar() {
         {/* Nav links */}
         <SidebarNav />
 
-        {/* Dark mode button */}
+        {/* Dark mode button and Logout button */}
         <div className="hidden md:block px-3 py-4 border-t border-border">
           <Button
             onClick={toggleDark}
@@ -91,6 +100,14 @@ export default function Sidebar() {
               <Moon className="w-5 h-5 shrink-0" />
             )}
             {darkMode ? "Light Mode" : "Dark Mode"}
+          </Button>
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            className="w-full justify-start gap-3 mt-1 text-primary hover:text-destructive hover:bg-destructive/10"
+          >
+            <LogOut className="w-5 h-5 shrink-0" />
+            Logout
           </Button>
         </div>
       </aside>
