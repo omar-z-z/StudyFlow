@@ -1,4 +1,4 @@
-import { STEPS } from "@/lib/constants/courseModal";
+import { STEPS } from "@/lib/constants/uploadNextSteps";
 
 const WhatHappensNext = () => {
 

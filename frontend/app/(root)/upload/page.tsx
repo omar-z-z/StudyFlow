@@ -18,7 +18,7 @@ const UploadPage = () => {
   const [generatedCourse, setGeneratedCourse] =
     useState<GeneratedCourse | null>(null);
 
-  // ── PDF selected: extract text and populate the shared textarea ──
+  // PDF selected: extract text and populate the shared textarea ──
   const handleFileSelect = (file: File) => {
     setSyllabusContent(
       `[PDF uploaded: ${file.name}]\n\nExtracted content will appear here after processing...`,
@@ -30,7 +30,7 @@ const UploadPage = () => {
     );
   };
 
-  // ── Call AI, get back a structured course ──
+  // ── Call AI, get back a structured course (backend) ──
   //   const handleGenerate = async () => {
   //     if (!syllabusContent.trim()) return;
   //     setIsGenerating(true);
@@ -72,7 +72,7 @@ const UploadPage = () => {
     setIsGenerating(true);
     setGeneratedCourse(null);
 
-    // 🔹 Mock AI response
+    // Mock response
     const mockResponse: GeneratedCourse = {
       id: "1",
       name: "Generated Course",
@@ -93,7 +93,7 @@ const UploadPage = () => {
       ],
     };
 
-    // 🔹 Simulate API delay
+    // Simulate API delay
     setTimeout(() => {
       setGeneratedCourse(mockResponse);
       setIsGenerating(false);
@@ -105,12 +105,12 @@ const UploadPage = () => {
     }, 1500);
   };
 
-  // ── User confirms the (possibly edited) course ──
+  // User confirms the course 
   const handleConfirm = (course: GeneratedCourse) => {
     addCourse(course);
   };
 
-  // ── User discards and wants to re-upload ──
+  // User discards
   const handleDiscard = () => {
     setGeneratedCourse(null);
     setSyllabusContent("");
@@ -119,7 +119,7 @@ const UploadPage = () => {
 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
-      {/* ── Page Header ── */}
+      {/* Page Header */}
       <div className="flex flex-col gap-0.5 mb-7">
         <h1 className="text-2xl font-semibold text-foreground m-0 tracking-tight leading-snug">
           Upload Syllabus
@@ -130,12 +130,12 @@ const UploadPage = () => {
         </p>
       </div>
 
-      {/* ── Upload Method Cards ── */}
+      {/* Upload Method Cards */}
       <div className="flex gap-4 mb-5 max-sm:flex-col">
         <UploadPDFCard onFileSelect={handleFileSelect} />
       </div>
 
-      {/* ── Shared Syllabus Textarea + Generate Button ── */}
+      {/* Shared Syllabus Textarea + Generate Button */}
       <div className="flex flex-col gap-4">
         <SyllabusContentArea
           textareaRef={textareaRef as React.RefObject<HTMLTextAreaElement>}
@@ -148,7 +148,7 @@ const UploadPage = () => {
         {/* Info box — only shown before a result appears */}
         {!generatedCourse && !isGenerating && <WhatHappensNext />}
 
-        {/* ── AI Result: editable course preview ── */}
+        {/* AI Result: editable course preview */}
         {generatedCourse && (
           <div id="course-preview">
             <CoursePreviewPanel
