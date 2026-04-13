@@ -1,4 +1,4 @@
-import { STEPS } from "@/lib/courseModalConstants";
+import { STEPS } from "@/lib/constants/courseModal";
 import { Step } from "@/types/modal";
 
 const StepIndicator = ({ current }: { current: Step }) => (

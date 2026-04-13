@@ -5,7 +5,7 @@ import { Course } from "@/types/course";
 import { Assignment } from "@/types/assignment";
 import { Topic } from "@/types/topic";
 import { Step, BasicForm, BasicErrors, TopicDraft, AssignmentDraft } from "@/types/modal";
-import { INITIAL_BASIC, STEP_SUBTITLES } from "@/lib/courseModalConstants";
+import { INITIAL_BASIC, STEP_SUBTITLES } from "@/lib/constants/courseModal";
 import StepIndicator from "./StepIndicator";
 import CourseDetailsStep from "./CourseDetailsStep";
 import TopicsStep from "./TopicsStep";

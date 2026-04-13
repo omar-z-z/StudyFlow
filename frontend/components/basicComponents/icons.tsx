@@ -1,7 +1,26 @@
 export const CalendarIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-    <rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.1" />
-    <path d="M4 1V3M9 1V3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+  <svg
+    width="13"
+    height="13"
+    viewBox="0 0 13 13"
+    fill="none"
+    aria-hidden="true"
+  >
+    <rect
+      x="1"
+      y="2"
+      width="11"
+      height="10"
+      rx="1.5"
+      stroke="currentColor"
+      strokeWidth="1.1"
+    />
+    <path
+      d="M4 1V3M9 1V3"
+      stroke="currentColor"
+      strokeWidth="1.1"
+      strokeLinecap="round"
+    />
     <path d="M1 5H12" stroke="currentColor" strokeWidth="1.1" />
   </svg>
 );
@@ -10,7 +29,13 @@ export const StatusIcon = ({ completed }: { completed: boolean }) =>
   completed ? (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
       <circle cx="9" cy="9" r="8.5" stroke="#10B981" />
-      <path d="M5.5 9L7.8 11.5L12.5 6.5" stroke="#10B981" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M5.5 9L7.8 11.5L12.5 6.5"
+        stroke="#10B981"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   ) : (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -93,32 +118,143 @@ export const ResetIcon = () => (
   </svg>
 );
 
+export const SparkleIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-5.74L4 10l5.91-1.74L12 2z"
+      fill="currentColor"
+    />
+    <path
+      d="M5 3l.88 2.63L8 6.5l-2.12.87L5 10l-.88-2.63L2 6.5l2.12-.87L5 3z"
+      fill="currentColor"
+      opacity="0.6"
+    />
+    <path
+      d="M19 14l.66 1.97L21.5 16.5l-1.84.53L19 19l-.66-1.97L16.5 16.5l1.84-.53L19 14z"
+      fill="currentColor"
+      opacity="0.6"
+    />
+  </svg>
+);
+
+export const UploadIcon = () => (
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 3v13M7 8l5-5 5 5"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 /* Stat Card Icons */
 
 export const TasksStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M4.5 8l2.5 2.5 4.5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
+    <rect
+      x="1"
+      y="1"
+      width="14"
+      height="14"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M4.5 8l2.5 2.5 4.5-5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 export const TimeStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M8 4.5V8l2.5 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M8 4.5V8l2.5 2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 export const CoursesStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M3 13a2 2 0 0 1 2-2h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M5 1v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M3 13a2 2 0 0 1 2-2h8"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <rect
+      x="1"
+      y="1"
+      width="14"
+      height="14"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M5 1v10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 export const GoalStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
     <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
     <circle cx="8" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
     <circle cx="8" cy="8" r="1" fill="currentColor" />
@@ -126,15 +262,49 @@ export const GoalStatIcon = () => (
 );
 
 export const RateStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M2 11l4-4 3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M11 4h3v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M2 11l4-4 3 3 5-6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M11 4h3v3"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 export const StreakStatIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M8 1.5C8 1.5 4.5 6 4.5 9.5a3.5 3.5 0 0 0 7 0C11.5 6 8 1.5 8 1.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    <path d="M6 10.5c.5 1 2 1.5 2.5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M8 1.5C8 1.5 4.5 6 4.5 9.5a3.5 3.5 0 0 0 7 0C11.5 6 8 1.5 8 1.5z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 10.5c.5 1 2 1.5 2.5.5"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
   </svg>
 );
