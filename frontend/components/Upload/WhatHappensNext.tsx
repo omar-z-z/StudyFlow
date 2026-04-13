@@ -1,10 +1,7 @@
+import { STEPS } from "@/lib/constants/courseModal";
+
 const WhatHappensNext = () => {
-  const STEPS = [
-    "AI extracts topics and assignments from your syllabus",
-    "Creates a weekly study schedule",
-    "Generates daily tasks with time estimates",
-    "Adds deadlines to your planner",
-  ];
+
   return (
     <div className="border border-border rounded-(--radius-lg) bg-muted/40 p-6 flex flex-col gap-3">
       <h3 className="text-sm font-medium text-foreground m-0">

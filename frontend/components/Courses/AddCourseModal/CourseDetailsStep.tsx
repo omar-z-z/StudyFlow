@@ -1,5 +1,5 @@
 import Field from "@/components/basicComponents/Field";
-import { COLOR_OPTIONS, inputClass } from "@/lib/courseModalConstants";
+import { COLOR_OPTIONS, inputClass } from "@/lib/constants/courseModal";
 import { BasicForm, BasicErrors } from "@/types/modal";
 
 type CourseDetailsStepProps = {
