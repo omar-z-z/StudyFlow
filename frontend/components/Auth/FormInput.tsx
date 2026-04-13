@@ -42,10 +42,7 @@ export default function FormInput({
           {...props}
         />
       </div>
-
-      {error && (
-        <p className="text-xs text-destructive mt-0.5">{error}</p>
-      )}
+      {error && <p className="text-xs text-destructive mt-0.5">{error}</p>}
     </div>
   );
 }

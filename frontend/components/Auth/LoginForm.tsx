@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import FormInput from "./FormInput";
+import { useAuth } from "@/lib/auth-context";
 
 interface LoginFormState {
   email: string;
@@ -17,6 +18,7 @@ interface LoginFormErrors {
 
 export default function LoginForm() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [form, setForm] = useState<LoginFormState>({ email: "", password: "" });
   const [errors, setErrors] = useState<LoginFormErrors>({});
@@ -42,22 +44,26 @@ export default function LoginForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (field: keyof LoginFormState) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setForm((prev) => ({ ...prev, [field]: e.target.value }));
-    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
-  };
+  const handleChange =
+    (field: keyof LoginFormState) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((prev) => ({ ...prev, [field]: e.target.value }));
+      if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsLoading(true);
-    // TODO: Replace with your actual auth logic
-    await new Promise((res) => setTimeout(res, 1000));
-    setIsLoading(false);
-    router.push("/dashboard");
+    try {
+      await login(form.email, form.password);
+      router.push("/dashboard");
+    } catch {
+      setErrors({ email: "Invalid email or password." });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,7 +84,10 @@ export default function LoginForm() {
       {/* Password */}
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center justify-between">
-          <label htmlFor="password" className="text-sm font-medium text-foreground">
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-foreground"
+          >
             Password
           </label>
           <a
@@ -113,7 +122,11 @@ export default function LoginForm() {
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showPassword ? (
+              <EyeOff className="w-4 h-4" />
+            ) : (
+              <Eye className="w-4 h-4" />
+            )}
           </button>
         </div>
         {errors.password && (

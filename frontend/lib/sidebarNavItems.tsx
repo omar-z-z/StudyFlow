@@ -7,7 +7,7 @@ export interface NavItem {
 }
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "/" },
+  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { label: "Courses", icon: BookOpen, href: "/courses" },
   { label: "Upload", icon: Upload, href: "/upload" },
   { label: "Planner", icon: Calendar, href: "/planner" },
