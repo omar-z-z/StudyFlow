@@ -113,7 +113,7 @@ export default function LoginForm() {
               w-full rounded-lg pl-9 pr-10 py-2.5 text-sm text-foreground
               bg-background outline-none transition-all
               placeholder:text-muted-foreground
-              focus:ring-2 focus:ring-primary/20 focus:bg-white
+              focus:ring-2 focus:ring-primary/20
               ${errors.password ? "ring-2 ring-destructive/40" : ""}
             `}
           />
