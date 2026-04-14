@@ -1,10 +1,11 @@
-import { GraduationCap, Menu, Moon, Sun, X } from "lucide-react";
+import { GraduationCap, LogOut, Menu, Moon, Sun, X } from "lucide-react";
 
 interface MobileTopBarProps {
   menuOpen: boolean;
   darkMode: boolean;
   onMenuToggle: () => void;
   onDarkToggle: () => void;
+  onLogout: () => void;
 }
 
 export default function MobileTopBar({
@@ -12,6 +13,7 @@ export default function MobileTopBar({
   darkMode,
   onMenuToggle,
   onDarkToggle,
+  onLogout,
 }: MobileTopBarProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-4 gap-3 bg-background border-b border-border md:hidden">
@@ -37,6 +39,13 @@ export default function MobileTopBar({
         className="ml-auto p-2 rounded-md hover:bg-muted transition-colors"
       >
         {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </button>
+      <button
+        aria-label="Logout"
+        onClick={onLogout}
+        className="p-2 rounded-md text-primary"
+      >
+        <LogOut className="w-5 h-5" />
       </button>
     </header>
   );
