@@ -41,7 +41,7 @@ export default function PasswordField({
           autoComplete={autoComplete}
           className={`
             w-full rounded-lg pl-9 pr-10 py-2.5 text-sm text-foreground
-            bg-[var(--input-background)] outline-none transition-all
+            bg-background outline-none transition-all
             placeholder:text-muted-foreground
             focus:ring-2 focus:ring-primary/20 focus:bg-white
             ${error ? "ring-2 ring-destructive/40" : ""}

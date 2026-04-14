@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import FormInput from "./FormInput";
 import { useAuth } from "@/lib/auth-context";
+import Link from "next/link";
 
 interface LoginFormState {
   email: string;
@@ -90,12 +91,12 @@ export default function LoginForm() {
           >
             Password
           </label>
-          <a
+          <Link
             href="/forgot-password"
             className="text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             Forgot password?
-          </a>
+          </Link>
         </div>
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -110,7 +111,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             className={`
               w-full rounded-lg pl-9 pr-10 py-2.5 text-sm text-foreground
-              bg-[var(--input-background)] outline-none transition-all
+              bg-background outline-none transition-all
               placeholder:text-muted-foreground
               focus:ring-2 focus:ring-primary/20 focus:bg-white
               ${errors.password ? "ring-2 ring-destructive/40" : ""}
