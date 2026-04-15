@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
+use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -15,60 +18,41 @@ class CourseController extends Controller
             ->with(['topics', 'assignments'])
             ->get();
 
-        return response()->json($courses);
+        return CourseResource::collection($courses);
     }
 
     // POST /api/courses
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        $fields = $request->validate([
-            'name'      => 'required|string|max:255',
-            'color'     => 'required|string|max:7',
-            'exam_date' => 'nullable|date',
-        ]);
+        $course = $request->user()->courses()->create($request->validated());
 
-        $course = $request->user()->courses()->create($fields);
-
-        return response()->json($course, 201);
+        return new CourseResource($course);
     }
 
     // GET /api/courses/{id}
     public function show(Request $request, Course $course)
     {
-        if ($course->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        Course::authorize('view', $course);
 
-        return response()->json(
+        return new CourseResource(
             $course->load(['topics', 'assignments', 'tasks'])
         );
     }
 
     // PUT /api/courses/{id}
-    public function update(Request $request, Course $course)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
-        if ($course->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        Course::authorize('update', $course);
 
-        $fields = $request->validate([
-            'name'      => 'sometimes|string|max:255',
-            'color'     => 'sometimes|string|max:7',
-            'progress'  => 'sometimes|integer|min:0|max:100',
-            'exam_date' => 'sometimes|nullable|date',
-        ]);
+        $course->update($request->validated());
 
-        $course->update($fields);
-
-        return response()->json($course);
+        return new CourseResource($course);
     }
 
     // DELETE /api/courses/{id}
     public function destroy(Request $request, Course $course)
     {
-        if ($course->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        Course::authorize('delete', $course);
 
         $course->delete();
 
