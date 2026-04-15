@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\TaskController;
 
 // Public routes (no login required)
@@ -20,5 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Tasks
     Route::apiResource('tasks', TaskController::class);
+
+    // Progress
+    Route::get('/progress', [ProgressController::class, 'index']);
 
 });
