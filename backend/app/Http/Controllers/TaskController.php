@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -12,56 +15,42 @@ class TaskController extends Controller
     {
         $tasks = $request->user()->tasks()->with('course')->get();
 
-        return response()->json($tasks);
+        return TaskResource::collection($tasks);
     }
 
     // POST /api/tasks
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $fields = $request->validate([
-            'course_id'      => 'required|exists:courses,id',
-            'title'          => 'required|string|max:255',
-            'estimated_time' => 'required|integer',
-            'priority'       => 'required|in:low,medium,high',
-            'type'           => 'required|in:review,exercise,reading,project,assignment,lecture,other',
-            'date'           => 'required|date',
-        ]);
+        $task = $request->user()->tasks()->create($request->validated());
 
-        $task = $request->user()->tasks()->create($fields);
-
-        return response()->json($task, 201);
+        return new TaskResource($task);
     }
 
     // PUT /api/tasks/{id}
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        if ($task->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        Task::authorize('update', $task);
 
-        $fields = $request->validate([
-            'title'          => 'sometimes|string|max:255',
-            'completed'      => 'sometimes|boolean',
-            'estimated_time' => 'sometimes|integer',
-            'priority'       => 'sometimes|in:low,medium,high',
-            'type'           => 'sometimes|in:review,exercise,reading,project,assignment,lecture,other',
-            'date'           => 'sometimes|date',
-        ]);
+        $task->update($request->validated());
 
-        $task->update($fields);
-
-        return response()->json($task);
+        return new TaskResource($task);
     }
 
     // DELETE /api/tasks/{id}
     public function destroy(Request $request, Task $task)
     {
-        if ($task->user_id !== $request->user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        Task::authorize('delete', $task);
 
         $task->delete();
 
         return response()->json(['message' => 'Task deleted']);
+    }
+
+    // GET /api/tasks/{id}
+    public function show(Request $request, Task $task)
+    {
+        Task::authorize('update', $task);
+
+        return new TaskResource($task->load('course'));
     }
 }
