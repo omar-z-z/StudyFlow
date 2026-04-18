@@ -14,7 +14,7 @@ class AssignmentController extends Controller
     // GET /api/courses/{course}/assignments
     public function index(Course $course)
     {
-        Course::authorize('view', $course);
+        $this->authorize('view', $course);
 
         return AssignmentResource::collection(
             $course->assignments()->get()
@@ -33,7 +33,7 @@ class AssignmentController extends Controller
     // GET /api/courses/{course}/assignments/{assignment}
     public function show(Course $course, Assignment $assignment)
     {
-        Assignment::authorize('view', $assignment);
+        $this->authorize('view', $assignment);
 
         return new AssignmentResource($assignment);
     }
@@ -41,7 +41,7 @@ class AssignmentController extends Controller
     // PUT /api/courses/{course}/assignments/{assignment}
     public function update(UpdateAssignmentRequest $request, Course $course, Assignment $assignment)
     {
-        Assignment::authorize('update', $assignment);
+        $this->authorize('update', $assignment);
 
         $assignment->update($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
@@ -52,7 +52,7 @@ class AssignmentController extends Controller
     // DELETE /api/courses/{course}/assignments/{assignment}
     public function destroy(Course $course, Assignment $assignment)
     {
-        Assignment::authorize('delete', $assignment);
+        $this->authorize('delete', $assignment);
 
         $assignment->delete();
 

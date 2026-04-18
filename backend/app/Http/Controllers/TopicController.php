@@ -13,7 +13,7 @@ class TopicController extends Controller
     // GET /api/courses/{course}/topics
     public function index(Course $course)
     {
-        Course::authorize('view', $course);
+        $this->authorize('view', $course);
 
         return TopicResource::collection(
             $course->topics()->get()
@@ -31,7 +31,7 @@ class TopicController extends Controller
     // GET /api/courses/{course}/topics/{topic}
     public function show(Course $course, Topic $topic)
     {
-        Topic::authorize('view', $topic);
+        $this->authorize('view', $topic);
 
         return new TopicResource($topic);
     }
@@ -39,7 +39,7 @@ class TopicController extends Controller
     // PUT /api/courses/{course}/topics/{topic}
     public function update(UpdateTopicRequest $request, Course $course, Topic $topic)
     {
-        Topic::authorize('update', $topic);
+        $this->authorize('update', $topic);
 
         $topic->update($request->validated());
 
@@ -49,7 +49,7 @@ class TopicController extends Controller
     // DELETE /api/courses/{course}/topics/{topic}
     public function destroy(Course $course, Topic $topic)
     {
-        Topic::authorize('delete', $topic);
+        $this->authorize('delete', $topic);
 
         $topic->delete();
 

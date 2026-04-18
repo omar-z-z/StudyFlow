@@ -31,7 +31,7 @@ class TaskController extends Controller
     // PUT /api/tasks/{id}
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        Task::authorize('update', $task);
+        $this->authorize('update', $task);
 
         $task->update($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
@@ -42,7 +42,7 @@ class TaskController extends Controller
     // DELETE /api/tasks/{id}
     public function destroy(Request $request, Task $task)
     {
-        Task::authorize('delete', $task);
+        $this->authorize('delete', $task);
 
         $task->delete();
         Cache::forget("progress_user_" . $request->user()->id);
@@ -53,7 +53,7 @@ class TaskController extends Controller
     // GET /api/tasks/{id}
     public function show(Request $request, Task $task)
     {
-        Task::authorize('update', $task);
+        $this->authorize('view', $task);
 
         return new TaskResource($task->load('course'));
     }

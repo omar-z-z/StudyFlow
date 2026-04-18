@@ -34,7 +34,7 @@ class CourseController extends Controller
     // GET /api/courses/{id}
     public function show(Request $request, Course $course)
     {
-        Course::authorize('view', $course);
+        $this->authorize('view', $course);
 
         return new CourseResource(
             $course->load(['topics', 'assignments', 'tasks'])
@@ -44,7 +44,7 @@ class CourseController extends Controller
     // PUT /api/courses/{id}
     public function update(UpdateCourseRequest $request, Course $course)
     {
-        Course::authorize('update', $course);
+        $this->authorize('update', $course);
 
         $course->update($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
@@ -55,7 +55,7 @@ class CourseController extends Controller
     // DELETE /api/courses/{id}
     public function destroy(Request $request, Course $course)
     {
-        Course::authorize('delete', $course);
+        $this->authorize('delete', $course);
 
         $course->delete();
         Cache::forget("progress_user_" . $request->user()->id);
