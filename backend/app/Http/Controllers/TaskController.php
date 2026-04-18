@@ -7,6 +7,7 @@ use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TaskController extends Controller
 {
@@ -22,6 +23,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $task = $request->user()->tasks()->create($request->validated());
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return new TaskResource($task);
     }
@@ -32,6 +34,7 @@ class TaskController extends Controller
         Task::authorize('update', $task);
 
         $task->update($request->validated());
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return new TaskResource($task);
     }
@@ -42,6 +45,7 @@ class TaskController extends Controller
         Task::authorize('delete', $task);
 
         $task->delete();
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return response()->json(['message' => 'Task deleted']);
     }

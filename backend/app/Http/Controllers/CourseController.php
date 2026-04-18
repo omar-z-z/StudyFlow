@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CourseController extends Controller
 {
@@ -25,6 +26,7 @@ class CourseController extends Controller
     public function store(StoreCourseRequest $request)
     {
         $course = $request->user()->courses()->create($request->validated());
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return new CourseResource($course);
     }
@@ -45,6 +47,7 @@ class CourseController extends Controller
         Course::authorize('update', $course);
 
         $course->update($request->validated());
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return new CourseResource($course);
     }
@@ -55,6 +58,7 @@ class CourseController extends Controller
         Course::authorize('delete', $course);
 
         $course->delete();
+        Cache::forget("progress_user_" . $request->user()->id);
 
         return response()->json(['message' => 'Course deleted']);
     }
