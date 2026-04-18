@@ -26,7 +26,7 @@ class UpdateCourseRequest extends FormRequest
             'name'      => 'sometimes|string|max:255',
             'color'     => 'sometimes|string|max:7',
             'progress'  => 'sometimes|integer|min:0|max:100',
-            'exam_date' => 'sometimes|nullable|date',
+            'exam_date' => 'sometimes|date',
         ];
     }
 }
