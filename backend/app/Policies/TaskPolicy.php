@@ -8,6 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
+    private function ownsTaskCourse(User $user, Task $task): bool
+    {
+        return $task->course->user_id === $user->id;
+    }
     /**
      * Determine whether the user can view any models.
      */
@@ -21,7 +25,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return false;
+        return $this->ownsTaskCourse($user, $task);
     }
 
     /**
@@ -37,7 +41,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $task->user_id === $user->id;
+        return $this->ownsTaskCourse($user, $task);
     }
 
     /**
@@ -45,7 +49,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $task->user_id === $user->id;
+        return $this->ownsTaskCourse($user, $task);
     }
 
     /**

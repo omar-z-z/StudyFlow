@@ -2,15 +2,15 @@
 
 namespace App\Policies;
 
-use App\Models\Course;
+use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CoursePolicy
+class TopicPolicy
 {
-    private function ownsCourse(User $user, Course $course): bool
+    private function ownsTopicCourse(User $user, Topic $topic): bool
     {
-        return $course->user_id === $user->id;
+        return $topic->course->user_id === $user->id;
     }
     /**
      * Determine whether the user can view any models.
@@ -23,9 +23,9 @@ class CoursePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Course $course): bool
+    public function view(User $user, Topic $topic): bool
     {
-        return $this->ownsCourse($user, $course);
+        return $this->ownsTopicCourse($user, $topic);
     }
 
     /**
@@ -39,23 +39,23 @@ class CoursePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Course $course): bool
+    public function update(User $user, Topic $topic): bool
     {
-        return $this->ownsCourse($user, $course);
+        return $this->ownsTopicCourse($user, $topic);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Course $course): bool
+    public function delete(User $user, Topic $topic): bool
     {
-        return $this->ownsCourse($user, $course);
+        return $this->ownsTopicCourse($user, $topic);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Course $course): bool
+    public function restore(User $user, Topic $topic): bool
     {
         return false;
     }
@@ -63,7 +63,7 @@ class CoursePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Course $course): bool
+    public function forceDelete(User $user, Topic $topic): bool
     {
         return false;
     }
