@@ -25,7 +25,7 @@ class TaskController extends Controller
         $task = $request->user()->tasks()->create($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
 
-        return new TaskResource($task);
+        return new TaskResource($task->load('course'));
     }
 
     // PUT /api/tasks/{id}
@@ -36,7 +36,7 @@ class TaskController extends Controller
         $task->update($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
 
-        return new TaskResource($task);
+        return new TaskResource($task->load('course'));
     }
 
     // DELETE /api/tasks/{id}

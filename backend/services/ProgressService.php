@@ -10,12 +10,17 @@ use Illuminate\Support\Facades\Cache;
 
 class ProgressService
 {
+    // Memoize the streak result within the current request lifecycle.
+    private ?int $cachedStreak = null;
+
     public function getUserProgress(int $userId): array
     {
         return Cache::remember(
-            "progress_user_{$userId}", // unique key
-            now()->addMinutes(5),      // cache duration
+            "progress_user_{$userId}",
+            now()->addMinutes(5),
             function () use ($userId) {
+                // Reset memoized streak for each cache-miss computation.
+                $this->cachedStreak = null;
 
                 $weekStart = now()->startOfWeek();
                 $weekEnd   = now()->endOfWeek();
@@ -31,8 +36,12 @@ class ProgressService
         );
     }
 
-    // Stats
+    public function clearCache(int $userId): void
+    {
+        Cache::forget("progress_user_{$userId}");
+    }
 
+    // Stats
     private function getStats(int $userId, Carbon $weekStart, Carbon $weekEnd): array
     {
         $goals = UserGoal::firstOrCreate(
@@ -66,56 +75,68 @@ class ProgressService
             'studyHours'       => round($studyMinutes / 60, 1),
             'studyHoursTarget' => $goals->weekly_hours_goal,
             'completionRate'   => $completionRate,
-            'currentStreak'    => $this->calculateStreak($userId),
+            'currentStreak'    => $this->calculateStreak($userId), // memoized
         ];
     }
 
     // Streak
-
     private function calculateStreak(int $userId): int
     {
+        // Return memoized result if already computed in this request cycle.
+        if ($this->cachedStreak !== null) {
+            return $this->cachedStreak;
+        }
+
+        // Fetch ALL active days in a single query instead of one query per day.
+        $activeDates = Task::where('user_id', $userId)
+            ->where('completed', true)
+            ->where('date', '>=', now()->subYear()->toDateString())
+            ->selectRaw('DATE(date) as day')
+            ->distinct()
+            ->pluck('day')
+            ->flip() // flip to a map for O(1) key lookup
+            ->toArray();
+
+        // if the user hasn't completed tasks yet today,
+        // don't break their streak — start counting from yesterday instead.
+        $date = Carbon::today();
+        if (! isset($activeDates[$date->toDateString()])) {
+            $date->subDay();
+        }
+
         $streak = 0;
-        $date   = Carbon::today();
-
-        while (true) {
-            $hasActivity = Task::where('user_id', $userId)
-                ->where('completed', true)
-                ->whereDate('date', $date->toDateString())
-                ->exists();
-
-            if (!$hasActivity) break;
-
+        while (isset($activeDates[$date->toDateString()])) {
             $streak++;
             $date->subDay();
         }
+
+        $this->cachedStreak = $streak;
 
         return $streak;
     }
 
     // Daily Completion
-
     private function getDailyCompletion(int $userId, Carbon $weekStart, Carbon $weekEnd): array
     {
+
+        $rows = Task::where('user_id', $userId)
+            ->whereBetween('date', [$weekStart->toDateString(), $weekEnd->toDateString()])
+            ->selectRaw('DATE(date) as day, completed, COUNT(*) as count')
+            ->groupBy('day', 'completed')
+            ->get()
+            ->groupBy('day');
+
         $dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         $result    = [];
 
         for ($i = 0; $i < 7; $i++) {
-            $day = $weekStart->copy()->addDays($i)->toDateString();
-
-            $completed = Task::where('user_id', $userId)
-                ->where('completed', true)
-                ->whereDate('date', $day)
-                ->count();
-
-            $pending = Task::where('user_id', $userId)
-                ->where('completed', false)
-                ->whereDate('date', $day)
-                ->count();
+            $day     = $weekStart->copy()->addDays($i)->toDateString();
+            $dayData = $rows->get($day, collect());
 
             $result[] = [
                 'day'       => $dayLabels[$i],
-                'completed' => $completed,
-                'pending'   => $pending,
+                'completed' => (int) $dayData->where('completed', true)->sum('count'),
+                'pending'   => (int) $dayData->where('completed', false)->sum('count'),
             ];
         }
 
@@ -123,7 +144,6 @@ class ProgressService
     }
 
     // Tasks by Type
-
     private function getTasksByType(int $userId, Carbon $weekStart, Carbon $weekEnd): array
     {
         $colorMap = [
@@ -151,23 +171,21 @@ class ProgressService
     }
 
     // Course Progress
-
     private function getCourseProgress(int $userId): array
     {
         return Course::where('user_id', $userId)
             ->with('topics')
             ->get()
             ->map(function ($course) {
-                $total      = $course->topics->count();
-                $completed  = $course->topics->where('completed', true)->count();
-                $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+                $total     = $course->topics->count();
+                $completed = $course->topics->where('completed', true)->count();
 
                 return [
                     'id'              => (string) $course->id,
                     'name'            => $course->name,
                     'topicsCompleted' => $completed,
                     'topicsTotal'     => $total,
-                    'percentage'      => $percentage,
+                    'percentage'      => $total > 0 ? round(($completed / $total) * 100) : 0,
                     'color'           => $course->color,
                 ];
             })
@@ -176,7 +194,6 @@ class ProgressService
     }
 
     // Summary
-
     private function getSummary(int $userId, Carbon $weekStart, Carbon $weekEnd): array
     {
         $weekRange = [$weekStart->toDateString(), $weekEnd->toDateString()];
@@ -193,7 +210,7 @@ class ProgressService
 
         return [
             'tasksDone' => $tasksDone,
-            'dayStreak' => $this->calculateStreak($userId),
+            'dayStreak' => $this->calculateStreak($userId), //  uses memoized value
             'studyTime' => round($studyMinutes / 60, 1),
         ];
     }
