@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Progress\ProgressResource;
+use App\Http\Resources\ProgressResource;
 use App\Services\ProgressService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
