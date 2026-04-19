@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Assignment;
 
+use App\Models\Course;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class StoreAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        $course = Course::findOrFail($this->route('course')->id);
+        return $course->user_id === $this->user()->id;
     }
 
     /**
@@ -20,12 +22,12 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
-            'email'    => 'required|email',
-            'password' => 'required',
+            'title'     => 'required|string|max:255',
+            'due_date'  => 'required|date',
+            'completed' => 'sometimes|boolean',
         ];
     }
 }
