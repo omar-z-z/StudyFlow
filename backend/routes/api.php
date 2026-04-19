@@ -23,6 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('courses.topics', TopicController::class);
     Route::apiResource('courses.assignments', AssignmentController::class);
 
+    // Deadlines
+    Route::get('deadlines', [AssignmentController::class, 'deadlines']);
+
     // Tasks
     Route::apiResource('tasks', TaskController::class);
 

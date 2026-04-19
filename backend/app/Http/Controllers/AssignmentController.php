@@ -58,4 +58,18 @@ class AssignmentController extends Controller
 
         return response()->json(['message' => 'Assignment deleted']);
     }
+
+    // GET /api/deadlines
+    public function deadlines()
+    {
+        $user = request()->user();
+
+        $deadlines = Assignment::where('user_id', $user->id)
+            ->where('completed', false)
+            ->whereBetween('due_date', [now(), now()->addDays(7)])
+            ->orderBy('due_date')
+            ->get();
+
+        return AssignmentResource::collection($deadlines);
+    }
 }
