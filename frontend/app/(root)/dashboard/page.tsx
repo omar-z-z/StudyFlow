@@ -1,14 +1,16 @@
 "use client";
 import { useTasks } from "@/hooks/useTasks";
-import { courses } from "@/lib/dummy-data";
+// import { courses } from "@/lib/dummy-data";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
 import DashboardHeader from "@/components/Dashboard/DashboardHeader";
 import StatsCard from "@/components/statsComponents/StatsCard";
 import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
+import { useCourses } from "@/hooks/useCourses";
 
 export default function DashboardPage() {
   const { pendingTasks, todayTasks, completedTasks, toggleTask } = useTasks();
+  const { courses } = useCourses();
 
   const tasksCompleted = completedTasks.length;
   const tasksTotal = todayTasks.length;

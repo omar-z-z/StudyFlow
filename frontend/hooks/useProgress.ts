@@ -10,11 +10,13 @@ interface UseProgressResult {
   error: string | null;
 }
 
+// const courses = await apiFetch("/courses");
+
 export function useProgress(): UseProgressResult {
   const [data, setData] = useState<ProgressData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  
   useEffect(() => {
     fetchProgress()
       .then(setData)

@@ -3,7 +3,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-// --- Types ---
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// Types 
 interface User {
   id: string;
   name: string;
@@ -15,63 +17,83 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
-// --- Context ---
+// Helpers
+export function getToken() {
+  return localStorage.getItem("studyflow_token");
+}
+
+export async function apiFetch(endpoint: string, options: RequestInit = {}) {
+  const token = getToken();
+
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...options.headers,
+    },
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Something went wrong");
+  }
+
+  return res.json();
+}
+
+// Context
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// --- Provider ---
+// Provider 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // true on first load
-  var inTwoMinutes = new Date(new Date().getTime() + 2 * 60 * 1000);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // On app start, restore user from localStorage
+  // On app start, restore user from cookie
   useEffect(() => {
-    const stored = localStorage.getItem("studyflow_user");
+    const stored = Cookies.get("studyflow_user");
     if (stored) setUser(JSON.parse(stored));
     setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Simulate network delay
-    await new Promise((res) => setTimeout(res, 800));
+    const data = await apiFetch("/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+    console.log("Login response:", data);
 
-    // TODO: Replace with → const res = await api.post("/auth/login", { email, password })
-    const fakeUser: User = {
-      id: "user-1",
-      name: "Omar Zuhri",
-      email,
-    };
-
-    // localStorage.setItem("studyflow_user", JSON.stringify(fakeUser));
-    Cookies.set("studyflow_user", JSON.stringify(fakeUser), { expires: inTwoMinutes });
-
-    setUser(fakeUser);
+    // Laravel returns { user, token }
+    localStorage.setItem("studyflow_token", data.token);
+    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 7, path: "/" });
+    setUser(data.user);
   };
 
-  const register = async (name: string, email: string, _password: string) => {
-    // Simulate network delay
-    await new Promise((res) => setTimeout(res, 1000));
+  const register = async (name: string, email: string, password: string) => {
+    const data = await apiFetch("/register", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+    });
 
-    // TODO: Replace with → const res = await api.post("/auth/register", { name, email, password })
-    const fakeUser: User = {
-      id: "user-" + Date.now(),
-      name,
-      email,
-    };
-
-    // localStorage.setItem("studyflow_user", JSON.stringify(fakeUser));
-    Cookies.set("studyflow_user", JSON.stringify(fakeUser), { expires: inTwoMinutes });
-    setUser(fakeUser);
+    localStorage.setItem("studyflow_token", data.token);
+    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 7, path: "/" });
+    setUser(data.user);
   };
 
-  const logout = () => {
-    // localStorage.removeItem("studyflow_user");
-    Cookies.remove("studyflow_user");
-    setUser(null);
-    // TODO: Also call → api.post("/auth/logout") if your backend needs it
+  const logout = async () => {
+    try {
+      await apiFetch("/logout", { method: "POST" });
+    } finally {
+      // Always clear local state even if the API call fails
+      localStorage.removeItem("studyflow_token");
+      Cookies.remove("studyflow_user", { path: "/" });
+      setUser(null);
+    }
   };
 
   return (

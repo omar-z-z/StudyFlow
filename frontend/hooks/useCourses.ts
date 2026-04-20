@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { courses as initialData } from "@/lib/dummy-data";
+import { useEffect, useState } from "react";
 import { Course } from "@/types/course";
+import { apiFetch } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 
 // helpers
-
-
 const recalculateProgress = (course: Course): number => {
   const total = course.topics.length + course.assignments.length;
   if (total === 0) return 0;
@@ -16,10 +15,18 @@ const recalculateProgress = (course: Course): number => {
   return Math.round((completed / total) * 100);
 };
 
-//  hook 
-
 export const useCourses = () => {
-  const [courses, setCourses] = useState<Course[]>(initialData);
+  const { user } = useAuth();
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    apiFetch("/courses")
+      .then((res) => setCourses(res.data ?? res))
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }, [user]);
 
   const toggleTopic = (courseId: string, topicId: string) => {
     setCourses((prev) =>
@@ -51,10 +58,9 @@ export const useCourses = () => {
     );
   };
 
-  //  Add a new course 
   const addCourse = (newCourse: Course) => {
     setCourses((prev) => [...prev, newCourse]);
   };
 
-  return { courses, toggleTopic, toggleAssignment, addCourse };
+  return { courses, isLoading, toggleTopic, toggleAssignment, addCourse };
 };

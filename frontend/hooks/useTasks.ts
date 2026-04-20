@@ -1,9 +1,20 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Task } from "@/types/task";
-import { tasks as initialTasks } from "@/lib/expanded_dummy_data";
+import { apiFetch } from "@/lib/auth-context";
+import { useAuth } from "@/lib/auth-context";
 
 export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { user } = useAuth();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user) return; // wait for auth
+    apiFetch("/tasks")
+      .then((res) => setTasks(res.data ?? res))
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }, [user]);
 
   const toggleTask = (id: string) => {
     setTasks((prev) =>
@@ -28,5 +39,5 @@ export function useTasks() {
   const pendingTasks = todayTasks.filter((t) => !t.completed);
   const completedTasks = todayTasks.filter((t) => t.completed);
 
-  return { tasks, toggleTask, addTask, todayTasks, pendingTasks, completedTasks };
+  return { tasks, isLoading, toggleTask, addTask, todayTasks, pendingTasks, completedTasks };
 }
