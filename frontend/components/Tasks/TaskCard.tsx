@@ -61,7 +61,7 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
             style={{ backgroundColor: task.courseColor }}
           />
           <span className="text-xs text-muted-foreground truncate">
-            {task.courseName}
+            {task.course.name}
           </span>
           {task.completed && (
             <span className="text-xs text-muted-foreground">

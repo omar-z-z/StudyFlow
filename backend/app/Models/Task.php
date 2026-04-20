@@ -11,6 +11,11 @@ class Task extends Model
         'estimated_time', 'priority', 'type', 'date'
     ];
 
+    protected $casts = [
+        'completed' => 'boolean',
+        // 'date'      => 'date',  
+    ];
+
     // A task belongs to a user
     public function user()
     {

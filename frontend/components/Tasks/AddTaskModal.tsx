@@ -32,7 +32,7 @@ const AddTaskModal = ({ onClose, onAdd }: AddTaskModalProps) => {
     const course = courses[courseIndex];
     onAdd({
         title: title.trim(),
-        courseName: course.name,
+        course: course,
         courseColor: course.color,
         estimatedTime: duration,
         priority,

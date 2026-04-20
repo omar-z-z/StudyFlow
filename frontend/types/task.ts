@@ -1,3 +1,5 @@
+import { Course } from "./course";
+
 export type Priority = "high" | "medium" | "low";
 
 export type TaskType =
@@ -14,7 +16,7 @@ export interface Task {
   id: string;
   title: string;
   courseId: string;
-  courseName: string;
+  course: Course;
   courseColor: string;
   completed: boolean;
   estimatedTime: number;
