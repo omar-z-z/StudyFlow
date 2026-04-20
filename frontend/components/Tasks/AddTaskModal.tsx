@@ -33,11 +33,9 @@ const AddTaskModal = ({ onClose, onAdd }: AddTaskModalProps) => {
     onAdd({
         title: title.trim(),
         course: course,
-        courseColor: course.color,
         estimatedTime: duration,
         priority,
         type,
-        courseId: course.id,
         date: new Date().toISOString().split("T")[0], 
     });
     onClose();

@@ -25,7 +25,7 @@ class StoreCourseRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'color'     => 'required|string|max:7',
-            'exam_date' => 'required|date',
+            'exam_date' => 'sometimes|date',
         ];
     }
 }

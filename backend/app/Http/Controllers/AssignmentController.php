@@ -64,7 +64,9 @@ class AssignmentController extends Controller
     {
         $user = request()->user();
 
-        $deadlines = Assignment::where('user_id', $user->id)
+        $deadlines = Assignment::whereHas('course', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
             ->where('completed', false)
             ->whereBetween('due_date', [now(), now()->addDays(7)])
             ->orderBy('due_date')

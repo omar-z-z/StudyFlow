@@ -15,9 +15,7 @@ export type TaskType =
 export interface Task {
   id: string;
   title: string;
-  courseId: string;
   course: Course;
-  courseColor: string;
   completed: boolean;
   estimatedTime: number;
   priority: Priority;

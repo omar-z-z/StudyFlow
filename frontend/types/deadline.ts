@@ -1,7 +1,7 @@
 export interface Deadline {
   id: number;
   title: string;
-  date: string;
+  due_date: string;
   urgency: "urgent" | "normal";
 }
 

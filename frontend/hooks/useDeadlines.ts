@@ -1,22 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchProgress } from "@/lib/progress-data";
-import { ProgressData } from "@/types/progress";
+import { Deadline } from "@/types/deadline";
+import { fetchDeadlines } from "@/lib/dashboardDeadlines";
 
-interface UseProgressResult {
-  data: ProgressData | null;
+interface UseDeadlinesResult {
+  data: Deadline[];
   loading: boolean;
   error: string | null;
 }
 
-export function useProgress(): UseProgressResult {
-  const [data, setData] = useState<ProgressData | null>(null);
+export function useDeadlines(): UseDeadlinesResult {
+  const [data, setData] = useState<Deadline[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-    fetchProgress()
+    fetchDeadlines()
       .then(setData)
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : "Something went wrong");

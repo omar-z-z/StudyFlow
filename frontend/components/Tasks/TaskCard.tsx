@@ -58,7 +58,7 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
         <div className="flex items-center gap-1.5 mt-1">
           <span
             className="w-2 h-2 rounded-full shrink-0"
-            style={{ backgroundColor: task.courseColor }}
+            style={{ backgroundColor: task.course.color }}
           />
           <span className="text-xs text-muted-foreground truncate">
             {task.course.name}

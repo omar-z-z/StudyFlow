@@ -19,7 +19,7 @@ class CourseResource extends JsonResource
             'name'       => $this->name,
             'color'      => $this->color,
             'progress'   => $this->progress,
-            'exam_date'  => $this->exam_date,
+            'examDate'  => $this->exam_date,
 
             'topics'     => $this->whenLoaded('topics'),
             'assignments'=> $this->whenLoaded('assignments'),
