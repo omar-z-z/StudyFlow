@@ -1,13 +1,10 @@
 import { useState } from "react";
-
-// import { INITIAL_TASKS } from "@/lib/plannerData";
 import {
   generateWeekDays,
   getMonthLabel,
   getWeekStart,
 } from "@/lib/plannerUtils";
 import type { DayDescriptor } from "@/types/daydescriptor";
-import { Task } from "@/types/task";
 import { useTasks } from "./useTasks";
 
 interface UsePlannerReturn {
@@ -15,6 +12,7 @@ interface UsePlannerReturn {
   monthLabel: string;
   isCurrentWeek: boolean;
   selectedDayIndex: number;
+  isLoading: boolean;
   totalTasks: number;
   completedTasks: number;
   studyMinutes: number;
@@ -26,16 +24,13 @@ interface UsePlannerReturn {
 }
 
 export const usePlanner = (): UsePlannerReturn => {
-  const { todayTasks } = useTasks();
+  const { tasks, isLoading, toggleTask } = useTasks();
+
   const today = new Date();
-
   const [weekOffset, setWeekOffset] = useState<number>(0);
-  const [tasks, setTasks] = useState<Task[]>(todayTasks);
-  // Default to today's weekday index (0=Sun…6=Sat) so mobile opens on today
-  const [selectedDayIndex, setSelectedDayIndex] = useState<number>(
-    today.getDay()
-  );
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number>(today.getDay());
 
+  //    generateWeekDays receives ALL tasks and filters by date internally
   const weekStart = getWeekStart(today, weekOffset);
   const days = generateWeekDays(weekStart, tasks, today);
   const monthLabel = getMonthLabel(weekStart);
@@ -45,12 +40,6 @@ export const usePlanner = (): UsePlannerReturn => {
   const totalTasks = weekTasks.length;
   const completedTasks = weekTasks.filter((t) => t.completed).length;
   const studyMinutes = weekTasks.reduce((acc, t) => acc + t.estimatedTime, 0);
-
-  const toggleTask = (id: string) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
-    );
-  };
 
   const selectDay = (index: number) => setSelectedDayIndex(index);
 
@@ -74,6 +63,7 @@ export const usePlanner = (): UsePlannerReturn => {
     monthLabel,
     isCurrentWeek,
     selectedDayIndex,
+    isLoading,
     totalTasks,
     completedTasks,
     studyMinutes,

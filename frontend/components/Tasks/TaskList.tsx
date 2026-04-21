@@ -5,10 +5,12 @@ import { Task } from "@/types/task";
 import TasksTaskCard from "./TaskCard";
 import AddTaskModal from "./AddTaskModal";
 import { PlusIcon } from "../basicComponents/icons";
+import TaskCardSkeleton from "./TaskCardSkeleton";
 
 interface TaskListProps {
   pendingTasks: Task[];
   completedTasks: Task[];
+  isLoading: boolean;
   onToggle: (id: string) => void;
   onAdd: (task: Omit<Task, "id" | "completed">) => void;
 }
@@ -16,6 +18,7 @@ interface TaskListProps {
 const TaskList = ({
   pendingTasks,
   completedTasks,
+  isLoading,
   onToggle,
   onAdd,
 }: TaskListProps) => {
@@ -45,39 +48,61 @@ const TaskList = ({
         </button>
       </div>
 
-      {/* Pending section */}
-      {pendingTasks.length > 0 && (
-        <div className="mb-5">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">
-            Pending Tasks
-          </p>
-          <div className="flex flex-col gap-3">
-            {pendingTasks.map((task) => (
-              <TasksTaskCard key={task.id} task={task} onToggle={onToggle} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Completed section */}
-      {completedTasks.length > 0 && (
+      {/* ── Loading state ── */}
+      {isLoading ? (
         <div>
-          <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3">
-            Completed Tasks
-          </p>
+          <div className="h-2.5 w-24 bg-muted animate-pulse rounded-md mb-3" />
           <div className="flex flex-col gap-3">
-            {completedTasks.map((task) => (
-              <TasksTaskCard key={task.id} task={task} onToggle={onToggle} />
-            ))}
+            <TaskCardSkeleton />
+            <TaskCardSkeleton />
+            <TaskCardSkeleton />
           </div>
         </div>
-      )}
+      ) : (
+        <>
+          {/* Pending section */}
+          {pendingTasks.length > 0 && (
+            <div className="mb-5">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+                Pending Tasks
+              </p>
+              <div className="flex flex-col gap-3">
+                {pendingTasks.map((task) => (
+                  <TasksTaskCard
+                    key={task.id}
+                    task={task}
+                    onToggle={onToggle}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-      {/* Empty state */}
-      {total === 0 && (
-        <div className="text-center py-12 px-8 text-muted-foreground text-sm border-2 border-dashed border-border rounded-xl">
-          No tasks for today. Click "Add Task" to get started.
-        </div>
+          {/* Completed section */}
+          {completedTasks.length > 0 && (
+            <div>
+              <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3">
+                Completed Tasks
+              </p>
+              <div className="flex flex-col gap-3">
+                {completedTasks.map((task) => (
+                  <TasksTaskCard
+                    key={task.id}
+                    task={task}
+                    onToggle={onToggle}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {total === 0 && (
+            <div className="text-center py-12 px-8 text-muted-foreground text-sm border-2 border-dashed border-border rounded-xl">
+              No tasks for today. Click "Add Task" to get started.
+            </div>
+          )}
+        </>
       )}
 
       {showModal && (

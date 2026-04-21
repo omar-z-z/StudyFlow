@@ -4,9 +4,11 @@ import { useState } from "react";
 import CourseCard from "../../../components/Courses/CourseCard";
 import { useCourses } from "@/hooks/useCourses";
 import AddCourseModal from "@/components/Courses/AddCourseModal/index";
+import CourseCardSkeleton from "@/components/skeletonComponents/CourseCardSkeleton";
 
 const CoursesPage = () => {
-  const { courses, toggleTopic, toggleAssignment, addCourse } = useCourses();
+  const { courses, isLoading, toggleTopic, toggleAssignment, addCourse } =
+    useCourses();
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -46,7 +48,14 @@ const CoursesPage = () => {
 
       {/* ── Course List ── */}
       <div className="flex flex-col">
-        {courses.length === 0 ? (
+        {isLoading ? (
+          // Show 3 skeleton cards while loading
+          <>
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+            <CourseCardSkeleton />
+          </>
+        ) : courses.length === 0 ? (
           <div className="text-center py-16 px-8 text-muted-foreground text-sm border-2 border-dashed border-border rounded-xl bg-card">
             No courses yet. Click "Add Course" to get started.
           </div>

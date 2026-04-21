@@ -6,7 +6,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task, onToggle }: TaskCardProps) => {
-  const { id, title, courseColor, estimatedTime, completed } = task;
+  const { id, title, course, estimatedTime, completed } = task;
 
   return (
     <div
@@ -63,7 +63,7 @@ const TaskCard = ({ task, onToggle }: TaskCardProps) => {
         <div className="flex items-center gap-1 mt-1">
           <span
             className={`w-2 h-2 rounded-full shrink-0`}
-            style={{ backgroundColor: courseColor }}
+            style={{ backgroundColor: course.color }}
           />
           <span className="text-xs text-muted-foreground">{estimatedTime} min</span>
         </div>

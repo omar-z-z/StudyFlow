@@ -6,7 +6,7 @@ import ProgressBanner from "@/components/Tasks/ProgressPanner";
 import { useTasks } from "@/hooks/useTasks";
 
 const TasksPage = () => {
-  const { pendingTasks, completedTasks, toggleTask, addTask } = useTasks();
+  const { isLoading, pendingTasks, completedTasks, toggleTask, addTask } = useTasks();
   const total = pendingTasks.length + completedTasks.length;
 
   return (
@@ -28,6 +28,7 @@ const TasksPage = () => {
       <TaskList
         pendingTasks={pendingTasks}
         completedTasks={completedTasks}
+        isLoading={isLoading}
         onToggle={toggleTask}
         onAdd={addTask}
       />

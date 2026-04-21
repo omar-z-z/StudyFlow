@@ -6,6 +6,11 @@ import DailyCompletionChart from "@/components/Progress/DailyCompletionChart";
 import TasksByTypeChart from "@/components/Progress/TaskByTypeChart";
 import MotivationBanner from "@/components/Progress/MotivationBanner";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
+import MotivationBannerSkeleton from "@/components/skeletonComponents/MotivationPannerSkeleton";
+import StatsCardsSkeleton from "@/components/skeletonComponents/StatsCardSkeleton";
+import DailyCompletionChartSkeleton from "@/components/skeletonComponents/DailyCompletionChartSkeleton";
+import TasksByTypeChartSkeleton from "@/components/skeletonComponents/TaskByTypeChartSkeleton";
+import CourseProgressSkeleton from "@/components/skeletonComponents/CourseProgressSkeleton";
 
 const ProgressPage = () => {
   const { data, loading, error } = useProgress();
@@ -22,22 +27,35 @@ const ProgressPage = () => {
         </p>
       </div>
  
-      {/* ── Loading ── */}
-      {loading && (
-        <div className="text-sm text-muted-foreground py-16 text-center">
-          Loading your progress...
-        </div>
-      )}
- 
       {/* ── Error ── */}
       {error && (
         <div className="text-sm text-destructive py-16 text-center">
           {error}
         </div>
       )}
+
+      {/* ── Loading skeleton ── */}
+      {loading && !error && (
+        <>
+          <StatsCardsSkeleton structure={{ goal: 2, simple: 2 }} />
+
+          <div className="flex gap-4 mt-5 flex-wrap">
+            <DailyCompletionChartSkeleton />
+            <TasksByTypeChartSkeleton />
+          </div>
+
+          <div className="mt-5">
+            <CourseProgressSkeleton />
+          </div>
+
+          <div className="mt-5">
+            <MotivationBannerSkeleton />
+          </div>
+        </>
+      )}
  
       {/* ── Content ── */}
-      {data && (
+      {data && !loading && (
         <>
           <StatsCards stats={data.stats} />
  

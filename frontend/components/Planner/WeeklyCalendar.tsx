@@ -5,6 +5,7 @@ import MobileDayStrip from "./MobileDayStrip";
 interface WeeklyCalendarProps {
   days: DayDescriptor[];
   selectedDayIndex: number;
+  isLoading: boolean;
   onToggleTask: (id: string) => void;
   onSelectDay: (index: number) => void;
 }
@@ -12,6 +13,7 @@ interface WeeklyCalendarProps {
 const WeeklyCalendar = ({
   days,
   selectedDayIndex,
+  isLoading,
   onToggleTask,
   onSelectDay,
 }: WeeklyCalendarProps) => {
@@ -31,6 +33,7 @@ const WeeklyCalendar = ({
             <DayColumn
               day={selectedDay}
               onToggleTask={onToggleTask}
+              isLoading={isLoading}
               fullWidth
             />
           )}
@@ -40,7 +43,7 @@ const WeeklyCalendar = ({
       {/* Desktop */}
       <div className="hidden lg:grid lg:grid-cols-7 gap-3 mt-6">
         {days.map((day) => (
-          <DayColumn key={day.dateKey} day={day} onToggleTask={onToggleTask} />
+          <DayColumn key={day.dateKey} day={day} onToggleTask={onToggleTask} isLoading={isLoading} />
         ))}
       </div>
     </>
