@@ -12,7 +12,7 @@ const MobileDayStrip = ({
   onSelect,
 }: MobileDayStripProps) => {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4 mt-4">
+    <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 mt-4">
       {days.map((day, index) => {
         const isSelected = index === selectedIndex;
         const hasTask = day.tasks.length > 0;

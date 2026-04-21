@@ -3,6 +3,7 @@
 import PlannerHeader from "@/components/Planner/PlannerHeader";
 import WeeklyCalendar from "@/components/Planner/WeeklyCalendar";
 import WeeklySummary from "@/components/Planner/WeeklySummary";
+import WeeklySummarySkeleton from "@/components/Planner/WeeklySummarySkeleton";
 import { usePlanner } from "@/hooks/usePlanner";
 
 const PlannerPage = () => {
@@ -11,6 +12,7 @@ const PlannerPage = () => {
     monthLabel,
     isCurrentWeek,
     selectedDayIndex,
+    isLoading,
     totalTasks,
     completedTasks,
     studyMinutes,
@@ -38,14 +40,19 @@ const PlannerPage = () => {
         selectedDayIndex={selectedDayIndex}
         onToggleTask={toggleTask}
         onSelectDay={selectDay}
+        isLoading={isLoading}
       />
 
       {/* Weekly Summary */}
-      <WeeklySummary
-        totalTasks={totalTasks}
-        completedTasks={completedTasks}
-        studyMinutes={studyMinutes}
-      />
+      {isLoading ? (
+        <WeeklySummarySkeleton />
+      ) : (
+        <WeeklySummary
+          totalTasks={totalTasks}
+          completedTasks={completedTasks}
+          studyMinutes={studyMinutes}
+        />
+      )}
     </div>
   );
 };
