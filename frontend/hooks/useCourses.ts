@@ -48,7 +48,11 @@ export const useCourses = () => {
       // Step 1: create the course
       const courseRes = await apiFetch("/courses", {
         method: "POST",
-        body: JSON.stringify({name: courseFields.name, color: courseFields.color, exam_date: courseFields.examDate}),
+        body: JSON.stringify({
+          name: courseFields.name,
+          color: courseFields.color,
+          exam_date: courseFields.examDate,
+        }),
       });
       const createdCourse: Course = courseRes.data ?? courseRes;
       const courseId = createdCourse.id;
