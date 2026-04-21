@@ -1,7 +1,7 @@
 import { Course } from "@/types/course";
 import ProgressBar from "@/components/Courses/ProgressBar";
 import { CalendarIcon } from "@/components/basicComponents/icons";
-import { TrashIcon, EditIcon } from "@/components/basicComponents/icons";
+import { EditIcon, TrashIcon } from "lucide-react";
 
 type Props = {
   course: Course;
@@ -53,7 +53,7 @@ const CourseHeader = ({ course, onEdit, onDelete }: Props) => (
           className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-radius border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Edit course"
         >
-          <EditIcon />
+          <EditIcon size={16} />
           <span className="hidden sm:inline">Edit</span>
         </button>
         <button
@@ -61,7 +61,7 @@ const CourseHeader = ({ course, onEdit, onDelete }: Props) => (
           className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-radius border border-border text-muted-foreground hover:text-destructive hover:border-destructive hover:bg-destructive/10 transition-colors"
           aria-label="Delete course"
         >
-          <TrashIcon />
+          <TrashIcon size={16} />
           <span className="hidden sm:inline">Delete</span>
         </button>
       </div>

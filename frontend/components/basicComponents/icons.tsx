@@ -183,29 +183,6 @@ export const CheckIcon = () => (
   </svg>
 );
 
-export const EditIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 15 15" fill="none">
-    <path
-      d="M10.586 1.586a2 2 0 012.828 2.828L4.828 13H2v-2.828l8.586-8.586z"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-export const TrashIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 15 15" fill="none">
-    <path
-      d="M2 4h11M5 4V2.5a.5.5 0 01.5-.5h4a.5.5 0 01.5.5V4M6 7v4M9 7v4M3 4l.8 8.5a.5.5 0 00.5.5h5.4a.5.5 0 00.5-.5L11 4"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
 /* Stat Card Icons */
 
 export const TasksStatIcon = () => (

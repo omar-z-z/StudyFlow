@@ -1,5 +1,6 @@
 import { Task } from "@/types/task";
-import { CalendarIcon, CheckIcon, ClockIcon, EditIcon, TrashIcon } from "@/components/basicComponents/icons";
+import { CalendarIcon, CheckIcon, ClockIcon } from "@/components/basicComponents/icons";
+import { EditIcon, TrashIcon } from "lucide-react";
 
 type Props = {
   task: Task;
@@ -55,14 +56,14 @@ const TaskRow = ({ task, onToggle, onEdit, onDelete }: Props) => (
         className="p-1.5 rounded-radius text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
         aria-label="Edit task"
       >
-        <EditIcon />
+        <EditIcon size={16}/>
       </button>
       <button
         onClick={onDelete}
         className="p-1.5 rounded-radius text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
         aria-label="Delete task"
       >
-        <TrashIcon />
+        <TrashIcon size={16}/>
       </button>
     </div>
   </div>

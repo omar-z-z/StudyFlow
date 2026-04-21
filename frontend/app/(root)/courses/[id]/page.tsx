@@ -13,20 +13,8 @@ import CourseTasksSection from "@/components/Course/CourseTaskSection";
 import EditCourseModal from "@/components/Course/EditCourseModal";
 import ConfirmDialog from "@/components/basicComponents/ConfirmDialog";
 import EditTaskModal from "@/components/Course/EditTaskModal";
+import { ArrowLeft } from "lucide-react";
 
-
-
-const ArrowLeftIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path
-      d="M10 3L5 8l5 5"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
@@ -118,7 +106,7 @@ export default function CoursePage() {
           onClick={() => router.back()}
           className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-5"
         >
-          <ArrowLeftIcon />
+          <ArrowLeft size={16} />
           Back to Courses
         </button>
 
