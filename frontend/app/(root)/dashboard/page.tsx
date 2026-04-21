@@ -59,7 +59,6 @@ export default function DashboardPage() {
           <TasksList
             tasks={todayTasks}
             isLoading={isLoading}
-            onToggle={toggleTask}
           />
         </div>
 

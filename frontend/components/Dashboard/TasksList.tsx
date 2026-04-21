@@ -5,7 +5,6 @@ import { Task } from "@/types/task";
 interface TasksListProps {
   tasks: Task[];
   isLoading: boolean;
-  onToggle: (id: string) => void;
 }
 import TaskItem from "./TaskItem";
 import TaskCardSkeleton from "../Tasks/TaskCardSkeleton";
@@ -13,7 +12,6 @@ import TaskCardSkeleton from "../Tasks/TaskCardSkeleton";
 export default function TasksList({
   tasks,
   isLoading,
-  onToggle,
 }: TasksListProps) {
   return (
     <div className="bg-card border border-border rounded-xl p-4 md:p-6">
@@ -33,7 +31,7 @@ export default function TasksList({
           </h2>
           <div className="flex flex-col gap-2">
             {tasks.map((task) => (
-              <TaskItem key={task.id} task={task} onToggle={onToggle} />
+              <TaskItem key={task.id} task={task} />
             ))}
           </div>
         </>

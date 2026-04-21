@@ -1,11 +1,12 @@
 import { Task, priorityStyles } from "@/types/task";
+import { useRouter } from "next/navigation";
 
 interface TaskItemProps {
   task: Task;
-  onToggle: (id: string) => void;
 }
 
-export default function TaskItem({ task, onToggle }: TaskItemProps) {
+export default function TaskItem({ task }: TaskItemProps) {
+  const router = useRouter();
   return (
     <div
       className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-200 cursor-pointer select-none md:p-4 ${
@@ -13,33 +14,8 @@ export default function TaskItem({ task, onToggle }: TaskItemProps) {
           ? "border-border bg-muted/40"
           : "border-border bg-background hover:bg-accent/50"
       }`}
-      onClick={() =>console.log("Task clicked:", task.id)} // For now, when the tasks page is done it would navigate there
+      onClick={() => router.push("/tasks")} // For now, when the tasks page is done it would navigate there
     >
-      {/* Checkbox */}
-      <div
-        className={`mt-0.5 w-4 h-4 rounded shrink-0 border-2 flex items-center justify-center transition-all duration-200 ${
-          task.completed
-            ? "bg-primary border-primary"
-            : "border-muted-foreground/40"
-        }`}
-        onClick={() => onToggle(task.id)}
-      >
-        {task.completed && (
-          <svg
-            className="w-2.5 h-2.5 text-primary-foreground"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={3}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        )}
-      </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
