@@ -5,7 +5,7 @@ import { Task } from "@/types/task";
 import TasksTaskCard from "./TaskCard";
 import AddTaskModal from "./AddTaskModal";
 import { PlusIcon } from "../basicComponents/icons";
-import TaskCardSkeleton from "./TaskCardSkeleton";
+import TaskCardSkeleton from "../skeletonComponents/TaskCardSkeleton";
 
 interface TaskListProps {
   pendingTasks: Task[];

@@ -1,5 +1,5 @@
 import { Task, priorityConfig, typeConfig } from "@/types/task";
-import { ClockIcon } from "../basicComponents/icons";
+import { CheckIcon, ClockIcon } from "../basicComponents/icons";
 
 interface TaskCardProps {
   task: Task;
@@ -26,21 +26,7 @@ const TasksTaskCard = ({ task, onToggle }: TaskCardProps) => {
             : "bg-transparent border-border hover:border-muted-foreground"
         }`}
       >
-        {task.completed && (
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            stroke="var(--background)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <polyline points="1.5,5 4,7.5 8.5,2.5" />
-          </svg>
-        )}
+        {task.completed && <CheckIcon />}
       </button>
 
       {/* Content */}

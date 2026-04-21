@@ -7,7 +7,7 @@ interface TasksListProps {
   isLoading: boolean;
 }
 import TaskItem from "./TaskItem";
-import TaskCardSkeleton from "../Tasks/TaskCardSkeleton";
+import TaskCardSkeleton from "../skeletonComponents/TaskCardSkeleton";
 
 export default function TasksList({
   tasks,

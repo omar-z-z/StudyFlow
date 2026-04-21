@@ -24,13 +24,13 @@ const ConfirmDialog = ({
       <div className="flex gap-2 justify-end">
         <button
           onClick={onCancel}
-          className="px-4 py-2 text-sm rounded-(--radius) border border-border text-muted-foreground hover:bg-muted transition-colors"
+          className="px-4 py-2 text-sm rounded-radius border border-border text-muted-foreground hover:bg-muted transition-colors"
         >
           Cancel
         </button>
         <button
           onClick={onConfirm}
-          className="px-4 py-2 text-sm rounded-(--radius) bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity font-medium"
+          className="px-4 py-2 text-sm rounded-radius bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity font-medium"
         >
           {confirmLabel}
         </button>
