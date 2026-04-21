@@ -30,7 +30,6 @@ export const useCourses = () => {
       .finally(() => setIsLoading(false));
   }, [user]);
 
-  // ─── POST /api/courses ─────────────────────────────────────────────────────
   // ─── POST /api/courses + topics + assignments ──────────────────────────────
   const addCourse = async (newCourse: Omit<Course, "id" | "progress">) => {
     const { topics, assignments, ...courseFields } = newCourse;
