@@ -3,6 +3,7 @@ import TopicItem from "./TopicItem";
 import AssignmentItem from "./AssignmentItem";
 import { Course } from "@/types/course";
 import { CalendarIcon } from "../basicComponents/icons";
+import { useRouter } from "next/navigation";
 
 type CourseCardProps = {
   course: Course;
@@ -15,8 +16,12 @@ const CourseCard = ({
   onToggleTopic,
   onToggleAssignment,
 }: CourseCardProps) => {
+  const router = useRouter();
   return (
-    <div className="bg-card border border-border rounded-(--radius-xl) p-6 mb-5 transition-shadow duration-200 hover:shadow-md">
+    <div
+      className="bg-card border border-border cursor-pointer rounded-(--radius-xl) p-6 mb-5 transition-shadow duration-200 hover:shadow-md"
+      onClick={() => router.push(`/courses/${course.id}`)}
+    >
       {/* ── Card Header ── */}
       <div className="flex items-start justify-between gap-4">
         {/* Left: icon + info */}
@@ -71,7 +76,12 @@ const CourseCard = ({
       {/* ── Body Grid: Topics + Assignments ── */}
       <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1 max-md:gap-5">
         {/* Topics */}
-        <div>
+        <div
+          className="cursor-default"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <h4 className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground m-0 mb-2.5">
             Topics
           </h4>
@@ -87,13 +97,22 @@ const CourseCard = ({
         </div>
 
         {/* Assignments */}
-        <div>
+        <div
+          className="cursor-default"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <h4 className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground m-0 mb-2.5">
             Assignments
           </h4>
           <div className="flex flex-col">
             {course.assignments.map((assignment) => (
-              <AssignmentItem key={assignment.id} assignment={assignment} onToggle={() => onToggleAssignment(assignment.id)} />
+              <AssignmentItem
+                key={assignment.id}
+                assignment={assignment}
+                onToggle={() => onToggleAssignment(assignment.id)}
+              />
             ))}
           </div>
         </div>
