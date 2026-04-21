@@ -4,7 +4,7 @@ import { useState } from "react";
 import CourseCard from "../../../components/Courses/CourseCard";
 import { useCourses } from "@/hooks/useCourses";
 import AddCourseModal from "@/components/Courses/AddCourseModal/index";
-import CourseCardSkeleton from "@/components/Courses/CourseCardSkeleton";
+import CourseCardSkeleton from "@/components/skeletonComponents/CourseCardSkeleton";
 
 const CoursesPage = () => {
   const { courses, isLoading, toggleTopic, toggleAssignment, addCourse } =

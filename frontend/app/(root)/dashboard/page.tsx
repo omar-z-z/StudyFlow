@@ -7,9 +7,11 @@ import StatsCard from "@/components/statsComponents/StatsCard";
 import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
 import { useCourses } from "@/hooks/useCourses";
+import StatsCardsSkeleton from "@/components/skeletonComponents/StatsCardSkeleton";
 
 export default function DashboardPage() {
-  const { pendingTasks, todayTasks, completedTasks, toggleTask } = useTasks();
+  const { pendingTasks, isLoading, todayTasks, completedTasks, toggleTask } =
+    useTasks();
   const { courses } = useCourses();
 
   const tasksCompleted = completedTasks.length;
@@ -26,27 +28,39 @@ export default function DashboardPage() {
       <DashboardHeader name="Omar" />
 
       {/* Stats Row — single column on mobile, 3 columns on sm+ */}
-      <div className="grid grid-cols-1 gap-3 mb-6 sm:grid-cols-3 sm:gap-4">
-        <StatsCard
-          title="Tasks Today"
-          type="tasks"
-          tasksCompleted={tasksCompleted}
-          tasksTotal={tasksTotal}
-        />
-        <StatsCard
-          title="Study Time Today"
-          type="time"
-          hours={studyHours}
-          minutes={studyMinutes}
-        />
-        <StatsCard title="Active Courses" type="courses" coursesCount={coursesCount} />
-      </div>
+      {isLoading ? (
+        <StatsCardsSkeleton structure={{ goal: 2, simple: 1 }} />
+      ) : (
+        <div className="grid grid-cols-1 gap-3 mb-6 sm:grid-cols-3 sm:gap-4">
+          <StatsCard
+            title="Tasks Today"
+            type="tasks"
+            tasksCompleted={tasksCompleted}
+            tasksTotal={tasksTotal}
+          />
+          <StatsCard
+            title="Study Time Today"
+            type="time"
+            hours={studyHours}
+            minutes={studyMinutes}
+          />
+          <StatsCard
+            title="Active Courses"
+            type="courses"
+            coursesCount={coursesCount}
+          />
+        </div>
+      )}
 
       {/* Bottom Layout — stacked on mobile, two columns on lg+ */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {/* Tasks List */}
         <div className="w-full lg:flex-[1.6] lg:min-w-0">
-          <TasksList tasks={todayTasks} onToggle={toggleTask} />
+          <TasksList
+            tasks={todayTasks}
+            isLoading={isLoading}
+            onToggle={toggleTask}
+          />
         </div>
 
         {/* Progress + Deadlines */}

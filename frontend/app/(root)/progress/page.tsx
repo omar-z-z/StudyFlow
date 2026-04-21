@@ -6,11 +6,11 @@ import DailyCompletionChart from "@/components/Progress/DailyCompletionChart";
 import TasksByTypeChart from "@/components/Progress/TaskByTypeChart";
 import MotivationBanner from "@/components/Progress/MotivationBanner";
 import CourseProgress from "@/components/Dashboard/CourseProgress";
-import MotivationBannerSkeleton from "@/components/Progress/MotivationPannerSkeleton";
-import StatsCardsSkeleton from "@/components/Progress/StatsCardSkeleton";
-import DailyCompletionChartSkeleton from "@/components/Progress/DailyCompletionChartSkeleton";
-import TasksByTypeChartSkeleton from "@/components/Progress/TaskByTypeChartSkeleton";
-import CourseProgressSkeleton from "@/components/Dashboard/CourseProgressSkeleton";
+import MotivationBannerSkeleton from "@/components/skeletonComponents/MotivationPannerSkeleton";
+import StatsCardsSkeleton from "@/components/skeletonComponents/StatsCardSkeleton";
+import DailyCompletionChartSkeleton from "@/components/skeletonComponents/DailyCompletionChartSkeleton";
+import TasksByTypeChartSkeleton from "@/components/skeletonComponents/TaskByTypeChartSkeleton";
+import CourseProgressSkeleton from "@/components/skeletonComponents/CourseProgressSkeleton";
 
 const ProgressPage = () => {
   const { data, loading, error } = useProgress();
@@ -37,7 +37,7 @@ const ProgressPage = () => {
       {/* ── Loading skeleton ── */}
       {loading && !error && (
         <>
-          <StatsCardsSkeleton />
+          <StatsCardsSkeleton structure={{ goal: 2, simple: 2 }} />
 
           <div className="flex gap-4 mt-5 flex-wrap">
             <DailyCompletionChartSkeleton />

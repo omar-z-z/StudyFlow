@@ -1,6 +1,6 @@
 import CourseProgressItem from "./CourseProgressItem";
 import { useCourses } from "@/hooks/useCourses";
-import CourseProgressSkeleton from "./CourseProgressSkeleton";
+import CourseProgressSkeleton from "../skeletonComponents/CourseProgressSkeleton";
 
 export default function CourseProgress({
   variant = "simple",
