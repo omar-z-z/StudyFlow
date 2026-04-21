@@ -1,3 +1,5 @@
+import { Button } from "./button";
+
 type Props = {
   title: string;
   message: string;
@@ -22,18 +24,8 @@ const ConfirmDialog = ({
       <h2 className="text-base font-semibold text-foreground mb-1">{title}</h2>
       <p className="text-sm text-muted-foreground mb-5">{message}</p>
       <div className="flex gap-2 justify-end">
-        <button
-          onClick={onCancel}
-          className="px-4 py-2 text-sm rounded-radius border border-border text-muted-foreground hover:bg-muted transition-colors"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={onConfirm}
-          className="px-4 py-2 text-sm rounded-radius bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity font-medium"
-        >
-          {confirmLabel}
-        </button>
+        <Button variant="outline" onClick={onCancel}>Cancel</Button>
+        <Button variant="destructive" onClick={onCancel}>{confirmLabel}</Button>
       </div>
     </div>
   </div>
