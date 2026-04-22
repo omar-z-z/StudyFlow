@@ -110,6 +110,7 @@ export const useCourses = () => {
   const updateCourse = async (id: string, updated: Course) => {
     const original = courses.find((c) => c.id === id);
     if (!original) return;
+    setIsLoading(true);
 
     // Optimistic update
     setCourses((prev) =>
@@ -154,7 +155,10 @@ export const useCourses = () => {
           ),
         // PUT existing topics
         ...updated.topics
-          .filter((t) => originalTopicIds.has(t.id))
+          .filter((t) => {
+            const orig = original.topics.find((o) => o.id === t.id);
+            return orig && (orig.title !== t.title || orig.week !== t.week);
+          })
           .map((t) =>
             apiFetch(`/courses/${id}/topics/${t.id}`, {
               method: "PUT",
@@ -182,7 +186,12 @@ export const useCourses = () => {
           ),
         // PUT existing assignments
         ...updated.assignments
-          .filter((a) => originalAssignmentIds.has(a.id))
+          .filter((a) => {
+            const orig = original.assignments.find((o) => o.id === a.id);
+            return (
+              orig && (orig.title !== a.title || orig.dueDate !== a.dueDate)
+            );
+          })
           .map((a) =>
             apiFetch(`/courses/${id}/assignments/${a.id}`, {
               method: "PUT",
@@ -198,8 +207,10 @@ export const useCourses = () => {
             }),
           ),
       ]);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
       setCourses((prev) => prev.map((c) => (c.id === id ? original : c)));
     }
   };

@@ -147,7 +147,7 @@ export default function CoursePage() {
           initialTask={editingTask}
           onEdit={(changes) => {
             updateTask(editingTask.id, changes);
-            setEditingTask(null);
+            coursesLoading && setEditingTask(null);
           }}
           onAdd={() => {}}
           onClose={() => setEditingTask(null)}
