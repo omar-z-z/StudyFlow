@@ -4,7 +4,13 @@ import { useState } from "react";
 import { Course } from "@/types/course";
 import { Assignment } from "@/types/assignment";
 import { Topic } from "@/types/topic";
-import { Step, BasicForm, BasicErrors, TopicDraft, AssignmentDraft } from "@/types/modal";
+import {
+  Step,
+  BasicForm,
+  BasicErrors,
+  TopicDraft,
+  AssignmentDraft,
+} from "@/types/modal";
 import { INITIAL_BASIC, STEP_SUBTITLES } from "@/lib/constants/courseModal";
 import StepIndicator from "./StepIndicator";
 import CourseDetailsStep from "./CourseDetailsStep";
@@ -12,91 +18,173 @@ import TopicsStep from "./TopicsStep";
 import AssignmentsStep from "./AssignmentsStep";
 import ModalFooter from "./ModalFooter";
 
-// Types 
+// Types
 
 type AddCourseModalProps = {
   onClose: () => void;
   onAdd: (course: Course) => void;
+  initialCourse?: Course;
+  onEdit?: (course: Course) => void;
 };
 
-// Helpers 
+// Helpers
 
-const newTopicDraft = (): TopicDraft => ({ id: crypto.randomUUID(), title: "", week: "1" });
-const newAssignmentDraft = (): AssignmentDraft => ({ id: crypto.randomUUID(), title: "", dueDate: "" });
+const newTopicDraft = (): TopicDraft => ({
+  id: crypto.randomUUID(),
+  title: "",
+  week: "1",
+});
+
+const newAssignmentDraft = (): AssignmentDraft => ({
+  id: crypto.randomUUID(),
+  title: "",
+  dueDate: "",
+});
 
 const validateBasic = (form: BasicForm): BasicErrors => {
   const errors: BasicErrors = {};
   if (!form.name.trim()) errors.name = "Course name is required.";
-  if (!form.examDate)    errors.examDate = "Exam date is required.";
+  if (!form.examDate) errors.examDate = "Exam date is required.";
   return errors;
 };
 
-// Component 
+// Component
 
-const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
-  const [step, setStep]               = useState<Step>(0);
-  const [basic, setBasic]             = useState<BasicForm>(INITIAL_BASIC);
+const AddCourseModal = ({
+  onClose,
+  onAdd,
+  initialCourse,
+  onEdit,
+}: AddCourseModalProps) => {
+  const isEditMode = !!initialCourse;
+
+  const [step, setStep] = useState<Step>(0);
   const [basicErrors, setBasicErrors] = useState<BasicErrors>({});
-  const [topics, setTopics]           = useState<TopicDraft[]>([newTopicDraft()]);
-  const [assignments, setAssignments] = useState<AssignmentDraft[]>([newAssignmentDraft()]);
 
-  // Basic handlers 
+  const [basic, setBasic] = useState<BasicForm>(
+    initialCourse
+      ? {
+          name: initialCourse.name,
+          examDate: initialCourse.examDate ?? "",
+          color: initialCourse.color,
+        }
+      : INITIAL_BASIC,
+  );
+
+  const [topics, setTopics] = useState<TopicDraft[]>(
+    initialCourse?.topics.length
+      ? initialCourse.topics.map((t) => ({
+          id: t.id,
+          title: t.title,
+          week: String(t.week),
+        }))
+      : [newTopicDraft()],
+  );
+
+  const [assignments, setAssignments] = useState<AssignmentDraft[]>(
+    initialCourse?.assignments.length
+      ? initialCourse.assignments.map((a) => ({
+          id: a.id,
+          title: a.title,
+          dueDate: ((a as any).due_date ?? a.dueDate ?? "").split("T")[0],
+        }))
+      : [newAssignmentDraft()],
+  );
+        console.log(initialCourse?.assignments)
+
+
+  // Basic handlers
 
   const handleBasicChange = (field: keyof BasicForm, value: string) => {
     setBasic((prev) => ({ ...prev, [field]: value }));
-    if (basicErrors[field]) setBasicErrors((prev) => ({ ...prev, [field]: undefined }));
+    if (basicErrors[field])
+      setBasicErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  // Topic handlers 
+  // Topic handlers
 
-  const addTopic    = () => setTopics((prev) => [...prev, newTopicDraft()]);
-  const removeTopic = (id: string) => setTopics((prev) => prev.filter((t) => t.id !== id));
-  const updateTopic = (id: string, field: keyof Omit<TopicDraft, "id">, value: string) =>
-    setTopics((prev) => prev.map((t) => (t.id === id ? { ...t, [field]: value } : t)));
+  const addTopic = () => setTopics((prev) => [...prev, newTopicDraft()]);
+  const removeTopic = (id: string) =>
+    setTopics((prev) => prev.filter((t) => t.id !== id));
+  const updateTopic = (
+    id: string,
+    field: keyof Omit<TopicDraft, "id">,
+    value: string,
+  ) =>
+    setTopics((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, [field]: value } : t)),
+    );
 
-  // Assignment handlers 
+  // Assignment handlers
 
-  const addAssignment    = () => setAssignments((prev) => [...prev, newAssignmentDraft()]);
-  const removeAssignment = (id: string) => setAssignments((prev) => prev.filter((a) => a.id !== id));
-  const updateAssignment = (id: string, field: keyof Omit<AssignmentDraft, "id">, value: string) =>
-    setAssignments((prev) => prev.map((a) => (a.id === id ? { ...a, [field]: value } : a)));
+  const addAssignment = () =>
+    setAssignments((prev) => [...prev, newAssignmentDraft()]);
+  const removeAssignment = (id: string) =>
+    setAssignments((prev) => prev.filter((a) => a.id !== id));
+  const updateAssignment = (
+    id: string,
+    field: keyof Omit<AssignmentDraft, "id">,
+    value: string,
+  ) =>
+    setAssignments((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, [field]: value } : a)),
+    );
 
-  // Navigation 
+  // Navigation
 
   const handleNext = () => {
     if (step === 0) {
       const errors = validateBasic(basic);
-      if (Object.keys(errors).length > 0) { setBasicErrors(errors); return; }
+      if (Object.keys(errors).length > 0) {
+        setBasicErrors(errors);
+        return;
+      }
     }
     setStep((prev) => (prev + 1) as Step);
   };
 
   const handleBack = () => setStep((prev) => (prev - 1) as Step);
 
-  // Submit 
+  // Submit
 
   const handleSubmit = () => {
     const finalTopics: Topic[] = topics
       .filter((t) => t.title.trim())
-      .map((t) => ({ id: `t-${t.id}`, title: t.title.trim(), week: parseInt(t.week, 10) || 1, completed: false }));
+      .map((t) => ({
+        id: t.id,
+        title: t.title.trim(),
+        week: parseInt(t.week, 10) || 1,
+        completed: false,
+      }));
 
     const finalAssignments: Assignment[] = assignments
       .filter((a) => a.title.trim())
-      .map((a) => ({ id: `a-${a.id}`, title: a.title.trim(), dueDate: a.dueDate, completed: false }));
+      .map((a) => ({
+        id: a.id,
+        title: a.title.trim(),
+        dueDate: a.dueDate,
+        completed: false,
+      }));
 
-    onAdd({
-      id: crypto.randomUUID(),
+    const result: Course = {
+      id: initialCourse?.id ?? crypto.randomUUID(),
       name: basic.name.trim(),
       examDate: basic.examDate,
       color: basic.color,
-      progress: 0,
+      progress: initialCourse?.progress ?? 0,
       topics: finalTopics,
       assignments: finalAssignments,
-    });
-    onClose();
+    };
+
+    if (isEditMode) {
+      onEdit?.(result);
+    } else {
+      onAdd(result);
+      onClose();
+    }
   };
 
-  // Render 
+  // Render
 
   return (
     <div
@@ -112,8 +200,11 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
       >
         {/* Header */}
         <div className="shrink-0">
-          <h2 id="modal-title" className="text-lg font-semibold text-foreground m-0 mb-1">
-            Add New Course
+          <h2
+            id="modal-title"
+            className="text-lg font-semibold text-foreground m-0 mb-1"
+          >
+            {isEditMode ? "Edit Course" : "Add New Course"}
           </h2>
           <p className="text-sm text-muted-foreground m-0 mb-6 leading-relaxed">
             {STEP_SUBTITLES[step]}
@@ -124,7 +215,11 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
         {/* Scrollable step content */}
         <div className="flex-1 overflow-y-auto pr-1 -mr-1">
           {step === 0 && (
-            <CourseDetailsStep basic={basic} errors={basicErrors} onChange={handleBasicChange} />
+            <CourseDetailsStep
+              basic={basic}
+              errors={basicErrors}
+              onChange={handleBasicChange}
+            />
           )}
           {step === 1 && (
             <TopicsStep
@@ -151,6 +246,7 @@ const AddCourseModal = ({ onClose, onAdd }: AddCourseModalProps) => {
           onBack={handleBack}
           onNext={handleNext}
           onSubmit={handleSubmit}
+          submitLabel={isEditMode ? "Save Changes" : "Add Course"}
         />
       </div>
     </div>

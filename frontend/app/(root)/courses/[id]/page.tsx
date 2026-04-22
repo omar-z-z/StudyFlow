@@ -5,16 +5,14 @@ import { useState } from "react";
 import { useCourses } from "@/hooks/useCourses";
 import { useTasks } from "@/hooks/useTasks";
 import { Task } from "@/types/task";
-import { Course } from "@/types/course";
 import CourseHeader from "@/components/Course/CourseHeader";
 import CourseTopicsSection from "@/components/Course/CourseTopicsSection";
 import CourseAssignmentsSection from "@/components/Course/CourseAssignmentsSection";
 import CourseTasksSection from "@/components/Course/CourseTaskSection";
-import EditCourseModal from "@/components/Course/EditCourseModal";
 import ConfirmDialog from "@/components/basicComponents/ConfirmDialog";
 import { ArrowLeft } from "lucide-react";
 import AddTaskModal from "@/components/Tasks/AddTaskModal";
-
+import AddCourseModal from "@/components/Courses/AddCourseModal";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
@@ -47,22 +45,10 @@ export default function CoursePage() {
   const [deletingTaskId, setDeletingTaskId] = useState<string | null>(null);
 
   // ── Handlers ──
-  const handleUpdateCourse = (changes: Pick<Course, "name" | "examDate" | "color">) => {
-    if (!course) return; 
-    updateCourse(course.id, changes);
-    setShowEditCourse(false);
-  };
-
   const handleDeleteCourse = async () => {
-    if (!course) return; 
+    if (!course) return;
     await deleteCourse(course.id);
     router.push("/courses");
-  };
-
-  const handleUpdateTask = (changes: Partial<Omit<Task, "id">>) => {
-    if (!editingTask) return;
-    updateTask(editingTask.id, changes);
-    setEditingTask(null);
   };
 
   const handleDeleteTask = async () => {
@@ -123,7 +109,9 @@ export default function CoursePage() {
           />
           <CourseAssignmentsSection
             assignments={course.assignments}
-            onToggle={(assignmentId) => toggleAssignment(course.id, assignmentId)}
+            onToggle={(assignmentId) =>
+              toggleAssignment(course.id, assignmentId)
+            }
           />
         </div>
 
@@ -139,9 +127,13 @@ export default function CoursePage() {
 
       {/* Modals */}
       {showEditCourse && (
-        <EditCourseModal
-          course={course}
-          onSave={handleUpdateCourse}
+        <AddCourseModal
+          initialCourse={course}
+          onEdit={(updated) => {
+            updateCourse(course.id, updated);
+            setShowEditCourse(false);
+          }}
+          onAdd={() => {}}
           onClose={() => setShowEditCourse(false)}
         />
       )}
@@ -163,7 +155,7 @@ export default function CoursePage() {
             updateTask(editingTask.id, changes);
             setEditingTask(null);
           }}
-          onAdd={() => {}} // required by the interface, unused in edit mode
+          onAdd={() => {}}
           onClose={() => setEditingTask(null)}
         />
       )}
