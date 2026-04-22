@@ -8,11 +8,15 @@ import TasksList from "@/components/Dashboard/TasksList";
 import UpcomingDeadlines from "@/components/Dashboard/UpcomingDeadlines";
 import { useCourses } from "@/hooks/useCourses";
 import StatsCardsSkeleton from "@/components/skeletonComponents/StatsCardSkeleton";
+import { useAuth } from "@/lib/auth-context";
 
 export default function DashboardPage() {
   const { pendingTasks, isLoading, todayTasks, completedTasks, toggleTask } =
     useTasks();
   const { courses } = useCourses();
+
+  const user = useAuth().user;
+  const userFirstName = user?.name.split(" ")[0] ?? "User";
 
   const tasksCompleted = completedTasks.length;
   const tasksTotal = todayTasks.length;
@@ -25,7 +29,7 @@ export default function DashboardPage() {
   return (
     <main className="flex-1 overflow-auto px-8 py-8">
       {/* Header */}
-      <DashboardHeader name="Omar" />
+      <DashboardHeader name={userFirstName} />
 
       {/* Stats Row — single column on mobile, 3 columns on sm+ */}
       {isLoading ? (
