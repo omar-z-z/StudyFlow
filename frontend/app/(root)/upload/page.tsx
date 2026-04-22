@@ -9,6 +9,7 @@ import CoursePreviewPanel from "@/components/Upload/CoursePreview/CoursePreviewP
 import { useCourses } from "@/hooks/useCourses";
 import { Course as GeneratedCourse } from "@/types/course";
 import { extractTextFromPDF } from "@/lib/utils/getPdfText";
+import { apiFetch } from "@/lib/api";
 
 const UploadPage = () => {
   const { addCourse } = useCourses();
@@ -48,9 +49,8 @@ const UploadPage = () => {
     setError(null);
 
     try {
-      const res = await fetch("/api/generate-course", {
+      const res = await apiFetch("/generate-course", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ syllabus: syllabusContent }),
       });
 

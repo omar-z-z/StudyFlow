@@ -32,4 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Progress
     Route::get('/progress', [ProgressController::class, 'index']);
 
+    // Upload
+    Route::post('/generate-course', [CourseController::class, 'upload']);
+
 });
