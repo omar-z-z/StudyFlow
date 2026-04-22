@@ -12,13 +12,14 @@ import { extractTextFromPDF } from "@/lib/utils/getPdfText";
 
 const UploadPage = () => {
   const { addCourse } = useCourses();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const [syllabusContent, setSyllabusContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedCourse, setGeneratedCourse] = useState<GeneratedCourse | null>(null);
+  const [generatedCourse, setGeneratedCourse] =
+    useState<GeneratedCourse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // ── CHANGE 1: Real PDF extraction ──
@@ -28,7 +29,7 @@ const UploadPage = () => {
       setSyllabusContent(text);
       setTimeout(
         () => textareaRef.current?.scrollIntoView({ behavior: "smooth" }),
-        100
+        100,
       );
     } catch {
       setError("Failed to extract PDF text. Try pasting it manually.");
@@ -63,10 +64,12 @@ const UploadPage = () => {
           document
             .getElementById("course-preview")
             ?.scrollIntoView({ behavior: "smooth" }),
-        100
+        100,
       );
     } catch (err) {
-      setError("Something went wrong while generating the course. Please try again.");
+      setError(
+        "Something went wrong while generating the course. Please try again.",
+      );
     } finally {
       setIsGenerating(false);
     }
@@ -75,6 +78,12 @@ const UploadPage = () => {
   const handleConfirm = (course: GeneratedCourse) => {
     addCourse(course);
     router.push("/courses");
+  };
+
+  const handleClear = () => {
+    setSyllabusContent("");
+    setGeneratedCourse(null);
+    setError(null);
   };
 
   const handleDiscard = () => {
@@ -91,12 +100,13 @@ const UploadPage = () => {
           Upload Syllabus
         </h1>
         <p className="text-sm text-muted-foreground m-0">
-          Upload or paste your course syllabus to automatically generate a study plan
+          Upload or paste your course syllabus to automatically generate a study
+          plan
         </p>
       </div>
 
       <div className="flex gap-4 mb-5 max-sm:flex-col">
-        <UploadPDFCard onFileSelect={handleFileSelect} />
+        <UploadPDFCard onFileSelect={handleFileSelect} onClear={handleClear} />
       </div>
 
       <div className="flex flex-col gap-4">
@@ -108,9 +118,7 @@ const UploadPage = () => {
           isGenerating={isGenerating}
         />
 
-        {error && (
-          <p className="text-sm text-destructive px-1">{error}</p>
-        )}
+        {error && <p className="text-sm text-destructive px-1">{error}</p>}
 
         {!generatedCourse && !isGenerating && <WhatHappensNext />}
 
