@@ -65,11 +65,12 @@ export default function CoursePage() {
   if (!course) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-        <span className="text-sm text-muted-foreground">Course not found.</span>
+        <span className="text-xl font-bold text-foreground mt-2">Course not found.</span>
         <button
           onClick={() => router.push("/courses")}
-          className="text-sm text-primary hover:underline"
+          className="text-sm text-primary hover:underline flex items-center gap-1"
         >
+          <ArrowLeft size={16}/>
           Back to courses
         </button>
       </div>
