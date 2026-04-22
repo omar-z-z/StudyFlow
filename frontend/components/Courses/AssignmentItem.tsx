@@ -35,7 +35,7 @@ const AssignmentItem = ({ assignment, onToggle }: AssignmentItemProps) => {
         </span>
         <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <CalendarIcon />
-          Due: {assignment.dueDate}
+          Due: {assignment.dueDate.split("T")[0]}
         </span>
       </div>
     </div>

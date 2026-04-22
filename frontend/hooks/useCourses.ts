@@ -25,7 +25,17 @@ export const useCourses = () => {
     if (!user) return;
     setIsLoading(true);
     apiFetch("/courses")
-      .then((res) => setCourses(res.data ?? res))
+      .then((res) => {
+        const raw: Course[] = res.data ?? res;
+        const normalized = raw.map((course) => ({
+          ...course,
+          assignments: course.assignments.map((a: any) => ({
+            ...a,
+            dueDate: a.due_date ?? a.dueDate ?? "",
+          })),
+        }));
+        setCourses(normalized);
+      })
       .catch(console.error)
       .finally(() => setIsLoading(false));
   }, [user]);

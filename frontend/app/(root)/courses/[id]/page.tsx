@@ -60,6 +60,7 @@ export default function CoursePage() {
 
   // ── Loading / not found ──
   if (coursesLoading) return <CoursePageSkeleton />;
+  console.log("Course:", course);
 
   if (!course) {
     return (

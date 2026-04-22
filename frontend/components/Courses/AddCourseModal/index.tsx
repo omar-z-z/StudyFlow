@@ -86,7 +86,7 @@ const AddCourseModal = ({
       ? initialCourse.assignments.map((a) => ({
           id: a.id,
           title: a.title,
-          dueDate: ((a as any).due_date ?? a.dueDate ?? "").split("T")[0],
+          dueDate: a.dueDate.split("T")[0],
         }))
       : [newAssignmentDraft()],
   );
