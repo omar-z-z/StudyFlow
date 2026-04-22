@@ -25,7 +25,17 @@ export const useCourses = () => {
     if (!user) return;
     setIsLoading(true);
     apiFetch("/courses")
-      .then((res) => setCourses(res.data ?? res))
+      .then((res) => {
+        const raw: Course[] = res.data ?? res;
+        const normalized = raw.map((course) => ({
+          ...course,
+          assignments: course.assignments.map((a: any) => ({
+            ...a,
+            dueDate: a.due_date ?? a.dueDate ?? "",
+          })),
+        }));
+        setCourses(normalized);
+      })
       .catch(console.error)
       .finally(() => setIsLoading(false));
   }, [user]);
@@ -48,7 +58,11 @@ export const useCourses = () => {
       // Step 1: create the course
       const courseRes = await apiFetch("/courses", {
         method: "POST",
-        body: JSON.stringify({name: courseFields.name, color: courseFields.color, exam_date: courseFields.examDate}),
+        body: JSON.stringify({
+          name: courseFields.name,
+          color: courseFields.color,
+          exam_date: courseFields.examDate,
+        }),
       });
       const createdCourse: Course = courseRes.data ?? courseRes;
       const courseId = createdCourse.id;
@@ -93,34 +107,110 @@ export const useCourses = () => {
   };
 
   // ─── PUT /api/courses/{id} ─────────────────────────────────────────────────
-  const updateCourse = async (
-    id: string,
-    changes: Partial<
-      Omit<Course, "id" | "topics" | "assignments" | "progress">
-    >,
-  ) => {
+  const updateCourse = async (id: string, updated: Course) => {
     const original = courses.find((c) => c.id === id);
     if (!original) return;
+    setIsLoading(true);
 
+    // Optimistic update
     setCourses((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, ...changes } : c)),
+      prev.map((c) =>
+        c.id === id
+          ? { ...updated, progress: recalculateProgress(updated) }
+          : c,
+      ),
     );
 
     try {
-      const res = await apiFetch(`/courses/${id}`, {
+      // update basic course fields
+      await apiFetch(`/courses/${id}`, {
         method: "PUT",
-        body: JSON.stringify(changes),
+        body: JSON.stringify({
+          name: updated.name,
+          color: updated.color,
+          exam_date: updated.examDate,
+        }),
       });
-      // update() also doesn't load relations — preserve existing ones
-      const updated: Course = {
-        ...(res.data ?? res),
-        topics: original.topics,
-        assignments: original.assignments,
-        progress: original.progress,
-      };
-      setCourses((prev) => prev.map((c) => (c.id === id ? updated : c)));
+
+      const originalTopicIds = new Set(original.topics.map((t) => t.id));
+      const originalAssignmentIds = new Set(
+        original.assignments.map((a) => a.id),
+      );
+
+      const updatedTopicIds = new Set(updated.topics.map((t) => t.id));
+      const updatedAssignmentIds = new Set(
+        updated.assignments.map((a) => a.id),
+      );
+
+      // sync topics
+      await Promise.all([
+        // POST new topics
+        ...updated.topics
+          .filter((t) => !originalTopicIds.has(t.id))
+          .map((t) =>
+            apiFetch(`/courses/${id}/topics`, {
+              method: "POST",
+              body: JSON.stringify({ title: t.title, week: t.week }),
+            }),
+          ),
+        // PUT existing topics
+        ...updated.topics
+          .filter((t) => {
+            const orig = original.topics.find((o) => o.id === t.id);
+            return orig && (orig.title !== t.title || orig.week !== t.week);
+          })
+          .map((t) =>
+            apiFetch(`/courses/${id}/topics/${t.id}`, {
+              method: "PUT",
+              body: JSON.stringify({ title: t.title, week: t.week }),
+            }),
+          ),
+        // DELETE removed topics
+        ...original.topics
+          .filter((t) => !updatedTopicIds.has(t.id))
+          .map((t) =>
+            apiFetch(`/courses/${id}/topics/${t.id}`, { method: "DELETE" }),
+          ),
+      ]);
+
+      // sync assignments
+      await Promise.all([
+        // POST new assignments
+        ...updated.assignments
+          .filter((a) => !originalAssignmentIds.has(a.id))
+          .map((a) =>
+            apiFetch(`/courses/${id}/assignments`, {
+              method: "POST",
+              body: JSON.stringify({ title: a.title, due_date: a.dueDate }),
+            }),
+          ),
+        // PUT existing assignments
+        ...updated.assignments
+          .filter((a) => {
+            const orig = original.assignments.find((o) => o.id === a.id);
+            return (
+              orig && (orig.title !== a.title || orig.dueDate !== a.dueDate)
+            );
+          })
+          .map((a) =>
+            apiFetch(`/courses/${id}/assignments/${a.id}`, {
+              method: "PUT",
+              body: JSON.stringify({ title: a.title, due_date: a.dueDate }),
+            }),
+          ),
+        // DELETE removed assignments
+        ...original.assignments
+          .filter((a) => !updatedAssignmentIds.has(a.id))
+          .map((a) =>
+            apiFetch(`/courses/${id}/assignments/${a.id}`, {
+              method: "DELETE",
+            }),
+          ),
+      ]);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
       setCourses((prev) => prev.map((c) => (c.id === id ? original : c)));
     }
   };

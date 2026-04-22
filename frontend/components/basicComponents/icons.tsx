@@ -167,6 +167,22 @@ export const UploadIcon = () => (
   </svg>
 );
 
+export const CheckIcon = () => (
+  <svg
+    width="10"
+    height="10"
+    viewBox="0 0 10 10"
+    fill="none"
+    stroke="var(--background)"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <polyline points="1.5,5 4,7.5 8.5,2.5" />
+  </svg>
+);
+
 /* Stat Card Icons */
 
 export const TasksStatIcon = () => (
