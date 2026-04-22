@@ -12,8 +12,8 @@ import CourseAssignmentsSection from "@/components/Course/CourseAssignmentsSecti
 import CourseTasksSection from "@/components/Course/CourseTaskSection";
 import EditCourseModal from "@/components/Course/EditCourseModal";
 import ConfirmDialog from "@/components/basicComponents/ConfirmDialog";
-import EditTaskModal from "@/components/Course/EditTaskModal";
 import { ArrowLeft } from "lucide-react";
+import AddTaskModal from "@/components/Tasks/AddTaskModal";
 
 
 export default function CoursePage() {
@@ -157,9 +157,13 @@ export default function CoursePage() {
       )}
 
       {editingTask && (
-        <EditTaskModal
-          task={editingTask}
-          onSave={handleUpdateTask}
+        <AddTaskModal
+          initialTask={editingTask}
+          onEdit={(changes) => {
+            updateTask(editingTask.id, changes);
+            setEditingTask(null);
+          }}
+          onAdd={() => {}} // required by the interface, unused in edit mode
           onClose={() => setEditingTask(null)}
         />
       )}
