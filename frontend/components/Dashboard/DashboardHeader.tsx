@@ -1,4 +1,4 @@
-import { getGreeting } from "@/lib/utils";
+import { getGreeting } from "@/lib/utils/utils";
 
 interface DashboardHeaderProps {
   name: string;

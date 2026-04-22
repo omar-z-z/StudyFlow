@@ -1,4 +1,4 @@
-import { formatMinutes } from "@/lib/plannerUtils";
+import { formatMinutes } from "@/lib/utils/plannerUtils";
 import type { DayDescriptor } from "@/types/daydescriptor";
 import TaskCard from "./PlannerTaskCard";
 import PlannerTaskCardSkeleton from "./PlannerTaskCardSkeleton";
