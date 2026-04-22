@@ -18,7 +18,6 @@ import { ArrowLeft } from "lucide-react";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
-  console.log("Course ID from URL:", id); // Debug log to check the course ID
   const router = useRouter();
 
   const {
@@ -38,11 +37,8 @@ export default function CoursePage() {
     deleteTask,
   } = useTasks();
 
-  console.log(typeof id);
-  console.log(typeof (courses[3]?.id))
   const course = courses.find((c) => String(c.id) === id);
   const courseTasks = tasks.filter((t) => String(t.course?.id) === id);
-  console.log("Course data:", course); // Debug log to check the course data
 
   // ── Modal state ──
   const [showEditCourse, setShowEditCourse] = useState(false);
@@ -52,12 +48,14 @@ export default function CoursePage() {
 
   // ── Handlers ──
   const handleUpdateCourse = (changes: Pick<Course, "name" | "examDate" | "color">) => {
-    updateCourse(id, changes);
+    if (!course) return; 
+    updateCourse(course.id, changes);
     setShowEditCourse(false);
   };
 
   const handleDeleteCourse = async () => {
-    await deleteCourse(id);
+    if (!course) return; 
+    await deleteCourse(course.id);
     router.push("/courses");
   };
 
@@ -121,11 +119,11 @@ export default function CoursePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <CourseTopicsSection
             topics={course.topics}
-            onToggle={(topicId) => toggleTopic(id, topicId)}
+            onToggle={(topicId) => toggleTopic(course.id, topicId)}
           />
           <CourseAssignmentsSection
             assignments={course.assignments}
-            onToggle={(assignmentId) => toggleAssignment(id, assignmentId)}
+            onToggle={(assignmentId) => toggleAssignment(course.id, assignmentId)}
           />
         </div>
 

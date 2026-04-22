@@ -72,7 +72,6 @@ const CourseHeader = ({ course, onEdit, onDelete }: Props) => (
       <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
         Progress
       </span>
-      <span className="text-sm font-bold text-foreground">{course.progress}%</span>
     </div>
     <ProgressBar value={course.progress} />
   </div>

@@ -25,7 +25,7 @@ const ConfirmDialog = ({
       <p className="text-sm text-muted-foreground mb-5">{message}</p>
       <div className="flex gap-2 justify-end">
         <Button variant="outline" onClick={onCancel}>Cancel</Button>
-        <Button variant="destructive" onClick={onCancel}>{confirmLabel}</Button>
+        <Button variant="destructive" onClick={onConfirm}>{confirmLabel}</Button>
       </div>
     </div>
   </div>
