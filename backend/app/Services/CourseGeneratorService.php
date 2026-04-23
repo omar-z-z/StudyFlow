@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Exception;
+use Mockery\Undefined;
 
 class CourseGeneratorService
 {
@@ -130,7 +131,7 @@ class CourseGeneratorService
             'name'        => 'Untitled Course',
             'color'       => '#3b82f6',
             'progress'    => 0,
-            'examDate'    => null,
+            'examDate'    => "",
             'topics'      => [],
             'assignments' => [],
         ];
@@ -154,7 +155,7 @@ class CourseGeneratorService
             'name'        => $data['name']     ?? 'Untitled Course',
             'color'       => $data['color']    ?? '#3b82f6',
             'progress'    => 0,
-            'examDate'    => $data['examDate'] ?? '2027-12-31',
+            'examDate'    => $data['examDate'] ?? "",
             'topics'      => collect($data['topics'] ?? [])->map(fn($t, $i) => [
                 'id'        => 't' . ($i + 1),
                 'week'      => (int) ($t['week'] ?? 1),
@@ -164,7 +165,7 @@ class CourseGeneratorService
             'assignments' => collect($data['assignments'] ?? [])->map(fn($a, $i) => [
                 'id'        => 'a' . ($i + 1),
                 'title'     => $a['title']   ?? '',
-                'dueDate'   => $a['dueDate'] ?? null,
+                'dueDate'   => $a['dueDate'] ?? "",
                 'completed' => false,
             ])->values()->all(),
         ];
