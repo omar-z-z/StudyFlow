@@ -23,7 +23,7 @@ const UploadPage = () => {
     useState<GeneratedCourse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // ── CHANGE 1: Real PDF extraction ──
+  // PDF extraction ──
   const handleFileSelect = async (file: File) => {
     try {
       const text = await extractTextFromPDF(file);
@@ -37,7 +37,7 @@ const UploadPage = () => {
     }
   };
 
-  // ── CHANGE 2: Real API call ──
+  // API call ──
   const handleGenerate = async () => {
     if (!syllabusContent.trim()) {
       setError("Please enter or upload a syllabus first.");
@@ -49,14 +49,12 @@ const UploadPage = () => {
     setError(null);
 
     try {
-      const res = await apiFetch("/generate-course", {
+      // ✅ apiFetch already parses JSON — use the result directly
+      const data: GeneratedCourse = await apiFetch("/generate-course", {
         method: "POST",
         body: JSON.stringify({ syllabus: syllabusContent }),
       });
 
-      if (!res.ok) throw new Error("Failed to generate course");
-
-      const data: GeneratedCourse = await res.json();
       setGeneratedCourse(data);
 
       setTimeout(
@@ -67,6 +65,7 @@ const UploadPage = () => {
         100,
       );
     } catch (err) {
+      console.error("Generate course error:", err);
       setError(
         "Something went wrong while generating the course. Please try again.",
       );
@@ -75,22 +74,24 @@ const UploadPage = () => {
     }
   };
 
-  const handleConfirm = (course: GeneratedCourse) => {
-    addCourse(course);
-    router.push("/courses");
+  const handleConfirm = async (course: GeneratedCourse) => {
+    setIsGenerating(true);
+    setError(null);
+    try {
+      await addCourse(course);
+      router.push("/courses");
+    } catch {
+      setError("Failed to save the course. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
-  const handleClear = () => {
+  const handleClear = (scrollToTop = false) => {
     setSyllabusContent("");
     setGeneratedCourse(null);
     setError(null);
-  };
-
-  const handleDiscard = () => {
-    setGeneratedCourse(null);
-    setSyllabusContent("");
-    setError(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scrollToTop) window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -106,7 +107,10 @@ const UploadPage = () => {
       </div>
 
       <div className="flex gap-4 mb-5 max-sm:flex-col">
-        <UploadPDFCard onFileSelect={handleFileSelect} onClear={handleClear} />
+        <UploadPDFCard
+          onFileSelect={handleFileSelect}
+          onClear={() => handleClear()}
+        />
       </div>
 
       <div className="flex flex-col gap-4">
@@ -127,7 +131,7 @@ const UploadPage = () => {
             <CoursePreviewPanel
               course={generatedCourse}
               onConfirm={handleConfirm}
-              onDiscard={handleDiscard}
+              onDiscard={() => handleClear(true)}
             />
           </div>
         )}
