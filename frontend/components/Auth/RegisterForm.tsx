@@ -7,7 +7,7 @@ import FormInput from "./FormInput";
 import PasswordField from "./RegisterPasswordField";
 import PasswordStrengthBar from "./PasswordStrengthBar";
 import { useAuth } from "@/lib/auth-context";
-import { validate } from "@/lib/registerValidation";
+import { validate } from "@/lib/utils/registerValidation";
 import type { RegisterFormState, RegisterFormErrors } from "@/types/auth";
 
 export default function RegisterForm() {

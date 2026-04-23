@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GenerateCourseController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TopicController;
@@ -31,5 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Progress
     Route::get('/progress', [ProgressController::class, 'index']);
+
+    // Upload
+    Route::post('/generate-course', GenerateCourseController::class);
 
 });

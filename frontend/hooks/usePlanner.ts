@@ -3,7 +3,7 @@ import {
   generateWeekDays,
   getMonthLabel,
   getWeekStart,
-} from "@/lib/plannerUtils";
+} from "@/lib/utils/plannerUtils";
 import type { DayDescriptor } from "@/types/daydescriptor";
 import { useTasks } from "./useTasks";
 

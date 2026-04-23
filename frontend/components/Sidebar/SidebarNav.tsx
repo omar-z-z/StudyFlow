@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/basicComponents/button";
-import navItems from "@/lib/sidebarNavItems";
+import navItems from "@/lib/constants/sidebarNavItems";
 
 export default function SidebarNav() {
   const pathname = usePathname();
