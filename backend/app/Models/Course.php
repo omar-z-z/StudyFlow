@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'color', 'progress', 'exam_date'
+        'user_id', 'name', 'color', 'exam_date'
     ];
 
     // A course belongs to a user
