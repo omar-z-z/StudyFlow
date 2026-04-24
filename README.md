@@ -24,14 +24,6 @@
 ![darkmode](screenshots/darkmode.png)
 ![mobile](screenshots/mobile.png)
 
-| Dashboard | Courses | Planner |
-|-----------|---------|---------|
-| ![Dashboard]() | ![Courses]() | ![Planner]() |
-
-| Tasks & Pomodoro | Progress | Upload (AI) |
-|------------------|----------|-------------|
-| ![Tasks]() | ![Progress]() | ![Upload]() |
-
 ---
 
 ## ✨ Features
