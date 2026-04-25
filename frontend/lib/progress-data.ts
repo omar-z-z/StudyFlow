@@ -1,5 +1,5 @@
 import { ProgressData } from "@/types/progress";
-import { apiFetch } from "./auth-context";
+import { apiFetch } from "./api";
 
 export async function fetchProgress(): Promise<ProgressData> {
   return apiFetch("/progress");
