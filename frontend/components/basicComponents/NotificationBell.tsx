@@ -1,46 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, CheckCheck, Trash2, ExternalLink } from "lucide-react";
+import { Bell, CheckCheck, Trash2, ExternalLink } from "lucide-react";
 import { useNotifications } from "@/lib/notification-context";
 import { Notification } from "@/types/notification";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-// In NotificationBell.tsx — add this above the component
-import {
-  CheckCircle2,
-  AlertTriangle,
-  BookOpen,
-  Bell,
-  Info,
-} from "lucide-react";
-import { NotificationType } from "@/types/notification";
-
-const typeStyles: Record<
-  NotificationType,
-  { icon: React.ReactNode; bg: string; color: string }
-> = {
-  task: {
-    icon: <CheckCircle2 className="w-4 h-4" />,
-    bg: "bg-green-100 dark:bg-green-900/30",
-    color: "text-green-600 dark:text-green-400",
-  },
-  deadline: {
-    icon: <AlertTriangle className="w-4 h-4" />,
-    bg: "bg-yellow-100 dark:bg-yellow-900/30",
-    color: "text-yellow-600 dark:text-yellow-400",
-  },
-  course: {
-    icon: <BookOpen className="w-4 h-4" />,
-    bg: "bg-blue-100 dark:bg-blue-900/30",
-    color: "text-blue-600 dark:text-blue-400",
-  },
-  system: {
-    icon: <Info className="w-4 h-4" />,
-    bg: "bg-muted",
-    color: "text-muted-foreground",
-  },
-};
+import { typeStyles } from '../../lib/constants/notificationTypeStyles';
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);

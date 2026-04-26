@@ -33,10 +33,11 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // In notification-context.tsx
   const isFirstLoad = useRef(true);
+  const deletingRef = useRef<Set<string>>(new Set());
 
   const fetchNotifications = useCallback(async () => {
+    if (deletingRef.current.size > 0) return;
     if (isFirstLoad.current) setLoading(true);
     try {
       const data = await apiFetch("/notifications");
@@ -73,12 +74,20 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   };
 
   const deleteNotification = async (id: string) => {
-    await apiFetch(`/notifications/${id}`, { method: "DELETE" });
-    const wasUnread = notifications.find((n) => n.id === id)?.read_at === null;
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-    if (wasUnread) setUnreadCount((prev) => Math.max(0, prev - 1));
-  };
+    setUnreadCount((prev) => Math.max(0, prev - 1));
 
+    deletingRef.current.add(id);
+
+    try {
+      await apiFetch(`/notifications/${id}`, { method: "DELETE" });
+    } catch (err) {
+      console.error("Failed to delete notification", err);
+      fetchNotifications();
+    } finally {
+      deletingRef.current.delete(id);
+    }
+  };
   // Show a Sonner toast + optionally add to the list
   const showToast = (
     notification: Pick<Notification, "title" | "body" | "type" | "link">,
@@ -109,74 +118,11 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     fetchNotifications();
   };
 
-  // // Poll every 60 seconds for new notifications
-  // useEffect(() => {
-  //   fetchNotifications();
-  //   const interval = setInterval(fetchNotifications, 60_000);
-  //   return () => clearInterval(interval);
-  // }, [fetchNotifications]);
-  // In notification-context.tsx — replace the useEffect
-
   useEffect(() => {
-    fetchNotifications(); // initial load
-
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-    const token = localStorage.getItem("studyflow_token");
-    if (!token) return;
-
-    let active = true;
-    const controller = new AbortController();
-
-    const startStream = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/notifications/stream`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "text/event-stream",
-          },
-          signal: controller.signal,
-        });
-
-        if (!res.ok || !res.body) return;
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = "";
-
-        while (active) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() ?? ""; // keep incomplete line in buffer
-
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              try {
-                const data = JSON.parse(line.slice(6));
-                setNotifications(data.notifications);
-                setUnreadCount(data.unread_count);
-              } catch {
-                // malformed line, skip
-              }
-            }
-          }
-        }
-      } catch (err: any) {
-        if (err.name !== "AbortError") {
-          console.error("SSE stream error:", err);
-        }
-      }
-    };
-
-    startStream();
-
-    return () => {
-      active = false;
-      controller.abort();
-    };
-  }, []);
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30_000); // 30s, only for cron reminders
+    return () => clearInterval(interval);
+  }, [fetchNotifications]);
 
   return (
     <NotificationContext.Provider

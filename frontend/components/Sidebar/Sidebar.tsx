@@ -8,6 +8,7 @@ import { useDarkMode } from "@/hooks/useDarkMode";
 import MobileTopBar from "./MobileTopBar";
 import SidebarNav from "./SidebarNav";
 import { useAuth } from "@/lib/auth-context";
+import SidebarNotificationFeed from "./SidebarNotificationFeed";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -83,9 +84,14 @@ export default function Sidebar() {
 
         {/* Spacer so nav items clear the fixed top bar on mobile */}
         <div className="h-14 md:hidden shrink-0" />
+        
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+          {/* Nav links */}
+          <SidebarNav />
 
-        {/* Nav links */}
-        <SidebarNav />
+          {/* Notification area */}
+          <SidebarNotificationFeed />
+        </div>
 
         {/* Dark mode button and Logout button */}
         <div className="hidden md:block px-3 py-4 border-t border-border">

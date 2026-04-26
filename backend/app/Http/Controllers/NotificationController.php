@@ -51,36 +51,4 @@ class NotificationController extends Controller
         Notification::forUser($userId)->findOrFail($id)->delete();
         return response()->json(['message' => 'Deleted']);
     }
-
-    // GET /api/notifications/stream
-    public function stream(Request $request)
-    {
-        $userId = $request->user()->id; 
-
-        return response()->stream(function () use ($userId) {
-            while (true) {
-                if (connection_aborted()) break;
-
-                $notifications = \App\Models\Notification::forUser($userId)
-                    ->orderByDesc('created_at')
-                    ->limit(50)
-                    ->get();
-
-                $unreadCount = $notifications->whereNull('read_at')->count();
-
-                echo "data: " . json_encode([
-                    'notifications' => $notifications,
-                    'unread_count'  => $unreadCount,
-                ]) . "\n\n";
-
-                ob_flush();
-                flush();
-                sleep(5);
-            }
-        }, 200, [
-            'Content-Type'      => 'text/event-stream',
-            'Cache-Control'     => 'no-cache',
-            'X-Accel-Buffering' => 'no',
-        ]);
-    }
 }
