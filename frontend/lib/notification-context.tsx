@@ -106,8 +106,14 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       case "deadline":
         toast.warning(notification.title, toastOptions);
         break;
-      case "task":
+      case "task_completed":
         toast.success(notification.title, toastOptions);
+        break;
+      case "task_added":
+        toast.success(notification.title, toastOptions);
+        break;
+      case "task_deleted":
+        toast.message(notification.title, toastOptions);
         break;
       case "course":
         toast.info(notification.title, toastOptions);

@@ -1,4 +1,10 @@
-export type NotificationType = 'deadline' | 'task' | 'course' | 'system';
+export type NotificationType =
+  | 'task_completed'
+  | 'task_added'
+  | 'task_deleted'
+  | 'deadline'
+  | 'course'
+  | 'system';
 
 export interface Notification {
   id: string;

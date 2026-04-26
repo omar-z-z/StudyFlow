@@ -40,6 +40,11 @@ export function useTasks() {
       });
       const created: Task = res.data ?? res;
       setTasks((prev) => prev.map((t) => (t.id === tempId ? created : t)));
+      showToast({
+        type: "task_added",
+        title: "Task Added!",
+        body: `"${task.title}" has been added.`,
+      });
     } catch (err) {
       console.error(err);
       setTasks((prev) => prev.filter((t) => t.id !== tempId));
@@ -76,7 +81,7 @@ export function useTasks() {
     updateTask(id, { completed: !task.completed });
     if (!task.completed) {
       showToast({
-        type: "task",
+        type: "task_completed",
         title: "Task Completed!",
         body: `"${task.title}" has been marked as done.`,
       });
@@ -92,6 +97,11 @@ export function useTasks() {
     try {
       // Returns { message: "Task deleted" }, nothing to parse
       await apiFetch(`/tasks/${id}`, { method: "DELETE" });
+      showToast({
+        type: "task_deleted",
+        title: "Task Deleted!",
+        body: `"${original?.title}" has been deleted.`,
+      });
     } catch (err) {
       console.error(err);
       if (original) {

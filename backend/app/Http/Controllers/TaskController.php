@@ -27,10 +27,9 @@ class TaskController extends Controller
         Cache::forget("progress_user_" . $request->user()->id);
         NotificationService::send(
             userId: $request->user()->id,
-            type: 'task',
+            type: 'task_added',
             title: 'Task Added',
             body: "\"{$task->title}\" has been added to your list.",
-            icon: '📝',
             link: '/tasks'
         );
 
@@ -62,10 +61,9 @@ class TaskController extends Controller
         Cache::forget("progress_user_" . $request->user()->id);
         NotificationService::send(
             userId: $request->user()->id,
-            type: 'task',
-            title: '🗑️ Task Deleted',
+            type: 'task_deleted',
+            title: 'Task Deleted',
             body: "\"{$taskName}\" has been removed.",
-            icon: '🗑️',
             link: '/tasks'
         );
 
