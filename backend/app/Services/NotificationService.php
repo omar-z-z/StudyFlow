@@ -32,7 +32,7 @@ class NotificationService
 
     public static function taskCompleted(int $userId, string $taskName): void
     {
-        self::send($userId, 'task', '✅ Task Completed', "You completed: $taskName", '✅');
+        self::send($userId, 'task', 'Task Completed', "You completed: $taskName", '✅');
     }
 
     public static function courseProgress(int $userId, string $courseName, int $percent): void

@@ -34,7 +34,7 @@ export function useDarkMode() {
 
     html.classList.toggle("dark", next);
     setDarkMode(next);
-    setThemeCookie(next ? "dark" : "light"); // ✅ Save to cookie
+    setThemeCookie(next ? "dark" : "light"); // Save to cookie
   };
 
   return { darkMode, toggleDark };

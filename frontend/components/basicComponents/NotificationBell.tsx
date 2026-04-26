@@ -1,25 +1,66 @@
-// components/NotificationBell.tsx
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { Bell, X, CheckCheck, Trash2, ExternalLink } from 'lucide-react';
-import { useNotifications } from '@/lib/notification-context';
-import { Notification } from '@/types/notification';
-import { formatDistanceToNow } from 'date-fns';
-import Link from 'next/link';
+import { useState, useRef, useEffect } from "react";
+import { X, CheckCheck, Trash2, ExternalLink } from "lucide-react";
+import { useNotifications } from "@/lib/notification-context";
+import { Notification } from "@/types/notification";
+import Link from "next/link";
+import { formatDistanceToNow } from "date-fns";
+// In NotificationBell.tsx — add this above the component
+import {
+  CheckCircle2,
+  AlertTriangle,
+  BookOpen,
+  Bell,
+  Info,
+} from "lucide-react";
+import { NotificationType } from "@/types/notification";
+
+const typeStyles: Record<
+  NotificationType,
+  { icon: React.ReactNode; bg: string; color: string }
+> = {
+  task: {
+    icon: <CheckCircle2 className="w-4 h-4" />,
+    bg: "bg-green-100 dark:bg-green-900/30",
+    color: "text-green-600 dark:text-green-400",
+  },
+  deadline: {
+    icon: <AlertTriangle className="w-4 h-4" />,
+    bg: "bg-yellow-100 dark:bg-yellow-900/30",
+    color: "text-yellow-600 dark:text-yellow-400",
+  },
+  course: {
+    icon: <BookOpen className="w-4 h-4" />,
+    bg: "bg-blue-100 dark:bg-blue-900/30",
+    color: "text-blue-600 dark:text-blue-400",
+  },
+  system: {
+    icon: <Info className="w-4 h-4" />,
+    bg: "bg-muted",
+    color: "text-muted-foreground",
+  },
+};
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { notifications, unreadCount, loading, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
+  const {
+    notifications,
+    unreadCount,
+    loading,
+    markAsRead,
+    markAllAsRead,
+    deleteNotification,
+  } = useNotifications();
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const handleNotificationClick = (n: Notification) => {
@@ -28,118 +69,149 @@ export default function NotificationBell() {
 
   return (
     <div className="relative" ref={ref}>
-      {/* Bell Button */}
+      {/* Bell Button — matches nav button style */}
       <button
-        onClick={() => setOpen(o => !o)}
-        className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        onClick={() => setOpen((o) => !o)}
         aria-label="Notifications"
+        className="relative p-2 rounded-md hover:bg-muted transition-colors"
       >
-        <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+        <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex items-center justify-center
-                           w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
-            {unreadCount > 9 ? '9+' : unreadCount}
+          <span
+            className="absolute -top-0.5 -right-0.5 flex items-center justify-center
+                           w-4 h-4 text-[10px] font-bold text-primary-foreground
+                           bg-primary rounded-full"
+          >
+            {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
 
       {/* Dropdown Panel */}
       {open && (
-        <div className="absolute right-0 mt-2 w-96 bg-white dark:bg-gray-900
-                        rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700
-                        z-50 overflow-hidden">
-
+        <div
+          className="absolute right-0 mt-2 w-80 rounded-md border border-border
+                        bg-background shadow-lg z-50 overflow-hidden"
+        >
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3
-                          border-b border-gray-200 dark:border-gray-700">
+          <div
+            className="flex items-center justify-between px-4 py-2.5
+                          border-b border-border"
+          >
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-gray-900 dark:text-white">Notifications</h3>
+              <span className="text-sm font-semibold text-foreground">
+                Notifications
+              </span>
               {unreadCount > 0 && (
-                <span className="px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900
-                                 text-blue-700 dark:text-blue-300 rounded-full">
-                  {unreadCount} new
+                <span
+                  className="px-1.5 py-0.5 text-[10px] font-medium
+                                 bg-primary text-primary-foreground rounded-full"
+                >
+                  {unreadCount}
                 </span>
               )}
             </div>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400
-                           hover:underline"
+                className="flex items-center gap-1 text-xs text-muted-foreground
+                           hover:text-foreground transition-colors"
               >
-                <CheckCheck className="w-3 h-3" />
+                <CheckCheck className="w-3.5 h-3.5" />
                 Mark all read
               </button>
             )}
           </div>
 
           {/* List */}
-          <div className="max-h-[420px] overflow-y-auto divide-y divide-gray-100
-                          dark:divide-gray-800">
+          <div className="max-h-[400px] overflow-y-auto divide-y divide-border">
             {loading && (
-              <div className="py-8 text-center text-sm text-gray-400">Loading...</div>
+              <p className="py-8 text-center text-sm text-muted-foreground">
+                Loading...
+              </p>
             )}
 
             {!loading && notifications.length === 0 && (
-              <div className="py-8 text-center">
-                <Bell className="w-8 h-8 mx-auto text-gray-300 dark:text-gray-600 mb-2" />
-                <p className="text-sm text-gray-400">No notifications yet</p>
+              <div className="py-10 text-center">
+                <Bell className="w-7 h-7 mx-auto text-muted-foreground mb-2" />
+                <p className="text-sm text-muted-foreground">
+                  No notifications yet
+                </p>
               </div>
             )}
 
-            {notifications.map(n => (
+            {notifications.map((n) => (
               <div
                 key={n.id}
                 onClick={() => handleNotificationClick(n)}
-                className={`flex gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800
-                            cursor-pointer transition-colors group
-                            ${!n.read_at ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}
+                className={`flex gap-3 px-4 py-3 cursor-pointer transition-colors group
+                            hover:bg-muted
+                            ${!n.read_at ? "bg-muted/50" : ""}`}
               >
                 {/* Icon */}
-                <div className="flex-shrink-0 w-9 h-9 flex items-center justify-center
-                                text-lg rounded-full bg-gray-100 dark:bg-gray-800">
-                  {n.icon || '🔔'}
+                <div
+                  className={`shrink-0 w-8 h-8 flex items-center justify-center
+                 rounded-md ${typeStyles[n.type]?.bg ?? "bg-muted"}
+                             ${typeStyles[n.type]?.color ?? "text-muted-foreground"}`}
+                >
+                  {typeStyles[n.type]?.icon ?? <Bell className="w-4 h-4" />}
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <p className={`text-sm font-medium leading-tight
-                                   ${!n.read_at
-                                     ? 'text-gray-900 dark:text-white'
-                                     : 'text-gray-600 dark:text-gray-400'}`}>
+                    <p
+                      className={`text-sm font-medium leading-tight
+                                   ${
+                                     !n.read_at
+                                       ? "text-foreground"
+                                       : "text-muted-foreground"
+                                   }`}
+                    >
                       {n.title}
                     </p>
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100
-                                    transition-opacity flex-shrink-0">
+
+                    {/* Action buttons — visible on hover */}
+                    <div
+                      className="flex items-center gap-1 opacity-0 group-hover:opacity-100
+                                    transition-opacity shrink-0"
+                    >
                       {n.link && (
                         <Link
                           href={n.link}
-                          onClick={e => e.stopPropagation()}
-                          className="p-1 hover:text-blue-600"
+                          onClick={(e) => e.stopPropagation()}
+                          className="p-1 rounded hover:bg-muted text-muted-foreground
+                                     hover:text-foreground transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                         </Link>
                       )}
                       <button
-                        onClick={e => { e.stopPropagation(); deleteNotification(n.id); }}
-                        className="p-1 hover:text-red-500"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteNotification(n.id);
+                        }}
+                        className="p-1 rounded hover:bg-muted text-muted-foreground
+                                   hover:text-destructive transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2">
+
+                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                     {n.body}
                   </p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                    {formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}
+                  <p className="text-xs text-muted-foreground/60 mt-1">
+                    {formatDistanceToNow(new Date(n.created_at), {
+                      addSuffix: true,
+                    })}
                   </p>
                 </div>
 
                 {/* Unread dot */}
                 {!n.read_at && (
-                  <div className="flex-shrink-0 mt-1.5 w-2 h-2 bg-blue-500 rounded-full" />
+                  <div className="shrink-0 mt-2 w-1.5 h-1.5 bg-primary rounded-full" />
                 )}
               </div>
             ))}

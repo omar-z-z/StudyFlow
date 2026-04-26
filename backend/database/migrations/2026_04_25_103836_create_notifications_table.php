@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('type');           // e.g., 'deadline', 'task', 'course'
             $table->string('title');
             $table->text('body');
-            $table->string('icon')->nullable(); // optional emoji or icon name
             $table->string('link')->nullable(); // optional route to navigate to
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

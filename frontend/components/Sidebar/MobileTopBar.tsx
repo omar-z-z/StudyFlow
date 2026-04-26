@@ -1,4 +1,5 @@
 import { GraduationCap, LogOut, Menu, Moon, Sun, X } from "lucide-react";
+import NotificationBell from "../basicComponents/NotificationBell";
 
 interface MobileTopBarProps {
   menuOpen: boolean;
@@ -40,6 +41,7 @@ export default function MobileTopBar({
       >
         {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
       </button>
+      <NotificationBell />
       <button
         aria-label="Logout"
         onClick={onLogout}

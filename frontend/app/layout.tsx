@@ -3,8 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
 import { cookies } from "next/headers";
-import { NotificationProvider } from "@/lib/notification-context";
-import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,18 +34,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          <NotificationProvider>
-            {children}
-            <Toaster
-              position="top-right"
-              richColors
-              closeButton
-              duration={4000}
-              theme={theme === "dark" ? "dark" : "light"}
-            />
-          </NotificationProvider>
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
