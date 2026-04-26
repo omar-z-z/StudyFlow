@@ -118,6 +118,15 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       case "course":
         toast.info(notification.title, toastOptions);
         break;
+      case "progress":
+        toast.success(notification.title, toastOptions);
+        break;
+        case "work":
+        toast.success(notification.title, toastOptions);
+        break;
+        case "break":
+        toast.info(notification.title, toastOptions);
+        break;
       default:
         toast(notification.title, toastOptions);
     }

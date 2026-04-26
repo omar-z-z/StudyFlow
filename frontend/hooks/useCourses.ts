@@ -16,6 +16,28 @@ const recalculateProgress = (course: Course): number => {
   return Math.round((completed / total) * 100);
 };
 
+const MILESTONES = [25, 50, 75, 100];
+
+const checkMilestone = (
+  oldProgress: number,
+  newProgress: number,
+  courseName: string,
+  showToast: Function,
+) => {
+  const crossed = MILESTONES.find((m) => oldProgress < m && newProgress >= m);
+  if (!crossed) return;
+
+  showToast({
+    type: "progress",
+    title:
+      crossed === 100 ? "Course Complete!" : `${crossed}% Milestone Reached`,
+    body:
+      crossed === 100
+        ? `You completed all topics in "${courseName}"!`
+        : `"${courseName}" is now ${crossed}% complete.`,
+  });
+};
+
 export const useCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
@@ -245,7 +267,8 @@ export const useCourses = () => {
     const topic = course?.topics.find((t) => t.id === topicId);
     if (!course || !topic) return;
 
-    // Optimistic update
+    const oldProgress = recalculateProgress(course);
+
     setCourses((prev) =>
       prev.map((c) => {
         if (c.id !== courseId) return c;
@@ -257,6 +280,15 @@ export const useCourses = () => {
       }),
     );
 
+    const updatedTopics = course.topics.map((t) =>
+      t.id === topicId ? { ...t, completed: !t.completed } : t,
+    );
+    const newProgress = recalculateProgress({
+      ...course,
+      topics: updatedTopics,
+    });
+    checkMilestone(oldProgress, newProgress, course.name, showToast);
+
     try {
       await apiFetch(`/courses/${courseId}/topics/${topicId}`, {
         method: "PUT",
@@ -264,7 +296,6 @@ export const useCourses = () => {
       });
     } catch (err) {
       console.error(err);
-      // Revert on failure
       setCourses((prev) =>
         prev.map((c) => {
           if (c.id !== courseId) return c;
@@ -284,7 +315,8 @@ export const useCourses = () => {
     const assignment = course?.assignments.find((a) => a.id === assignmentId);
     if (!course || !assignment) return;
 
-    // Optimistic update
+    const oldProgress = recalculateProgress(course);
+
     setCourses((prev) =>
       prev.map((c) => {
         if (c.id !== courseId) return c;
@@ -296,6 +328,15 @@ export const useCourses = () => {
       }),
     );
 
+    const updatedAssignments = course.assignments.map((a) =>
+      a.id === assignmentId ? { ...a, completed: !a.completed } : a,
+    );
+    const newProgress = recalculateProgress({
+      ...course,
+      assignments: updatedAssignments,
+    });
+    checkMilestone(oldProgress, newProgress, course.name, showToast);
+
     try {
       await apiFetch(`/courses/${courseId}/assignments/${assignmentId}`, {
         method: "PUT",
@@ -303,7 +344,6 @@ export const useCourses = () => {
       });
     } catch (err) {
       console.error(err);
-      // Revert on failure
       setCourses((prev) =>
         prev.map((c) => {
           if (c.id !== courseId) return c;

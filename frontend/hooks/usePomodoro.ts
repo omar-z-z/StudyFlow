@@ -1,5 +1,6 @@
 "use client";
 
+import { useNotifications } from "@/lib/notification-context";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 type Phase = "work" | "break";
@@ -17,6 +18,7 @@ export function usePomodoro({
   const [secondsLeft, setSecondsLeft] = useState(workMinutes * 60);
   const [running, setRunning] = useState(false);
   const [sessions, setSessions] = useState(0);
+  const { showToast } = useNotifications();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const totalSeconds = phase === "work" ? workMinutes * 60 : breakMinutes * 60;
@@ -31,6 +33,8 @@ export function usePomodoro({
       intervalRef.current = null;
     }
   }, []);
+
+  const toastedRef = useRef(false); 
 
   useEffect(() => {
     if (!running) return;
@@ -49,6 +53,29 @@ export function usePomodoro({
     }, 1000);
     return clearTimer;
   }, [running, phase, workMinutes, breakMinutes, clearTimer]);
+
+  const prevPhaseRef = useRef<Phase>(phase);
+  useEffect(() => {
+    if (prevPhaseRef.current === phase) return;
+    prevPhaseRef.current = phase;
+
+    if (phase === "break") {
+      setSessions((s) => s + 1);
+      // Work session ended
+      showToast({
+        type: "work",
+        title: "✅ Focus Session Complete",
+        body: `${workMinutes} minute session done. Time for a break!`,
+      });
+    } else {
+      // Break ended
+      showToast({
+        type: "break",
+        title: "⏱️ Break Over",
+        body: "Ready for another focus session?",
+      });
+    }
+  }, [phase]);
 
   // Reset timer when durations change externally
   useEffect(() => {

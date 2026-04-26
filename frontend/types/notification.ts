@@ -4,6 +4,9 @@ export type NotificationType =
   | 'task_deleted'
   | 'deadline'
   | 'course'
+  | 'progress'
+  | 'work'
+  | 'break'
   | 'system';
 
 export interface Notification {
