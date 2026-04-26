@@ -1,5 +1,5 @@
 import { GraduationCap, LogOut, Menu, Moon, Sun, X } from "lucide-react";
-import NotificationBell from "../basicComponents/NotificationBell";
+import NotificationBell from "./NotificationBell";
 
 interface MobileTopBarProps {
   menuOpen: boolean;

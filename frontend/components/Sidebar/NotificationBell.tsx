@@ -6,11 +6,13 @@ import { useNotifications } from "@/lib/notification-context";
 import { Notification } from "@/types/notification";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { typeStyles } from '../../lib/constants/notificationTypeStyles';
+import { typeStyles } from "../../lib/constants/notificationTypeStyles";
+import { useRouter } from "next/navigation";
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const {
     notifications,
     unreadCount,
@@ -31,6 +33,10 @@ export default function NotificationBell() {
 
   const handleNotificationClick = (n: Notification) => {
     if (!n.read_at) markAsRead(n.id);
+    if (n.link) {
+      router.push(n.link);
+      setOpen((o) => !o);
+    }
   };
 
   return (

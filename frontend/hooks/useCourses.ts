@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Course } from "@/types/course";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
+import { useNotifications } from "@/lib/notification-context";
 
 // helpers
 const recalculateProgress = (course: Course): number => {
@@ -19,6 +20,7 @@ export const useCourses = () => {
   const { user } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useNotifications();
 
   // ─── GET /api/courses ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -99,6 +101,11 @@ export const useCourses = () => {
       setCourses((prev) =>
         prev.map((c) => (c.id === tempId ? finalCourse : c)),
       );
+      showToast({
+        type: "course",
+        title: "Course Added!",
+        body: `"${courseFields.name}" has been created.`,
+      });
     } catch (err) {
       console.error(err);
       // Revert the whole thing if any request fails

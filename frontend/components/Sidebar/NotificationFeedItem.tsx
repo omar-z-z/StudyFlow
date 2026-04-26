@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
-import { Notification } from '@/types/notification';
-import { typeStyles } from '../../lib/constants/notificationTypeStyles';
+import { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import { Notification } from "@/types/notification";
+import { typeStyles } from "../../lib/constants/notificationTypeStyles";
+import { useRouter } from "next/navigation";
 
 interface Props {
   notification: Notification;
@@ -11,8 +12,13 @@ interface Props {
   exiting: boolean;
 }
 
-export default function NotificationFeedItem({ notification, onDismiss, exiting }: Props) {
+export default function NotificationFeedItem({
+  notification,
+  onDismiss,
+  exiting,
+}: Props) {
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
   const style = typeStyles[notification.type] ?? typeStyles.system;
   const visible = mounted && !exiting;
 
@@ -21,32 +27,40 @@ export default function NotificationFeedItem({ notification, onDismiss, exiting 
     return () => cancelAnimationFrame(id);
   }, []);
 
+  const handleNotificationClick = (n: Notification) => {
+    if (n.link) {
+      router.push(n.link);
+    }
+  };
+
   return (
     <div
       style={{
-        maxHeight:    exiting ? '0px' : '72px',
-        opacity:      exiting ? 0 : 1,
-        marginBottom: exiting ? '0px' : '4px',
-        flexShrink:   0,
-        overflow:     'hidden',
-        transition:   'max-height 300ms ease, opacity 300ms ease, margin-bottom 300ms ease',
+        maxHeight: exiting ? "0px" : "72px",
+        opacity: exiting ? 0 : 1,
+        marginBottom: exiting ? "0px" : "4px",
+        flexShrink: 0,
+        overflow: "hidden",
+        transition:
+          "max-height 300ms ease, opacity 300ms ease, margin-bottom 300ms ease",
       }}
     >
       <div
         className="group flex items-start gap-2 px-3 py-2 rounded-md
                    border border-border/30 hover:bg-muted/70 cursor-default"
         style={{
-          backgroundColor: 'hsl(var(--muted) / 0.35)',
-          opacity:         visible ? 1 : 0,
-          transform:       visible ? 'translateY(0)' : 'translateY(6px)',
-          transition:      'opacity 280ms ease, transform 280ms ease',
+          backgroundColor: "hsl(var(--muted) / 0.35)",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(6px)",
+          transition: "opacity 280ms ease, transform 280ms ease",
         }}
       >
-        <span className={`mt-0.5 shrink-0 ${style.color}`}>
-          {style.icon}
-        </span>
+        <span className={`mt-0.5 shrink-0 ${style.color}`}>{style.icon}</span>
 
-        <div className="flex-1 min-w-0">
+        <div
+          className="flex-1 min-w-0"
+          onClick={() => handleNotificationClick(notification)}
+        >
           <p className="text-xs font-medium text-foreground leading-tight truncate">
             {notification.title}
           </p>

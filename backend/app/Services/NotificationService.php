@@ -12,7 +12,16 @@ class NotificationService
         string $title,
         string $body,
         ?string $link = null
-    ): Notification {
+    ): ?Notification {
+        $exists = Notification::where('user_id', $userId)
+            ->where('type', $type)
+            ->where('title', $title)
+            ->where('body', $body)
+            ->where('created_at', '>=', now()->subDay())
+            ->exists();
+
+        if ($exists) return null;
+
         return Notification::create([
             'user_id' => $userId,
             'type'    => $type,
@@ -25,16 +34,11 @@ class NotificationService
     // Convenience methods for common events
     public static function taskDue(int $userId, string $taskName, string $link): void
     {
-        self::send($userId, 'deadline', 'Task Due Soon', "$taskName is due tomorrow!", $link);
+        self::send($userId, 'deadline', 'Deadline Due Soon', "$taskName is due tomorrow!", $link);
     }
 
     public static function taskCompleted(int $userId, string $taskName): void
     {
         self::send($userId, 'task_completed', 'Task Completed', "You completed: $taskName");
-    }
-
-    public static function courseProgress(int $userId, string $courseName, int $percent): void
-    {
-        self::send($userId, 'course', 'Course Progress', "$courseName is $percent% complete!");
     }
 }
