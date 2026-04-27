@@ -20,6 +20,7 @@ const DayColumn = ({
   const { dayName, dayNumber, isToday, tasks } = day;
   const totalMinutes = tasks.reduce((acc, t) => acc + t.estimatedTime, 0);
   const timeLabel = formatMinutes(totalMinutes);
+  const SKELETON_COUNTS = [3, 1, 4, 2, 3, 1, 2];
 
   return (
     <div
@@ -50,7 +51,7 @@ const DayColumn = ({
       <div className="flex flex-col gap-2 px-2 pb-3 flex-1">
         {isLoading ? (
           <>
-            {Array.from({ length: Math.floor(Math.random() * 4) + 1 }).map(
+            {Array.from({ length: SKELETON_COUNTS[dayNumber % SKELETON_COUNTS.length] }).map(
               (_, i) => (
                 <PlannerTaskCardSkeleton key={i} />
               ),
