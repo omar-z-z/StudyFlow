@@ -34,11 +34,16 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-    
+
     'openai' => [
         'key' => env('OPENAI_API_KEY'),
     ],
 
     // 'gemini'    => ['key' => env('GEMINI_API_KEY')],
 
+    'vapid' => [
+        'public_key'  => env('VAPID_PUBLIC_KEY'),
+        'private_key' => env('VAPID_PRIVATE_KEY'),
+        'subject'     => env('VAPID_SUBJECT'),
+    ],
 ];

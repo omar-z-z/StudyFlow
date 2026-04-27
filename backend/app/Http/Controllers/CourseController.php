@@ -6,6 +6,7 @@ use App\Http\Requests\Course\StoreCourseRequest;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,6 +28,13 @@ class CourseController extends Controller
     {
         $course = $request->user()->courses()->create($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
+        NotificationService::send(
+            userId: $request->user()->id,
+            type: 'course',
+            title: 'Course Added',
+            body: "\"{$course->name}\" has been added to your courses.",
+            link: '/courses'
+        );
 
         return new CourseResource($course);
     }

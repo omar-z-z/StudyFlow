@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GenerateCourseController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\PushSubscriptionController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TopicController;
 
@@ -36,4 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Upload
     Route::post('/generate-course', GenerateCourseController::class);
 
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);    
+
+    // Push Subscriptions
+    Route::post('/push/subscribe',      [PushSubscriptionController::class, 'subscribe']);
+    Route::delete('/push/unsubscribe',  [PushSubscriptionController::class, 'unsubscribe']);
 });

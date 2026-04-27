@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { apiFetch } from "./api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,31 +21,31 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-// Helpers
-export function getToken() {
-  return localStorage.getItem("studyflow_token");
-}
+// // Helpers
+// export function getToken() {
+//   return localStorage.getItem("studyflow_token");
+// }
 
-export async function apiFetch(endpoint: string, options: RequestInit = {}) {
-  const token = getToken();
+// export async function apiFetch(endpoint: string, options: RequestInit = {}) {
+//   const token = getToken();
 
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...options.headers,
-    },
-  });
+//   const res = await fetch(`${BASE_URL}${endpoint}`, {
+//     ...options,
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json",
+//       ...(token && { Authorization: `Bearer ${token}` }),
+//       ...options.headers,
+//     },
+//   });
 
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || "Something went wrong");
-  }
+//   if (!res.ok) {
+//     const error = await res.json();
+//     throw new Error(error.message || "Something went wrong");
+//   }
 
-  return res.json();
-}
+//   return res.json();
+// }
 
 // Context
 const AuthContext = createContext<AuthContextType | null>(null);

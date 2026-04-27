@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Task } from "@/types/task";
-import { apiFetch, useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/lib/auth-context";
+import { apiFetch } from "@/lib/api";
+import { useNotifications } from "@/lib/notification-context";
 
 export function useTasks() {
   const { user } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useNotifications();
 
   // GET /api/tasks
   useEffect(() => {
@@ -32,11 +35,16 @@ export function useTasks() {
           course_id: task.course?.id,
           course: undefined, // don't send the full object to the API
           estimatedTime: undefined, // don't send this to API as well
-          estimated_time: task.estimatedTime
+          estimated_time: task.estimatedTime,
         }),
       });
       const created: Task = res.data ?? res;
       setTasks((prev) => prev.map((t) => (t.id === tempId ? created : t)));
+      showToast({
+        type: "task_added",
+        title: "Task Added!",
+        body: `"${task.title}" has been added.`,
+      });
     } catch (err) {
       console.error(err);
       setTasks((prev) => prev.filter((t) => t.id !== tempId));
@@ -71,6 +79,13 @@ export function useTasks() {
     const task = tasks.find((t) => t.id === id);
     if (!task) return;
     updateTask(id, { completed: !task.completed });
+    if (!task.completed) {
+      showToast({
+        type: "task_completed",
+        title: "Task Completed!",
+        body: `"${task.title}" has been marked as done.`,
+      });
+    } 
   };
 
   // DELETE /api/tasks/{id}
@@ -82,6 +97,11 @@ export function useTasks() {
     try {
       // Returns { message: "Task deleted" }, nothing to parse
       await apiFetch(`/tasks/${id}`, { method: "DELETE" });
+      showToast({
+        type: "task_deleted",
+        title: "Task Deleted!",
+        body: `"${original?.title}" has been deleted.`,
+      });
     } catch (err) {
       console.error(err);
       if (original) {

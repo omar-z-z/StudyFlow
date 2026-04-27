@@ -6,6 +6,7 @@ use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -24,6 +25,13 @@ class TaskController extends Controller
     {
         $task = $request->user()->tasks()->create($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
+        NotificationService::send(
+            userId: $request->user()->id,
+            type: 'task_added',
+            title: 'Task Added',
+            body: "\"{$task->title}\" has been added to your list.",
+            link: '/tasks'
+        );
 
         return new TaskResource($task->load('course'));
     }
@@ -33,9 +41,13 @@ class TaskController extends Controller
     {
         $this->authorize('update', $task);
 
+        $wasCompleted = !$task->completed && $request->input('completed', true);
         $task->update($request->validated());
         Cache::forget("progress_user_" . $request->user()->id);
 
+        if ($wasCompleted && $task->fresh()->completed) {
+            NotificationService::taskCompleted($request->user()->id, $task->title);
+        }
         return new TaskResource($task->load('course'));
     }
 
@@ -44,8 +56,16 @@ class TaskController extends Controller
     {
         $this->authorize('delete', $task);
 
+        $taskName = $task->title;
         $task->delete();
         Cache::forget("progress_user_" . $request->user()->id);
+        NotificationService::send(
+            userId: $request->user()->id,
+            type: 'task_deleted',
+            title: 'Task Deleted',
+            body: "\"{$taskName}\" has been removed.",
+            link: '/tasks'
+        );
 
         return response()->json(['message' => 'Task deleted']);
     }
