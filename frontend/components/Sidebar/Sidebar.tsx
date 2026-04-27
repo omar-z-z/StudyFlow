@@ -9,6 +9,7 @@ import MobileTopBar from "./MobileTopBar";
 import SidebarNav from "./SidebarNav";
 import { useAuth } from "@/lib/auth-context";
 import SidebarNotificationFeed from "./SidebarNotificationFeed";
+import PushNotificationToggle from "../basicComponents/PushNotificationToggle";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -88,6 +89,8 @@ export default function Sidebar() {
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           {/* Nav links */}
           <SidebarNav />
+
+          <PushNotificationToggle />
 
           {/* Notification area */}
           <SidebarNotificationFeed />
