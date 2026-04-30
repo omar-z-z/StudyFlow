@@ -1,3 +1,5 @@
+"use client";
+
 import { Task } from "@/types/task";
 import { CalendarIcon, CheckIcon, ClockIcon } from "@/components/basicComponents/icons";
 import { EditIcon, TrashIcon } from "lucide-react";

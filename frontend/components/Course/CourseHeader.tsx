@@ -1,3 +1,5 @@
+"use client";
+
 import { Course } from "@/types/course";
 import ProgressBar from "@/components/Courses/ProgressBar";
 import { CalendarIcon } from "@/components/basicComponents/icons";

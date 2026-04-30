@@ -1,3 +1,5 @@
+"use client";
+
 import { Task } from "@/types/task";
 import TaskRow from "./TaskRow";
 
