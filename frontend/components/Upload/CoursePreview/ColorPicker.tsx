@@ -1,3 +1,5 @@
+"use client";
+
 import { COLOR_OPTIONS } from "@/lib/constants/courseModal";
 
 interface ColorPickerProps {

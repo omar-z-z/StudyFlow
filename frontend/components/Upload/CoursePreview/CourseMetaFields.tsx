@@ -1,3 +1,5 @@
+"use client";
+
 import ColorPicker from "./ColorPicker";
 import { Course as GeneratedCourse } from "@/types/course";
 

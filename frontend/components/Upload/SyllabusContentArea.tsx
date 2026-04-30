@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent, RefObject } from "react";
 import { SparkleIcon } from "../basicComponents/icons";
 import { PLACEHOLDER } from "@/lib/constants/uploadTextPlaceHolder";
