@@ -48,7 +48,7 @@ const TaskList = ({
         </button>
       </div>
 
-      {/* ── Loading state ── */}
+      {/* Loading state */}
       {isLoading ? (
         <div>
           <div className="h-2.5 w-24 bg-muted animate-pulse rounded-md mb-3" />

@@ -1,3 +1,5 @@
+"use client";
+
 import { Task, priorityConfig, typeConfig } from "@/types/task";
 import { CheckIcon, ClockIcon } from "../basicComponents/icons";
 
