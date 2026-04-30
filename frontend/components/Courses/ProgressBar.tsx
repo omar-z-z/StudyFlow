@@ -1,4 +1,3 @@
-
 const ProgressBar = ({ value }: { value: number }) => {
   return (
     <div className="my-3 mb-5">

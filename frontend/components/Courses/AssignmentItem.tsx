@@ -1,3 +1,5 @@
+"use client";
+
 import { Assignment } from "@/types/assignment";
 import { StatusIcon, CalendarIcon } from "../basicComponents/icons";
 

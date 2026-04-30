@@ -1,3 +1,5 @@
+"use client";
+
 import { Step } from "@/types/modal";
 
 type ModalFooterProps = {

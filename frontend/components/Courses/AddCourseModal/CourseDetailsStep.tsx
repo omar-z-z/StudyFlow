@@ -1,3 +1,5 @@
+"use client";
+
 import Field from "@/components/basicComponents/Field";
 import { COLOR_OPTIONS, inputClass } from "@/lib/constants/courseModal";
 import { BasicForm, BasicErrors } from "@/types/modal";

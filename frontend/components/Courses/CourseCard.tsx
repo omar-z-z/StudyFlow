@@ -1,3 +1,5 @@
+"use client";
+
 import ProgressBar from "./ProgressBar";
 import TopicItem from "./TopicItem";
 import AssignmentItem from "./AssignmentItem";

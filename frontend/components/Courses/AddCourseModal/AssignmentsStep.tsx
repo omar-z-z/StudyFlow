@@ -1,3 +1,5 @@
+"use client";
+
 import RemoveButton from "@/components/basicComponents/RemoveButton";
 import AddRowButton from "@/components/basicComponents/AddRowButton";
 import { AssignmentDraft } from "@/types/modal";
