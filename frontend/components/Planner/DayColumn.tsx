@@ -26,7 +26,7 @@ const DayColumn = ({
     <div
       className={`flex flex-col rounded-xl border transition-colors ${
         isToday ? "border-foreground shadow-sm" : "border-border"
-      } ${fullWidth ? "min-h-[280px]" : "min-h-[420px]"}`}
+      } ${fullWidth ? "min-h-70" : "min-h-105"}`}
     >
       {/* Day header */}
       <div className="flex flex-col items-center py-3 px-2 gap-0.5">

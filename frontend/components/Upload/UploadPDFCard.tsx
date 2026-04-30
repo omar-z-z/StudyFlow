@@ -45,7 +45,7 @@ const UploadPDFCard = ({ onFileSelect, onClear }: UploadPDFCardProps) => {
   };
 
   return (
-    <div className="flex-1 min-w-0 border border-border rounded-(--radius-lg) bg-card p-4 flex flex-col gap-5">
+    <div className="flex-1 min-w-0 border border-border rounded-lg bg-card p-4 flex flex-col gap-5">
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}

@@ -12,7 +12,7 @@ type Props = {
 };
 
 const CourseHeader = ({ course, onEdit, onDelete }: Props) => (
-  <div className="bg-card border border-border rounded-(--radius-xl) p-5 sm:p-6 mb-5">
+  <div className="bg-card border border-border rounded-xl p-5 sm:p-6 mb-5">
     {/* Top row */}
     <div className="flex items-start justify-between gap-3 mb-4">
       {/* Icon + name */}

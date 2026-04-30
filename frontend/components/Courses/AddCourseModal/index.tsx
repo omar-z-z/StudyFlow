@@ -53,7 +53,7 @@ const AddCourseModal = ({ onClose, onAdd, onEdit, initialCourse }: Props) => {
       onClick={onClose}
     >
       <div
-        className="bg-card rounded-xl p-8 w-full max-w-[480px] shadow-2xl mx-4 max-h-[90vh] flex flex-col"
+        className="bg-card rounded-xl p-8 w-full max-w-120 shadow-2xl mx-4 max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

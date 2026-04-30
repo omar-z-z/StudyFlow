@@ -7,7 +7,7 @@ type Props = {
 };
 
 const CourseTopicsSection = ({ topics, onToggle }: Props) => (
-  <div className="bg-card border border-border rounded-(--radius-xl) p-5">
+  <div className="bg-card border border-border rounded-xl p-5">
     <div className="flex items-center justify-between mb-3">
       <h2 className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted-foreground">
         Topics

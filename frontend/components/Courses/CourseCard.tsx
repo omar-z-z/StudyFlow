@@ -21,7 +21,7 @@ const CourseCard = ({
   const router = useRouter();
   return (
     <div
-      className="bg-card border border-border cursor-pointer rounded-(--radius-xl) p-6 mb-5 transition-shadow duration-200 hover:shadow-md"
+      className="bg-card border border-border cursor-pointer rounded-xl p-6 mb-5 transition-shadow duration-200 hover:shadow-md"
       onClick={() => router.push(`/courses/${course.id}`)}
     >
       {/* ── Card Header ── */}
