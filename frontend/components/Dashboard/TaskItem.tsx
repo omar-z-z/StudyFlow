@@ -1,3 +1,5 @@
+"use client";
+
 import { Task, priorityStyles } from "@/types/task";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +16,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           ? "border-border bg-muted/40"
           : "border-border bg-background hover:bg-accent/50"
       }`}
-      onClick={() => router.push("/tasks")} // For now, when the tasks page is done it would navigate there
+      onClick={() => router.push("/tasks")} 
     >
 
       {/* Content */}

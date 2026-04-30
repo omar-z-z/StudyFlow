@@ -1,15 +1,16 @@
-import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function apiFetch(endpoint: string, options: RequestInit = {}) {
-  const token = Cookies.get("studyflow_token");
+export async function serverFetch(endpoint: string, options: RequestInit = {}) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("studyflow_token")?.value;
 
   const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      "Accept": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
       ...options.headers,
     },
