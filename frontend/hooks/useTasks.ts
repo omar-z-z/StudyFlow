@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { Task } from "@/types/task";
 import { useAuth } from "@/lib/auth-context";
