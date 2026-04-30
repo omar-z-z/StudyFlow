@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Course } from "@/types/course";
 import { apiFetch } from "@/lib/api";
@@ -67,7 +69,6 @@ export const useCourses = () => {
   // ─── POST /api/courses + topics + assignments ──────────────────────────────
   const addCourse = async (newCourse: Omit<Course, "id" | "progress">) => {
     const { topics, assignments, ...courseFields } = newCourse;
-    console.log(courseFields);
 
     const tempId = `temp-${crypto.randomUUID()}`;
     const optimisticCourse: Course = {

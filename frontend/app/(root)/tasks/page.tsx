@@ -11,7 +11,7 @@ const TasksPage = () => {
 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
-      {/* ── Page Header ── */}
+      {/* Page Header */}
       <div className="flex flex-col gap-0.5 mb-7">
         <h1 className="text-2xl font-semibold text-foreground m-0 tracking-tight leading-snug">
           Focus Mode
@@ -21,10 +21,8 @@ const TasksPage = () => {
         </p>
       </div>
 
-      {/* ── Pomodoro Timer ── */}
       <PomodoroTimer />
 
-      {/* ── Task List ── */}
       <TaskList
         pendingTasks={pendingTasks}
         completedTasks={completedTasks}
@@ -33,7 +31,6 @@ const TasksPage = () => {
         onAdd={addTask}
       />
 
-      {/* ── Progress Banner ── */}
       <ProgressBanner completed={completedTasks.length} total={total} />
     </div>
   );

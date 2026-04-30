@@ -49,7 +49,6 @@ const UploadPage = () => {
     setError(null);
 
     try {
-      // ✅ apiFetch already parses JSON — use the result directly
       const data: GeneratedCourse = await apiFetch("/generate-course", {
         method: "POST",
         body: JSON.stringify({ syllabus: syllabusContent }),

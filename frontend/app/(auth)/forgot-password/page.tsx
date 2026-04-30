@@ -3,7 +3,6 @@ import AuthHeader from "@/components/Auth/AuthHeader";
 import ForgotPasswordForm from "@/components/Auth/ForgotPasswordForm";
 
 export default function ForgotPasswordPage() {
-    console.log("Rendering Forgot Password Page");
   return (
     <>
       <AuthHeader

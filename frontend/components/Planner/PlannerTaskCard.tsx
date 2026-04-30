@@ -1,4 +1,7 @@
+"use client";
+
 import type { Task } from "@/types/task";
+import { useRouter } from "next/navigation";
 
 interface TaskCardProps {
   task: Task;
@@ -7,11 +10,12 @@ interface TaskCardProps {
 
 const TaskCard = ({ task, onToggle }: TaskCardProps) => {
   const { id, title, course, estimatedTime, completed } = task;
+  const router = useRouter();
 
   return (
     <div
       className="flex items-start gap-2 rounded-lg border border-border bg-card p-2 cursor-pointer group transition-colors hover:bg-accent/60"
-      onClick={() => console.log("Later Implementation")}
+      onClick={() => router.push(`/courses/${course.id}`)}
     >
       {/* Checkbox */}
       <button

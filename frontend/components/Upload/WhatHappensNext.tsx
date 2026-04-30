@@ -3,7 +3,7 @@ import { STEPS } from "@/lib/constants/uploadNextSteps";
 const WhatHappensNext = () => {
 
   return (
-    <div className="border border-border rounded-(--radius-lg) bg-muted/40 p-6 flex flex-col gap-3">
+    <div className="border border-border rounded-lg bg-muted/40 p-6 flex flex-col gap-3">
       <h3 className="text-sm font-medium text-foreground m-0">
         What happens next?
       </h3>

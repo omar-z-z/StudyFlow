@@ -13,7 +13,7 @@ const CoursesPage = () => {
 
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
-      {/* ── Page Header ── */}
+      {/* Page Header */}
       <div className="flex items-start justify-between mb-7 gap-4 flex-wrap max-sm:flex-col max-sm:items-stretch">
         <div className="flex flex-col gap-0.5">
           <h1 className="text-2xl font-semibold text-foreground m-0 tracking-tight leading-snug">
@@ -49,7 +49,6 @@ const CoursesPage = () => {
       {/* ── Course List ── */}
       <div className="flex flex-col">
         {isLoading ? (
-          // Show 3 skeleton cards while loading
           <>
             <CourseCardSkeleton />
             <CourseCardSkeleton />
@@ -73,7 +72,7 @@ const CoursesPage = () => {
         )}
       </div>
 
-      {/* ── Add Course Modal ── */}
+      {/* Add Course Modal */}
       {showModal && (
         <AddCourseModal onClose={() => setShowModal(false)} onAdd={addCourse} />
       )}

@@ -1,3 +1,5 @@
+"use client";
+
 interface PomodoroSettingsProps {
   workMinutes: number;
   breakMinutes: number;

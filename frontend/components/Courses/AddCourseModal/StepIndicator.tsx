@@ -1,3 +1,5 @@
+"use client";
+
 import { STEPS } from "@/lib/constants/courseModal";
 import { Step } from "@/types/modal";
 

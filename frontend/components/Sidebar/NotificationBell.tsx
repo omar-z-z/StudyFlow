@@ -96,7 +96,7 @@ export default function NotificationBell() {
           </div>
 
           {/* List */}
-          <div className="max-h-[400px] overflow-y-auto divide-y divide-border">
+          <div className="max-h-100 overflow-y-auto divide-y divide-border">
             {loading && (
               <p className="py-8 text-center text-sm text-muted-foreground">
                 Loading...

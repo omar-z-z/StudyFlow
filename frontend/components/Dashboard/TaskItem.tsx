@@ -1,3 +1,5 @@
+"use client";
+
 import { Task, priorityStyles } from "@/types/task";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +16,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           ? "border-border bg-muted/40"
           : "border-border bg-background hover:bg-accent/50"
       }`}
-      onClick={() => router.push("/tasks")} // For now, when the tasks page is done it would navigate there
+      onClick={() => router.push("/tasks")} 
     >
 
       {/* Content */}
@@ -30,7 +32,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         </p>
         <div className="flex items-center gap-2 mt-1.5 flex-wrap">
           <span className={`w-2 h-2 rounded-full shrink-0`} style={{ backgroundColor: task.course.color }} />
-          <span className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-none">
+          <span className="text-xs text-muted-foreground truncate max-w-30 sm:max-w-none">
             {task.course.name}
           </span>
           <span className="text-xs text-muted-foreground">·</span>

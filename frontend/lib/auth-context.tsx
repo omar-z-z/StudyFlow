@@ -21,32 +21,6 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-// // Helpers
-// export function getToken() {
-//   return localStorage.getItem("studyflow_token");
-// }
-
-// export async function apiFetch(endpoint: string, options: RequestInit = {}) {
-//   const token = getToken();
-
-//   const res = await fetch(`${BASE_URL}${endpoint}`, {
-//     ...options,
-//     headers: {
-//       "Content-Type": "application/json",
-//       "Accept": "application/json",
-//       ...(token && { Authorization: `Bearer ${token}` }),
-//       ...options.headers,
-//     },
-//   });
-
-//   if (!res.ok) {
-//     const error = await res.json();
-//     throw new Error(error.message || "Something went wrong");
-//   }
-
-//   return res.json();
-// }
-
 // Context
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -67,11 +41,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-    console.log("Login response:", data);
 
-    // Laravel returns { user, token }
-    localStorage.setItem("studyflow_token", data.token);
-    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 7, path: "/" });
+    Cookies.set("studyflow_token", data.token, { expires: 1, path: "/" });
+    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 1, path: "/" });
     setUser(data.user);
   };
 
@@ -81,8 +53,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify({ name, email, password }),
     });
 
-    localStorage.setItem("studyflow_token", data.token);
-    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 7, path: "/" });
+    Cookies.set("studyflow_token", data.token, { expires: 1, path: "/" });
+    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 1, path: "/" });
     setUser(data.user);
   };
 
@@ -90,8 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await apiFetch("/logout", { method: "POST" });
     } finally {
-      // Always clear local state even if the API call fails
-      localStorage.removeItem("studyflow_token");
+
+      Cookies.remove("studyflow_token", { path: "/" });
       Cookies.remove("studyflow_user", { path: "/" });
       setUser(null);
     }

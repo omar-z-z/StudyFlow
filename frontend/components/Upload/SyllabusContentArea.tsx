@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent, RefObject } from "react";
 import { SparkleIcon } from "../basicComponents/icons";
 import { PLACEHOLDER } from "@/lib/constants/uploadTextPlaceHolder";
@@ -23,7 +25,7 @@ const SyllabusContentArea = ({
   };
 
   return (
-    <div className="border border-border rounded-(--radius-lg) bg-card p-6 flex flex-col gap-4">
+    <div className="border border-border rounded-lg bg-card p-6 flex flex-col gap-4">
       {/* Section Title */}
       <h2 className="text-base font-medium text-foreground m-0">
         Syllabus Content
@@ -37,7 +39,7 @@ const SyllabusContentArea = ({
         placeholder={PLACEHOLDER}
         rows={12}
         className="
-          w-full resize-y min-h-[220px] p-4 rounded-(--radius-md)
+          w-full resize-y min-h-55 p-4 rounded-(--radius-md)
           border border-border bg-background text-foreground text-sm
           placeholder:text-muted-foreground
           focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent

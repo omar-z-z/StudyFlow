@@ -1,4 +1,3 @@
-
 const ProgressBar = ({ value }: { value: number }) => {
   return (
     <div className="my-3 mb-5">
@@ -11,7 +10,7 @@ const ProgressBar = ({ value }: { value: number }) => {
       </div>
 
       {/* Track */}
-      <div className="w-full h-[7px] bg-muted rounded-full overflow-hidden">
+      <div className="w-full h-1.75 bg-muted rounded-full overflow-hidden">
         {/* Fill */}
         <div
           className="h-full bg-primary rounded-full transition-[width] duration-500 ease-in-out"

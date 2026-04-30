@@ -60,7 +60,6 @@ export default function CoursePage() {
 
   // ── Loading / not found ──
   if (coursesLoading) return <CoursePageSkeleton />;
-  console.log("Course:", course);
 
   if (!course) {
     return (
@@ -148,7 +147,7 @@ export default function CoursePage() {
           initialTask={editingTask}
           onEdit={(changes) => {
             updateTask(editingTask.id, changes);
-            coursesLoading && setEditingTask(null);
+            setEditingTask(null);
           }}
           onAdd={() => {}}
           onClose={() => setEditingTask(null)}

@@ -64,7 +64,7 @@ const CoursePreviewPanel = ({
     }));
 
   return (
-    <div className="border border-border rounded-(--radius-lg) bg-card overflow-hidden">
+    <div className="border border-border rounded-lg bg-card overflow-hidden">
       <div
         className="h-1.5 w-full"
         style={{ backgroundColor: course.color }}

@@ -1,3 +1,5 @@
+"use client";
+
 interface PlannerHeaderProps {
   monthLabel: string;
   isCurrentWeek: boolean;

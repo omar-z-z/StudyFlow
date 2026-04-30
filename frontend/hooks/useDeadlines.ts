@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Deadline } from "@/types/deadline";
-import { fetchDeadlines } from "@/lib/dashboardDeadlines";
+import { fetchDeadlines } from "@/lib/dashboard-deadlines";
 import { useNotifications } from "@/lib/notification-context";
 
 interface UseDeadlinesResult {

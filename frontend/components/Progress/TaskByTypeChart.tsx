@@ -1,3 +1,5 @@
+"use client";
+
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts";
 import { TaskType } from "@/types/progress";
 
@@ -7,7 +9,7 @@ interface TasksByTypeChartProps {
 
 const TasksByTypeChart = ({ data }: TasksByTypeChartProps) => {
   return (
-    <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-4 flex-1 min-w-[240px]">
+    <div className="bg-card border border-border rounded-xl p-5 flex flex-col gap-4 flex-1 min-w-60">
       <h2 className="text-base font-medium text-foreground">Tasks by Type</h2>
 
       <div className="flex flex-col items-center gap-4">

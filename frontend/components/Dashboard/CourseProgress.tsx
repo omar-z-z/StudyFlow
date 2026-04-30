@@ -1,37 +1,25 @@
+import { Course } from "@/types/course";
 import CourseProgressItem from "./CourseProgressItem";
-import { useCourses } from "@/hooks/useCourses";
-import CourseProgressSkeleton from "../skeletonComponents/CourseProgressSkeleton";
+
+interface CourseProgressProps {
+  courses: Course[];
+  variant?: "simple" | "detailed";
+}
 
 export default function CourseProgress({
+  courses,
   variant = "simple",
-}: {
-  variant?: "simple" | "detailed";
-}) {
-  const { courses, isLoading } = useCourses();
-
+}: CourseProgressProps) {
   return (
-    <>
-      {isLoading ? (
-        <CourseProgressSkeleton />
-      ) : (
-        <div className="bg-card border border-border rounded-xl p-4 md:p-6">
-          <h2
-            className={`text-base ${variant === "detailed" ? "font-medium" : "font-semibold"} text-foreground mb-4`}
-          >
-            Course Progress
-          </h2>
-
-          <div className="flex flex-col gap-4">
-            {courses.map((course) => (
-              <CourseProgressItem
-                key={course.id}
-                course={course}
-                variant={variant}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-    </>
+    <div className="bg-card border border-border rounded-xl p-4 md:p-6">
+      <h2 className="text-base font-semibold text-foreground mb-4">
+        Course Progress
+      </h2>
+      <div className="flex flex-col gap-4">
+        {courses.map((course) => (
+          <CourseProgressItem key={course.id} course={course} variant={variant} />
+        ))}
+      </div>
+    </div>
   );
 }
