@@ -1,3 +1,5 @@
+"use client";
+
 import { PieChart, Pie, Tooltip, ResponsiveContainer } from "recharts";
 import { TaskType } from "@/types/progress";
 

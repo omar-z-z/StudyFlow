@@ -11,9 +11,11 @@ import StatsCardsSkeleton from "@/components/skeletonComponents/StatsCardSkeleto
 import DailyCompletionChartSkeleton from "@/components/skeletonComponents/DailyCompletionChartSkeleton";
 import TasksByTypeChartSkeleton from "@/components/skeletonComponents/TaskByTypeChartSkeleton";
 import CourseProgressSkeleton from "@/components/skeletonComponents/CourseProgressSkeleton";
+import { useCourses } from "@/hooks/useCourses";
 
 const ProgressPage = () => {
   const { data, loading, error } = useProgress();
+  const { courses } = useCourses();
  
   return (
     <div className="flex-1 min-h-screen bg-background px-8 py-8 pb-12 box-border max-md:px-4 max-md:py-5 max-sm:px-3">
@@ -65,7 +67,7 @@ const ProgressPage = () => {
           </div>
  
           <div className="mt-5">
-            <CourseProgress variant="detailed" />
+            <CourseProgress courses={courses} variant="detailed" />
           </div>
  
           <div className="mt-5">
