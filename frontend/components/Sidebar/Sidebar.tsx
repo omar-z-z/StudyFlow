@@ -63,7 +63,7 @@ export default function Sidebar() {
           transition-transform duration-300 ease-in-out
           w-65
           ${menuOpen ? "translate-x-0" : "-translate-x-full"}
-          md:relative md:translate-x-0 md:w-1/5 md:max-w-62.5
+          md:relative md:translate-x-0 md:w-1/5 md:max-w-70
         `}
       >
         {/* Desktop logo (hidden on mobile) */}
