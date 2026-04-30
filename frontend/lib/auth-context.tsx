@@ -4,9 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { apiFetch } from "./api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-// Types 
+// Types
 interface User {
   id: string;
   name: string;
@@ -18,13 +16,14 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 // Context
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Provider 
+// Provider
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +42,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     Cookies.set("studyflow_token", data.token, { expires: 1, path: "/" });
-    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 1, path: "/" });
+    Cookies.set("studyflow_user", JSON.stringify(data.user), {
+      expires: 1,
+      path: "/",
+    });
     setUser(data.user);
   };
 
@@ -54,15 +56,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     Cookies.set("studyflow_token", data.token, { expires: 1, path: "/" });
-    Cookies.set("studyflow_user", JSON.stringify(data.user), { expires: 1, path: "/" });
+    Cookies.set("studyflow_user", JSON.stringify(data.user), {
+      expires: 1,
+      path: "/",
+    });
     setUser(data.user);
+  };
+
+  const forgotPassword = async (email: string) => {
+    return await apiFetch("/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    });
   };
 
   const logout = async () => {
     try {
       await apiFetch("/logout", { method: "POST" });
     } finally {
-
       Cookies.remove("studyflow_token", { path: "/" });
       Cookies.remove("studyflow_user", { path: "/" });
       setUser(null);
@@ -70,7 +81,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, register, forgotPassword, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

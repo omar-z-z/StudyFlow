@@ -4,14 +4,18 @@ import { useState } from "react";
 import { Mail, ArrowLeft, MailCheck } from "lucide-react";
 import Link from "next/link";
 import FormInput from "./FormInput";
+import { useAuth } from "@/lib/auth-context";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { forgotPassword } = useAuth();
 
   const validate = (): boolean => {
+    setError(undefined);
+    
     if (!email.trim()) {
       setError("Email is required.");
       return false;
@@ -28,13 +32,19 @@ export default function ForgotPasswordForm() {
     if (!validate()) return;
 
     setIsLoading(true);
-    // TODO: Replace with → await api.post("/auth/forgot-password", { email })
-    await new Promise((res) => setTimeout(res, 1000));
-    setIsLoading(false);
-    setSubmitted(true);
+    setError(undefined);
+
+    try {
+      await forgotPassword(email);
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Success state 
+  // Success state
   if (submitted) {
     return (
       <div className="flex flex-col items-center text-center gap-4 py-2">
@@ -42,7 +52,9 @@ export default function ForgotPasswordForm() {
           <MailCheck className="w-6 h-6 text-foreground" />
         </div>
         <div>
-          <p className="text-sm font-medium text-foreground">Check your inbox</p>
+          <p className="text-sm font-medium text-foreground">
+            Check your inbox
+          </p>
           <p className="text-sm text-muted-foreground mt-1">
             We sent a reset link to{" "}
             <span className="font-medium text-foreground">{email}</span>.
@@ -51,7 +63,10 @@ export default function ForgotPasswordForm() {
           </p>
         </div>
         <button
-          onClick={() => { setSubmitted(false); setEmail(""); }}
+          onClick={() => {
+            setSubmitted(false);
+            setEmail("");
+          }}
           className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
         >
           Try a different email
@@ -60,7 +75,7 @@ export default function ForgotPasswordForm() {
     );
   }
 
-  // Form state 
+  // Form state
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <p className="text-sm text-muted-foreground -mt-1">

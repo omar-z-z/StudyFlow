@@ -14,6 +14,7 @@ use App\Http\Controllers\TopicController;
 // Public routes (no login required)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 
 // Protected routes (login required)
 Route::middleware('auth:sanctum')->group(function () {

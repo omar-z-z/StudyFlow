@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -44,6 +45,21 @@ class AuthController extends Controller
         return response()->json([
             'user'  => new UserResource($user),
             'token' => $token,
+        ]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return response()->json([
+            'message' => 'If the email exists, a reset link has been sent.'
         ]);
     }
 
