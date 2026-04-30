@@ -1,3 +1,5 @@
+"use client";
+
 import type { DayDescriptor } from "@/types/daydescriptor";
 import DayColumn from "./DayColumn";
 import MobileDayStrip from "./MobileDayStrip";

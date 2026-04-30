@@ -3,7 +3,7 @@
 import PlannerHeader from "@/components/Planner/PlannerHeader";
 import WeeklyCalendar from "@/components/Planner/WeeklyCalendar";
 import WeeklySummary from "@/components/Planner/WeeklySummary";
-import WeeklySummarySkeleton from "@/components/Planner/WeeklySummarySkeleton";
+import WeeklySummarySkeleton from "@/components/skeletonComponents/WeeklySummarySkeleton";
 import { usePlanner } from "@/hooks/usePlanner";
 
 const PlannerPage = () => {
