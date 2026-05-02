@@ -80,6 +80,32 @@ class TaskSeeder extends Seeder
             ['title' => 'Practice Network Security concepts',          'course_id' => $net, 'completed' => false, 'estimated_time' => 50,  'priority' => 'medium', 'type' => 'review',   'date' => $p(1)],
             ['title' => 'Start Final Web Development Project',         'course_id' => $web, 'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => $p(1)],
             ['title' => 'Review Testing Strategies (SE)',              'course_id' => $se,  'completed' => false, 'estimated_time' => 40,  'priority' => 'medium', 'type' => 'review',   'date' => $p(1)],
+
+            ['title' => 'Solve Backtracking problems',                 'course_id' => $dsa, 'completed' => false, 'estimated_time' => 75,  'priority' => 'high',   'type' => 'exercise', 'date' => now()->toDateString()],
+            ['title' => 'Watch Lecture: Transfer Learning',            'course_id' => $ml,  'completed' => false, 'estimated_time' => 60,  'priority' => 'high',   'type' => 'lecture',  'date' => now()->toDateString()],
+            ['title' => 'Work on Final Web Development Project',       'course_id' => $web, 'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => now()->toDateString()],
+            ['title' => 'Review ACID Transactions in DB',              'course_id' => $db,  'completed' => false, 'estimated_time' => 40,  'priority' => 'medium', 'type' => 'review',   'date' => now()->toDateString()],
+            ['title' => 'Read about Wireless Networks & WiFi',         'course_id' => $net, 'completed' => false, 'estimated_time' => 45,  'priority' => 'medium', 'type' => 'reading',  'date' => now()->toDateString()],
+
+            ['title' => 'Study Divide and Conquer Strategy',           'course_id' => $dsa, 'completed' => false, 'estimated_time' => 60,  'priority' => 'high',   'type' => 'reading',  'date' => $f(1)],
+            ['title' => 'Complete Neural Network Lab (NumPy)',         'course_id' => $ml,  'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => $f(1)],
+            ['title' => 'Read about CI/CD & DevOps Basics',           'course_id' => $se,  'completed' => false, 'estimated_time' => 45,  'priority' => 'medium', 'type' => 'reading',  'date' => $f(1)],
+            ['title' => 'Study File Systems & I/O Management',        'course_id' => $os,  'completed' => false, 'estimated_time' => 50,  'priority' => 'medium', 'type' => 'reading',  'date' => $f(1)],
+
+            ['title' => 'Solve LeetCode DP problems',                  'course_id' => $dsa, 'completed' => false, 'estimated_time' => 90,  'priority' => 'high',   'type' => 'exercise', 'date' => $f(2)],
+            ['title' => 'Build CNN Image Classifier (Lab 6)',          'course_id' => $ml,  'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => $f(2)],
+            ['title' => 'Work on TypeScript for React module',        'course_id' => $web, 'completed' => false, 'estimated_time' => 60,  'priority' => 'medium', 'type' => 'exercise', 'date' => $f(2)],
+            ['title' => 'Practice Subnetting & Routing problems',     'course_id' => $net, 'completed' => false, 'estimated_time' => 50,  'priority' => 'medium', 'type' => 'exercise', 'date' => $f(2)],
+
+            ['title' => 'Review Greedy vs DP approaches',             'course_id' => $dsa, 'completed' => false, 'estimated_time' => 50,  'priority' => 'medium', 'type' => 'review',   'date' => $f(3)],
+            ['title' => 'Write DB Indexing Report (HW 5)',            'course_id' => $db,  'completed' => false, 'estimated_time' => 90,  'priority' => 'high',   'type' => 'exercise', 'date' => $f(3)],
+            ['title' => 'Complete Testing Plan for SE project',       'course_id' => $se,  'completed' => false, 'estimated_time' => 70,  'priority' => 'high',   'type' => 'exercise', 'date' => $f(3)],
+            ['title' => 'Watch Lecture: Virtualization & Containers', 'course_id' => $os,  'completed' => false, 'estimated_time' => 55,  'priority' => 'medium', 'type' => 'lecture',  'date' => $f(3)],
+
+            ['title' => 'Start Algorithm Visualizer Final Project',   'course_id' => $dsa, 'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => $f(5)],
+            ['title' => 'Work on End-to-End ML Pipeline project',    'course_id' => $ml,  'completed' => false, 'estimated_time' => 120, 'priority' => 'high',   'type' => 'exercise', 'date' => $f(5)],
+            ['title' => 'Review HTTP, HTTPS & TLS concepts',         'course_id' => $net, 'completed' => false, 'estimated_time' => 40,  'priority' => 'medium', 'type' => 'review',   'date' => $f(5)],
+            ['title' => 'Study NoSQL & Document Databases',          'course_id' => $db,  'completed' => false, 'estimated_time' => 45,  'priority' => 'low',    'type' => 'reading',  'date' => $f(5)],
         ];
 
         foreach ($tasks as $data) {
