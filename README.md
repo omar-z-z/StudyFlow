@@ -64,6 +64,22 @@
 - Dark mode / Light mode toggle
 - Clean and intuitive interface built for students
 
+### 🔔 In-App Notifications
+- Real-time notification feed in the sidebar
+- Notifications for task events, deadline reminders, and Pomodoro session completions
+- Course progress updates trigger automatic notifications
+
+### 📲 Push Notifications
+- Browser push notification support via Service Worker
+- Notification toggle in the UI to subscribe/unsubscribe
+- Deadline and session reminders delivered even when the app is in the background
+
+### ⚡ Server-Side Rendering (SSR) Optimization
+- Dashboard and key components refactored to use server-side data fetching
+- Proper separation of server and client components using `"use client"` directive
+- Loading skeleton components for improved perceived performance
+- Reduced client-side JavaScript bundle size
+
 ---
 
 ## 🛠️ Tech Stack
@@ -261,6 +277,11 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 | `PUT` | `/api/tasks/{id}` | Update a task |
 | `GET` | `/api/progress` | Get progress stats |
 | `POST` | `/api/generate-course` | Upload and parse syllabus via AI |
+| `GET`    | `/api/notifications`       | Get all user notifications          |
+| `POST`   | `/api/notifications`       | Create a notification               |
+| `DELETE` | `/api/notifications/{id}`  | Delete a notification               |
+| `POST`   | `/api/push-subscriptions`  | Save a push notification subscription |
+| `DELETE` | `/api/push-subscriptions`  | Remove a push subscription          |
 
 ---
 
@@ -271,7 +292,8 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 - [ ] Grade & GPA Calculator
 - [ ] Study Session Heatmap (GitHub-style)
 - [ ] Weekly Study Plan Generator
-- [ ] Push notifications for deadlines
+- [x] Push notifications for deadlines
+- [x] In-app notification system with sidebar feed
 - [ ] Achievements & Badges system
 - [ ] Note-taking per topic
 - [ ] Mobile app (React Native)
