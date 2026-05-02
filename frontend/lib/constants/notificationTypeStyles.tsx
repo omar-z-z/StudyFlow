@@ -1,4 +1,4 @@
-import { CheckCircle2, AlertTriangle, BookOpen, Info, PlusCircle, Trash2 } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, BookOpen, Info, PlusCircle, Trash2, Briefcase, TrendingUp, Coffee } from 'lucide-react';
 import { NotificationType } from '@/types/notification';
 
 export const typeStyles: Record<
@@ -34,5 +34,20 @@ export const typeStyles: Record<
     icon:  <Info className="w-4 h-4" />,
     bg:    'bg-muted',
     color: 'text-muted-foreground',
+  },
+  work: {
+    icon:  <Briefcase className="w-4 h-4" />,
+    bg:    'bg-orange-100 dark:bg-orange-900/30',
+    color: 'text-orange-500',
+  },
+  progress: {
+    icon:  <TrendingUp className="w-4 h-4" />,
+    bg:    'bg-teal-100 dark:bg-teal-900/30',
+    color: 'text-teal-500',
+  },
+  break: {
+    icon:  <Coffee className="w-4 h-4" />,
+    bg:    'bg-amber-100 dark:bg-amber-900/30',
+    color: 'text-amber-500',
   },
 };
