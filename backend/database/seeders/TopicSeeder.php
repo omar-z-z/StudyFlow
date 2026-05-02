@@ -134,8 +134,10 @@ class TopicSeeder extends Seeder
             $course = Course::where('name', $courseName)->first();
             if (! $course) continue;
 
-            foreach ($courseTopics as $topic) {
-                Topic::create(array_merge($topic, ['course_id' => $course->id]));
+            foreach ($courseTopics as $data) {
+                Topic::factory()->create(array_merge($data, [
+                    'course_id' => $course->id,
+                ]));
             }
         }
     }
