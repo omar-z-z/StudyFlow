@@ -20,8 +20,9 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'https://studyflow-trial-production.up.railway.app',
-        'http://localhost:3000',
+        // 'https://studyflow-trial-production.up.railway.app',
+        // 'http://localhost:3000',
+        '*'
     ],
 
     'allowed_origins_patterns' => [],
