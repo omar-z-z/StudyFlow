@@ -20,7 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'studyflow-trial-production.up.railway.app',
+        'https://studyflow-trial-production.up.railway.app',
         'http://localhost:3000',
     ],
 
