@@ -117,7 +117,10 @@ export const useCourses = () => {
       const finalCourse: Course = {
         ...createdCourse,
         topics: createdTopics,
-        assignments: createdAssignments,
+        assignments: createdAssignments.map((a: any) => ({
+          ...a,
+          dueDate: a.due_date ?? a.dueDate ?? "",
+        })),
         progress: 0,
       };
 

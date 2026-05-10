@@ -24,6 +24,7 @@ const AddCourseModal = ({ onClose, onAdd, onEdit, initialCourse }: Props) => {
     topics,
     assignments,
     basicErrors,
+    assignmentErrors,
     handleBasicChange,
     addTopic,
     removeTopic,
@@ -38,6 +39,7 @@ const AddCourseModal = ({ onClose, onAdd, onEdit, initialCourse }: Props) => {
 
   const handleSubmit = () => {
     const course = submit();
+    if (!course) return; // ← validation failed, errors are now visible under each field
 
     if (isEditMode) {
       onEdit?.(course);
@@ -92,6 +94,7 @@ const AddCourseModal = ({ onClose, onAdd, onEdit, initialCourse }: Props) => {
               onAdd={addAssignment}
               onUpdate={updateAssignment}
               onRemove={removeAssignment}
+              errors={assignmentErrors}
             />
           )}
         </div>

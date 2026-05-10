@@ -38,7 +38,7 @@ const buildCourse = (
   basic: BasicForm,
   topics: TopicDraft[],
   assignments: AssignmentDraft[],
-  initialCourse?: Course
+  initialCourse?: Course,
 ): Course => {
   return {
     id: initialCourse?.id ?? crypto.randomUUID(),
@@ -71,6 +71,9 @@ export const useCourseModal = (initialCourse?: Course) => {
 
   const [step, setStep] = useState<Step>(0);
   const [basicErrors, setBasicErrors] = useState<BasicErrors>({});
+  const [assignmentErrors, setAssignmentErrors] = useState<
+    Record<string, { title?: string; dueDate?: string }>
+  >({});
 
   const [basic, setBasic] = useState<BasicForm>(
     initialCourse
@@ -79,7 +82,7 @@ export const useCourseModal = (initialCourse?: Course) => {
           examDate: initialCourse.examDate ?? "",
           color: initialCourse.color,
         }
-      : INITIAL_BASIC
+      : INITIAL_BASIC,
   );
 
   const [topics, setTopics] = useState<TopicDraft[]>(
@@ -89,7 +92,7 @@ export const useCourseModal = (initialCourse?: Course) => {
           title: t.title,
           week: String(t.week),
         }))
-      : [newTopicDraft()]
+      : [newTopicDraft()],
   );
 
   const [assignments, setAssignments] = useState<AssignmentDraft[]>(
@@ -99,7 +102,7 @@ export const useCourseModal = (initialCourse?: Course) => {
           title: a.title,
           dueDate: a.dueDate.split("T")[0],
         }))
-      : [newAssignmentDraft()]
+      : [newAssignmentDraft()],
   );
 
   // Handlers
@@ -116,10 +119,10 @@ export const useCourseModal = (initialCourse?: Course) => {
   const updateTopic = (
     id: string,
     field: keyof Omit<TopicDraft, "id">,
-    value: string
+    value: string,
   ) =>
     setTopics((p) =>
-      p.map((t) => (t.id === id ? { ...t, [field]: value } : t))
+      p.map((t) => (t.id === id ? { ...t, [field]: value } : t)),
     );
 
   const addAssignment = () =>
@@ -129,10 +132,10 @@ export const useCourseModal = (initialCourse?: Course) => {
   const updateAssignment = (
     id: string,
     field: keyof Omit<AssignmentDraft, "id">,
-    value: string
+    value: string,
   ) =>
     setAssignments((p) =>
-      p.map((a) => (a.id === id ? { ...a, [field]: value } : a))
+      p.map((a) => (a.id === id ? { ...a, [field]: value } : a)),
     );
 
   // Navigation
@@ -150,7 +153,34 @@ export const useCourseModal = (initialCourse?: Course) => {
   const back = () => setStep((s) => (s - 1) as Step);
 
   // Submit
-  const submit = (): Course => {
+  const submit = (): Course | null => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const errs: Record<string, { title?: string; dueDate?: string }> = {};
+
+    for (const a of assignments) {
+      // Both empty then skip
+      if (!a.title.trim() && !a.dueDate) continue;
+
+      const fieldErrors: { title?: string; dueDate?: string } = {};
+
+      // Date entered but no title
+      if (!a.title.trim()) fieldErrors.title = "Title is required.";
+
+      // Title entered but no date
+      if (!a.dueDate) fieldErrors.dueDate = "Due date is required.";
+      else if (new Date(a.dueDate) <= today)
+        fieldErrors.dueDate = "Due date must be in the future.";
+
+      if (Object.keys(fieldErrors).length > 0) errs[a.id] = fieldErrors;
+    }
+
+    if (Object.keys(errs).length > 0) {
+      setAssignmentErrors(errs);
+      return null;
+    }
+
+    setAssignmentErrors({});
     return buildCourse(basic, topics, assignments, initialCourse);
   };
 
@@ -161,6 +191,7 @@ export const useCourseModal = (initialCourse?: Course) => {
     topics,
     assignments,
     basicErrors,
+    assignmentErrors,
     handleBasicChange,
     addTopic,
     removeTopic,

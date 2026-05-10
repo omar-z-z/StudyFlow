@@ -3,7 +3,7 @@ const CourseCardSkeleton = () => (
     {/* Card Header  */}
     <div className="flex items-start justify-between gap-4 mb-3.5">
       <div className="flex items-center gap-3.5 min-w-0">
-        <div className="w-11 h-11 rounded-lg bg-muted animate-pulse shrink-0" />
+        <div className="w-11 h-11 rounded-(--radius) bg-muted animate-pulse shrink-0" />
 
         <div className="flex flex-col gap-1.5 min-w-0">
           <div className="h-3.5 w-40 max-w-full bg-muted animate-pulse rounded-md" />

@@ -7,11 +7,22 @@ import { AssignmentDraft } from "@/types/modal";
 type AssignmentsStepProps = {
   assignments: AssignmentDraft[];
   onAdd: () => void;
-  onUpdate: (id: string, field: keyof Omit<AssignmentDraft, "id">, value: string) => void;
+  onUpdate: (
+    id: string,
+    field: keyof Omit<AssignmentDraft, "id">,
+    value: string,
+  ) => void;
   onRemove: (id: string) => void;
+  errors?: Record<string, { title?: string; dueDate?: string }>;
 };
 
-const AssignmentsStep = ({ assignments, onAdd, onUpdate, onRemove }: AssignmentsStepProps) => (
+const AssignmentsStep = ({
+  assignments,
+  onAdd,
+  onUpdate,
+  onRemove,
+  errors,
+}: AssignmentsStepProps) => (
   <div className="flex flex-col gap-3">
     {assignments.map((assignment, index) => (
       <div key={assignment.id} className="flex items-center gap-2">
@@ -28,6 +39,11 @@ const AssignmentsStep = ({ assignments, onAdd, onUpdate, onRemove }: Assignments
             aria-label={`Title for assignment ${index + 1}`}
             className="w-full px-3 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
+          {errors?.[assignment.id]?.title && (
+            <p className="text-xs text-destructive">
+              {errors[assignment.id].title}
+            </p>
+          )}
         </div>
 
         {/* Due Date */}
@@ -38,10 +54,16 @@ const AssignmentsStep = ({ assignments, onAdd, onUpdate, onRemove }: Assignments
           <input
             type="date"
             value={assignment.dueDate}
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => onUpdate(assignment.id, "dueDate", e.target.value)}
             aria-label={`Due date for assignment ${index + 1}`}
             className="px-2 py-2 bg-background text-sm text-foreground rounded-(--radius) border border-border outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
+          {errors?.[assignment.id]?.dueDate && (
+            <p className="text-xs text-destructive">
+              {errors[assignment.id].dueDate}
+            </p>
+          )}
         </div>
 
         <div className="mt-5">
