@@ -1,3 +1,4 @@
+import { getStrength } from "@/components/Auth/PasswordStrengthBar";
 import type { RegisterFormState, RegisterFormErrors } from "@/types/auth";
 
 export function validate(form: RegisterFormState): RegisterFormErrors {
@@ -15,6 +16,11 @@ export function validate(form: RegisterFormState): RegisterFormErrors {
     errors.password = "Password is required.";
   } else if (form.password.length < 8) {
     errors.password = "Password must be at least 8 characters.";
+  } else if (form.password) {
+    const { level } = getStrength(form.password);
+    if (level < 3) {
+      errors.password = "Password is too weak. Please follow the hints above.";
+    }
   }
 
   if (!form.confirmPassword) {
