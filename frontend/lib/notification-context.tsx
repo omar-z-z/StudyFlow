@@ -121,10 +121,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       case "progress":
         toast.success(notification.title, toastOptions);
         break;
-        case "work":
+      case "work":
         toast.success(notification.title, toastOptions);
         break;
-        case "break":
+      case "break":
         toast.info(notification.title, toastOptions);
         break;
       default:
@@ -135,8 +135,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 30_000); // 30s, only for cron reminders
-    return () => clearInterval(interval);
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") fetchNotifications();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    const interval = setInterval(fetchNotifications, 60_000);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, [fetchNotifications]);
 
   return (
