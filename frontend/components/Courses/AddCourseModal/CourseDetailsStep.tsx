@@ -28,6 +28,7 @@ const CourseDetailsStep = ({ basic, errors, onChange }: CourseDetailsStepProps) 
         id="exam-date"
         type="date"
         value={basic.examDate}
+        min={new Date().toISOString().split("T")[0]}
         onChange={(e) => onChange("examDate", e.target.value)}
         className={inputClass(!!errors.examDate)}
       />
